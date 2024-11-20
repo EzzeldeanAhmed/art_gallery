@@ -12,7 +12,7 @@ void main() async {
         apiKey: 'AIzaSyAX0M76JgbDLTxFxcPJrm0ynLPmbb76qbc',
         appId: '1:161803360242:android:1f0d42fe6f08b2b03c7d6b',
         projectId: 'project-66490',
-        messagingSenderId: ''),
+        messagingSenderId: ' '),
   );
 
   await Prefs.init();
