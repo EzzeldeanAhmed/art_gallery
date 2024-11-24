@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fruits_hub/features/auth/presentation/views/signin_view.dart';
+import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../core/helper_functions/build_error_bar.dart';

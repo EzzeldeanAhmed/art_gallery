@@ -1,4 +1,4 @@
-# fruits_hub
+# art_gallery
 
 A new Flutter project.
 

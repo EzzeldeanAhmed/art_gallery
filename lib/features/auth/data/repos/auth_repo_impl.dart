@@ -3,18 +3,18 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fruits_hub/constants.dart';
-import 'package:fruits_hub/core/errors/exceptions.dart';
-import 'package:fruits_hub/core/errors/failures.dart';
-import 'package:fruits_hub/core/services/data_service.dart';
-import 'package:fruits_hub/core/services/firebase_auth_service.dart';
-import 'package:fruits_hub/core/services/shared_preferences_singleton.dart';
-import 'package:fruits_hub/core/utils/backend_endpoint.dart';
-//import 'package:fruits_hub/core/utils/backend_endpoint.dart';
+import 'package:art_gallery/constants.dart';
+import 'package:art_gallery/core/errors/exceptions.dart';
+import 'package:art_gallery/core/errors/failures.dart';
+import 'package:art_gallery/core/services/data_service.dart';
+import 'package:art_gallery/core/services/firebase_auth_service.dart';
+import 'package:art_gallery/core/services/shared_preferences_singleton.dart';
+import 'package:art_gallery/core/utils/backend_endpoint.dart';
+//import 'package:art_gallery/core/utils/backend_endpoint.dart';
 
-import 'package:fruits_hub/features/auth/data/models/user_model.dart';
-import 'package:fruits_hub/features/auth/domain/entites/user_entity.dart';
-import 'package:fruits_hub/features/auth/domain/repos/auth_repo.dart';
+import 'package:art_gallery/features/auth/data/models/user_model.dart';
+import 'package:art_gallery/features/auth/domain/entites/user_entity.dart';
+import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepoImpl extends AuthRepo {

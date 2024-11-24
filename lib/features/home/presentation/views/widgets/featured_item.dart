@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 //import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import 'package:fruits_hub/core/utils/app_images.dart';
-import 'package:fruits_hub/core/utils/app_textstyles.dart';
-import 'package:fruits_hub/features/home/presentation/views/widgets/featured_item_button.dart';
+import 'package:art_gallery/core/utils/app_images.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/featured_item_button.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 

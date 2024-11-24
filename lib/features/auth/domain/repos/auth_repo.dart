@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/core/errors/failures.dart';
+import 'package:art_gallery/core/errors/failures.dart';
 
 import '../entites/user_entity.dart';
 

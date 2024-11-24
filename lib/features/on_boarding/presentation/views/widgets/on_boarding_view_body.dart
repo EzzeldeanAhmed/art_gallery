@@ -1,12 +1,12 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/constants.dart';
-import 'package:fruits_hub/core/services/shared_preferences_singleton.dart';
-import 'package:fruits_hub/core/widgets/custom_button.dart';
-import 'package:fruits_hub/features/auth/presentation/views/signin_view.dart';
-import 'package:fruits_hub/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
-import 'package:fruits_hub/core/utils/app_colors.dart';
+import 'package:art_gallery/constants.dart';
+import 'package:art_gallery/core/services/shared_preferences_singleton.dart';
+import 'package:art_gallery/core/widgets/custom_button.dart';
+import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
+import 'package:art_gallery/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
 
 class OnBoardingViewBody extends StatefulWidget {
   const OnBoardingViewBody({super.key});

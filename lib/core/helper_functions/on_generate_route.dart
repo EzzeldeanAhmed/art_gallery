@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/features/auth/presentation/views/signin_view.dart';
-import 'package:fruits_hub/features/auth/presentation/views/signup_view.dart';
-import 'package:fruits_hub/features/home/presentation/views/widgets/home_view.dart';
-import 'package:fruits_hub/features/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:fruits_hub/features/splash/presentation/views/splash_view.dart';
+import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
+import 'package:art_gallery/features/auth/presentation/views/signup_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/home_view.dart';
+import 'package:art_gallery/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:art_gallery/features/splash/presentation/views/splash_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {

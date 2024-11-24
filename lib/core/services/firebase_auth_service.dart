@@ -5,7 +5,7 @@ import 'dart:math' as math;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/core/errors/exceptions.dart';
+import 'package:art_gallery/core/errors/exceptions.dart';
 
 class FirebaseAuthService {
   Future<User> createUserWithEmailAndPassword(

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fruits_hub/constants.dart';
-import 'package:fruits_hub/core/utils/app_colors.dart';
-import 'package:fruits_hub/core/utils/app_images.dart';
-import 'package:fruits_hub/core/utils/app_textstyles.dart';
-import 'package:fruits_hub/core/widgets/custom_button.dart';
-import 'package:fruits_hub/core/widgets/custom_text_field.dart';
-import 'package:fruits_hub/core/widgets/password_field.dart';
-import 'package:fruits_hub/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
-import 'package:fruits_hub/features/auth/presentation/views/widgets/dont_have_account_widget.dart';
-import 'package:fruits_hub/features/auth/presentation/views/widgets/or_divider.dart';
-import 'package:fruits_hub/features/auth/presentation/views/widgets/social_login_button.dart';
-import 'package:fruits_hub/main.dart';
+import 'package:art_gallery/constants.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_images.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
+import 'package:art_gallery/core/widgets/custom_button.dart';
+import 'package:art_gallery/core/widgets/custom_text_field.dart';
+import 'package:art_gallery/core/widgets/password_field.dart';
+import 'package:art_gallery/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/dont_have_account_widget.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/or_divider.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/social_login_button.dart';
+import 'package:art_gallery/main.dart';
 
 class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});

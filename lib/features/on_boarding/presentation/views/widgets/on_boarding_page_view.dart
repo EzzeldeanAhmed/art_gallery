@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/core/utils/app_images.dart';
-import 'package:fruits_hub/features/on_boarding/presentation/views/widgets/page_view_item.dart';
-import 'package:fruits_hub/core/utils/app_textstyles.dart';
-import 'package:fruits_hub/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_images.dart';
+import 'package:art_gallery/features/on_boarding/presentation/views/widgets/page_view_item.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
 
 class OnBoardingPageView extends StatelessWidget {
   const OnBoardingPageView({super.key, required this.pageController});

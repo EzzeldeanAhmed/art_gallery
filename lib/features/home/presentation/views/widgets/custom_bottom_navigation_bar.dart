@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/core/utils/app_images.dart';
-import 'package:fruits_hub/features/home/domain/entites/bottom_navigation_bar_entity.dart';
+import 'package:art_gallery/core/utils/app_images.dart';
+import 'package:art_gallery/features/home/domain/entites/bottom_navigation_bar_entity.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'naivation_bar_item.dart';

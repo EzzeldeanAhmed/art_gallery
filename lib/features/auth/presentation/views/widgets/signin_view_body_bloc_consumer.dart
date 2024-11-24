@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fruits_hub/core/helper_functions/build_error_bar.dart';
-import 'package:fruits_hub/features/home/presentation/views/widgets/home_view.dart';
+import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/home_view.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 

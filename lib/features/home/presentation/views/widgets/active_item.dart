@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/core/utils/app_colors.dart';
-import 'package:fruits_hub/core/utils/app_textstyles.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:svg_flutter/svg.dart';
 
 class ActiveItem extends StatelessWidget {

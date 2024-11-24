@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fruits_hub/constants.dart';
-import 'package:fruits_hub/core/helper_functions/build_error_bar.dart';
-import 'package:fruits_hub/core/widgets/custom_button.dart';
-import 'package:fruits_hub/core/widgets/custom_text_field.dart';
-import 'package:fruits_hub/core/widgets/password_field.dart';
-import 'package:fruits_hub/features/auth/presentation/cubits/signup_cubits/signup_cubit.dart';
-import 'package:fruits_hub/features/auth/presentation/views/signup_view.dart';
-import 'package:fruits_hub/features/auth/presentation/views/widgets/have_an_account.dart';
-import 'package:fruits_hub/features/auth/presentation/views/widgets/terms_and_conditions.dart';
+import 'package:art_gallery/constants.dart';
+import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
+import 'package:art_gallery/core/widgets/custom_button.dart';
+import 'package:art_gallery/core/widgets/custom_text_field.dart';
+import 'package:art_gallery/core/widgets/password_field.dart';
+import 'package:art_gallery/features/auth/presentation/cubits/signup_cubits/signup_cubit.dart';
+import 'package:art_gallery/features/auth/presentation/views/signup_view.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/have_an_account.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/terms_and_conditions.dart';
 
 class SignupViewBody extends StatefulWidget {
   const SignupViewBody({super.key});
