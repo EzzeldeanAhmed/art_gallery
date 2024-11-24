@@ -10,6 +10,10 @@ class Assets {
   /// assets/images/appl_icon.svg
   static const String imagesApplIcon = "assets/images/appl_icon.svg";
 
+  /// Assets for imagesArt2
+  /// assets/images/art2.jpg
+  static const String imagesArt2 = "assets/images/art2.jpg";
+
   /// Assets for imagesCheck
   /// assets/images/Check.svg
   static const String imagesCheck = "assets/images/Check.svg";
@@ -37,6 +41,14 @@ class Assets {
   /// Assets for imagesLogo
   /// assets/images/logo.svg
   static const String imagesLogo = "assets/images/logo.svg";
+
+  /// Assets for imagesMuseumLogo
+  /// assets/images/museum-logo.svg
+  static const String imagesMuseumLogo = "assets/images/museum-logo.svg";
+
+  /// Assets for imagesMuseumLogoIcon
+  /// assets/images/museum-logo-icon.png
+  static const String imagesMuseumLogoIcon = "assets/images/museum-logo-icon.png";
 
   /// Assets for imagesNotification
   /// assets/images/notification.svg
