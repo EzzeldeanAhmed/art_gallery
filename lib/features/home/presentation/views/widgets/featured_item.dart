@@ -37,9 +37,8 @@ class FeaturedItem extends StatelessWidget {
                 bottom: 0,
                 left: itemWidth * .4,
                 child: Image.asset(
-                  // Assets.imagesArt2,
                   image,
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.cover,
                 ),
               ),
               Container(

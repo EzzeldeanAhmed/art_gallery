@@ -23,7 +23,7 @@ class FeaturedItemButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: FittedBox(
             child: Text(
-              'Explore Now',
+              'View Now',
               style: TextStyles.bold13.copyWith(
                 color: AppColors.primaryColor,
               ),

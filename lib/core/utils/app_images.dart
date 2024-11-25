@@ -10,13 +10,29 @@ class Assets {
   /// assets/images/appl_icon.svg
   static const String imagesApplIcon = "assets/images/appl_icon.svg";
 
-  /// Assets for imagesArt2
-  /// assets/images/art2.jpg
-  static const String imagesArt2 = "assets/images/art2.jpg";
+  /// Assets for imagesArtist
+  /// assets/images/artist.jpg
+  static const String imagesArtist = "assets/images/artist.jpg";
+
+  /// Assets for imagesArttwork
+  /// assets/images/arttwork.jpg
+  static const String imagesArttwork = "assets/images/arttwork.jpg";
+
+  /// Assets for imagesArtwork
+  /// assets/images/artwork.jpg
+  static const String imagesArtwork = "assets/images/artwork.jpg";
 
   /// Assets for imagesCheck
   /// assets/images/Check.svg
   static const String imagesCheck = "assets/images/Check.svg";
+
+  /// Assets for imagesCollection
+  /// assets/images/collection.jpg
+  static const String imagesCollection = "assets/images/collection.jpg";
+
+  /// Assets for imagesExhibition
+  /// assets/images/exhibition.jpg
+  static const String imagesExhibition = "assets/images/exhibition.jpg";
 
   /// Assets for imagesFacebookIcon
   /// assets/images/facebook_icon.svg
