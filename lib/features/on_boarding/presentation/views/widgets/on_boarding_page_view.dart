@@ -17,10 +17,11 @@ class OnBoardingPageView extends StatelessWidget {
       children: [
         PageViewItem(
           isVisible: true,
-          image: Assets.imagesPageViewItem1Image,
+          //image: Assets.imagesPageViewItem1Image,
+          image: Assets.imagesVanGoghVincent,
           backgroundImage: Assets.imagesPageViewItem1BackgroundImage,
           subtitle:
-              "Explore a world of fresh, high-quality fruits,handpicked just for you, Bringing farm-fresh fruits to your doorstep with ease and convenience.Enjoy the taste of nature with our wide selection of seasonal and exotic fruits.",
+              "Explore artworks, learn about artists, and discover exhibitions and collections worldwide",
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -29,7 +30,7 @@ class OnBoardingPageView extends StatelessWidget {
                 style: TextStyles.bold23,
               ),
               Text(
-                'Fruit',
+                'ARTS',
                 style:
                     TextStyles.bold23.copyWith(color: AppColors.primaryColor),
               ),
@@ -43,15 +44,15 @@ class OnBoardingPageView extends StatelessWidget {
         ),
         PageViewItem(
           isVisible: false,
-          image: Assets.imagesPageViewItem2Image,
+          image: Assets.imagesOnbaord2trial,
           backgroundImage: Assets.imagesPageViewItem2BackgroundImage,
           subtitle:
-              'Searching for fresh fruits online, buyers can explore a wide variety of options, from exotic imports to locally grown produce. Detailed product descriptions and vibrant images help customers understand the quality and origin of each fruit.',
+              'Embark on a Journey Through Stunning Art Exhibitions, Explore Iconic Displays and Emerging Talent',
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Search and Buy',
+                'Explore and Search for Artworks',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ],

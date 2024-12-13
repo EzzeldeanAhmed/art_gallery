@@ -50,6 +50,10 @@ class Assets {
   /// assets/images/filter2.svg
   static const String imagesFilter2 = "assets/images/filter2.svg";
 
+  /// Assets for imagesGallery
+  /// assets/images/gallery.svg
+  static const String imagesGallery = "assets/images/gallery.svg";
+
   /// Assets for imagesGoogleIcon
   /// assets/images/google_icon.svg
   static const String imagesGoogleIcon = "assets/images/google_icon.svg";
@@ -57,6 +61,10 @@ class Assets {
   /// Assets for imagesLogo
   /// assets/images/logo.svg
   static const String imagesLogo = "assets/images/logo.svg";
+
+  /// Assets for imagesMus
+  /// assets/images/mus.png
+  static const String imagesMus = "assets/images/mus.png";
 
   /// Assets for imagesMuseumLogo
   /// assets/images/museum-logo.svg
@@ -66,9 +74,17 @@ class Assets {
   /// assets/images/museum-logo-icon.png
   static const String imagesMuseumLogoIcon = "assets/images/museum-logo-icon.png";
 
+  /// Assets for imagesMuseummmmmjpg
+  /// assets/images/museummmmmjpg.jpg
+  static const String imagesMuseummmmmjpg = "assets/images/museummmmmjpg.jpg";
+
   /// Assets for imagesNotification
   /// assets/images/notification.svg
   static const String imagesNotification = "assets/images/notification.svg";
+
+  /// Assets for imagesOnbaord2trial
+  /// assets/images/onbaord2trial.svg
+  static const String imagesOnbaord2trial = "assets/images/onbaord2trial.svg";
 
   /// Assets for imagesPageViewItem1BackgroundImage
   /// assets/images/page_view_item1_background_image.svg
@@ -105,6 +121,10 @@ class Assets {
   /// Assets for imagesTrash
   /// assets/images/trash.svg
   static const String imagesTrash = "assets/images/trash.svg";
+
+  /// Assets for imagesVanGoghVincent
+  /// assets/images/van_gogh_vincent.svg
+  static const String imagesVanGoghVincent = "assets/images/van_gogh_vincent.svg";
 
   /// Assets for imagesVector
   /// assets/images/Vector.svg

@@ -1,3 +1,6 @@
+import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:art_gallery/constants.dart';
@@ -22,7 +25,13 @@ class _SignupViewBodyState extends State<SignupViewBody> {
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
-  late String email, userName, password;
+  late String email, userName, password, birthDate;
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final birthDateController = TextEditingController();
+
   late bool isTermsAccepted = false;
 
   @override
@@ -39,20 +48,86 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 height: 20,
               ),
               CustomTextFormField(
-                  onSaved: (value) {
-                    userName = value!;
-                  },
-                  hintText: 'Full Name',
-                  textInputType: TextInputType.name),
+                controller: nameController,
+                onSaved: (value) {
+                  userName = value!;
+                },
+                hintText: 'Full Name',
+                textInputType: TextInputType.name,
+              ),
               SizedBox(
                 height: 16,
               ),
               CustomTextFormField(
-                  onSaved: (value) {
-                    email = value!;
-                  },
-                  hintText: 'Email Address',
-                  textInputType: TextInputType.emailAddress),
+                controller: phoneController,
+                prefixWidget: CountryCodePicker(
+                  onChanged: print,
+                  initialSelection: 'EG',
+                  favorite: ['+20', 'EG'],
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                  alignLeft: false,
+                ),
+                onSaved: (value) {
+                  email = value!;
+                },
+                length: 10,
+                hintText: 'Phone number',
+                textInputType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty || value.length < 10) {
+                    return 'Enter valid Phone number';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                controller: birthDateController,
+                readOnly: true,
+                onTap: () async {
+                  final dt = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(DateTime.now().year - 9),
+                  );
+                  if (dt != null) {
+                    birthDateController.text =
+                        dt.toIso8601String().split('T')[0];
+                  }
+                },
+                hintText: 'Birth Date',
+                textInputType: TextInputType.datetime,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter valid Birth Date';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                controller: emailController,
+                onSaved: (value) {
+                  email = value!;
+                },
+                hintText: 'Email Address',
+                textInputType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter email address';
+                  } else if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@gmail+\.com")
+                      .hasMatch(value)) {
+                    return 'Enter valid email address';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(
                 height: 16,
               ),
@@ -72,26 +147,45 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               const SizedBox(
                 height: 30,
               ),
-              CustomButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      if (isTermsAccepted) {
-                        context
-                            .read<SignupCubit>()
-                            .createUserWithEmailAndPassword(
-                                email, password, userName);
+              BlocConsumer<SignupCubit, SignupState>(
+                  listener: (context, state) {
+                if (state is SignupSuccess) {
+                  buildErrorBar(context, 'You are registered successfully');
+                }
+                if (state is SignupFailure) {
+                  buildErrorBar(context, state.message);
+                }
+              }, builder: (context, state) {
+                if (state is SignupLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return CustomButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        if (isTermsAccepted) {
+                          context
+                              .read<SignupCubit>()
+                              .createUserWithEmailAndPassword(
+                                  emailController.text,
+                                  password,
+                                  nameController.text,
+                                  phoneController.text,
+                                  birthDateController.text);
+                        } else {
+                          buildErrorBar(context,
+                              'You must accept the Terms and Conditions');
+                        }
                       } else {
-                        buildErrorBar(context,
-                            'You must accept the Terms and Conditions');
+                        setState(() {
+                          autovalidateMode = AutovalidateMode.always;
+                        });
                       }
-                    } else {
-                      setState(() {
-                        autovalidateMode = AutovalidateMode.always;
-                      });
-                    }
-                  },
-                  text: 'Create new Account'),
+                    },
+                    text: 'Create new Account');
+              }),
               const SizedBox(height: 26),
               const HaveAnAccountWidget(),
             ],

@@ -9,26 +9,48 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onSaved,
     this.obscureText = false,
+    this.validator,
+    this.readOnly = false,
+    this.onTap,
+    this.onPrefixWidget,
+    this.prefixWidget,
+    this.length,
+    this.controller,
   });
+  final TextEditingController? controller;
   final String hintText;
   final TextInputType textInputType;
   final Widget? suffixIcon;
   final Function(String?)? onSaved;
   final bool obscureText;
+  final String? Function(String?)? validator;
+  final VoidCallback? onTap;
+  final VoidCallback? onPrefixWidget;
+  final int? length;
+
+  final bool readOnly;
+  final Widget? prefixWidget;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       onSaved: onSaved,
       obscureText: obscureText,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "This field is requied";
-        }
-        return null;
-      },
+      onTap: onTap,
+      readOnly: readOnly,
+      maxLength: length,
+      validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return "This field is requied";
+            }
+            return null;
+          },
       keyboardType: textInputType,
       decoration: InputDecoration(
+        counterText: '',
+        prefixIcon: prefixWidget,
         suffixIcon: suffixIcon,
         hintText: hintText,
         filled: true,

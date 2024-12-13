@@ -11,14 +11,14 @@ class FeaturedItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final String image;
-  final String buttonAction;
+  final VoidCallback onPressed;
 
   const FeaturedItem(
       {super.key,
       required this.title,
       required this.subtitle,
       required this.image,
-      required this.buttonAction});
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class FeaturedItem extends StatelessWidget {
                         height: 11,
                       ),
                       FeaturedItemButton(
-                        onPressed: () {},
+                        onPressed: onPressed,
                       ),
                       const SizedBox(
                         height: 29,

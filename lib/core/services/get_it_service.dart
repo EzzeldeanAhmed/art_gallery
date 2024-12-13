@@ -1,3 +1,5 @@
+import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
+import 'package:art_gallery/core/repos/artworks_repo/artworks_repo_impl.dart';
 import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/services/firebase_auth_service.dart';
 import 'package:art_gallery/core/services/firestore_service.dart';
@@ -17,9 +19,9 @@ void setupGetit() {
     ),
   );
 
-  /*  getIt.registerSingleton<ProductsRepo>(
-    ProductsRepoImpl(
+  getIt.registerSingleton<ArtworksRepo>(
+    ArtworksRepoImpl(
       getIt<DatabaseService>(),
     ),
-  ); */
+  );
 }

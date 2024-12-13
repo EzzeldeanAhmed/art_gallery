@@ -13,6 +13,7 @@ import 'package:art_gallery/features/auth/presentation/views/widgets/dont_have_a
 import 'package:art_gallery/features/auth/presentation/views/widgets/or_divider.dart';
 import 'package:art_gallery/features/auth/presentation/views/widgets/social_login_button.dart';
 import 'package:art_gallery/main.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});
@@ -36,7 +37,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              SizedBox(height: 24),
+              SizedBox(height: 26),
               CustomTextFormField(
                 onSaved: (value) {
                   email = value!;
@@ -79,25 +80,6 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               const SizedBox(height: 33),
               const DontHaveAnAccountWidget(),
               const SizedBox(height: 33),
-              const OrDivider(),
-              const SizedBox(height: 16),
-              SocialLoginButton(
-                OnPressed: () {},
-                image: Assets.imagesGoogleIcon,
-                title: 'Sign in with Google',
-              ),
-              const SizedBox(height: 16),
-              SocialLoginButton(
-                OnPressed: () {},
-                image: Assets.imagesApplIcon,
-                title: 'Sign in with Apple',
-              ),
-              const SizedBox(height: 16),
-              SocialLoginButton(
-                OnPressed: () {},
-                image: Assets.imagesFacebookIcon,
-                title: 'Sign in with Facebook',
-              ),
             ],
           ),
         ),

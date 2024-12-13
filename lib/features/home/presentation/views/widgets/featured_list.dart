@@ -10,13 +10,13 @@ class FeaturedList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(4, (index) {
-          return const Padding(
+          return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: FeaturedItem(
               title: '',
               subtitle: '',
               image: '',
-              buttonAction: '',
+              onPressed: () {},
             ),
           );
         }),

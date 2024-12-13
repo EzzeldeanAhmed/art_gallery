@@ -1,17 +1,34 @@
-import 'package:flutter/material.dart';
 import 'package:art_gallery/constants.dart';
+import 'package:art_gallery/core/artwork_cubit/artworks_cubit.dart';
+import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
+import 'package:art_gallery/core/widgets/artwork_item.dart';
 import 'package:art_gallery/core/widgets/search_text_field.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/custom_home_app_bar.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/featured_item.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/featured_list.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/home_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({super.key});
+class HomeViewBody extends StatefulWidget {
+  const HomeViewBody({
+    super.key,
+  });
+
+  @override
+  State<HomeViewBody> createState() => _HomeViewBodyState();
+}
+
+class _HomeViewBodyState extends State<HomeViewBody> {
+  // void initState() {
+  //   context.read<ArtworksCubit>().getArtworks();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: CustomScrollView(
         slivers: [
@@ -23,41 +40,47 @@ class HomeViewBody extends StatelessWidget {
                 ),
                 CustomHomeAppBar(),
                 SizedBox(
-                  height: 16,
+                  height: 6,
                 ),
                 SearchTextField(),
                 SizedBox(
                   height: 12,
                 ),
                 FeaturedItem(
-                    title: 'Where every piece tells a unique story.',
-                    subtitle: 'Artworks',
-                    image: Assets.imagesArttwork,
-                    buttonAction: ''),
+                  title: 'Where every piece tells a unique story.',
+                  subtitle: 'Artworks',
+                  image: Assets.imagesArttwork,
+                  onPressed: () {
+                    Navigator.pushNamed(context, ArtworksView.routeName);
+                  },
+                ),
                 SizedBox(
                   height: 12,
                 ),
                 FeaturedItem(
-                    title: 'Celebrating the creators who bring art to life.',
-                    subtitle: 'Artists',
-                    image: Assets.imagesArtist,
-                    buttonAction: ''),
+                  title: 'Celebrating the creators who bring art to life.',
+                  subtitle: 'Artists',
+                  image: Assets.imagesArtist,
+                  onPressed: () {},
+                ),
                 SizedBox(
                   height: 12,
                 ),
                 FeaturedItem(
-                    title: 'Where art comes together in perfect harmony.',
-                    subtitle: 'Collections',
-                    image: Assets.imagesCollection,
-                    buttonAction: ''),
+                  title: 'Where art comes together in perfect harmony.',
+                  subtitle: 'Collections',
+                  image: Assets.imagesCollection,
+                  onPressed: () {},
+                ),
                 SizedBox(
                   height: 12,
                 ),
                 FeaturedItem(
-                    title: 'Bring stories to life by art and expression.',
-                    subtitle: 'Exhibitions',
-                    image: Assets.imagesExhibition,
-                    buttonAction: ''),
+                  title: 'Bring stories to life by art and expression.',
+                  subtitle: 'Exhibitions',
+                  image: Assets.imagesExhibition,
+                  onPressed: () {},
+                ),
               ],
             ),
           ),

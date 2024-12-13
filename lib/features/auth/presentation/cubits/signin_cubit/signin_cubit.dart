@@ -1,5 +1,7 @@
+import 'package:art_gallery/features/auth/data/models/user_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import '../../../domain/entites/user_entity.dart';
@@ -22,33 +24,3 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 }
-/* 
-  Future<void> signinWithGoogle() async {
-    emit(SigninLoading());
-    var result = await authRepo.signinWithGoogle();
-    result.fold(
-      (failure) => emit(SigninFailure(message: failure.message)),
-      (userEntity) => emit(SigninSuccess(userEntity: userEntity)),
-    );
-  }
-
-  Future<void> signinWithFacebook() async {
-    emit(SigninLoading());
-    var result = await authRepo.signinWithFacebook();
-    result.fold(
-      (failure) => emit(SigninFailure(message: failure.message)),
-      (userEntity) => emit(SigninSuccess(userEntity: userEntity)),
-    );
-  }
-
-
-  Future<void> signinWithApple() async {
-    emit(SigninLoading());
-    var result = await authRepo.signinWithApple();
-    result.fold(
-      (failure) => emit(SigninFailure(message: failure.message)),
-      (userEntity) => emit(SigninSuccess(userEntity: userEntity)),
-    );
-  }
-}
- */

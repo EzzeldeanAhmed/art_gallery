@@ -1,3 +1,4 @@
+import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
@@ -8,16 +9,17 @@ class CustomHomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      //trailing: const NotificationWidget(),
       contentPadding: EdgeInsets.all(12),
-      leading: Image.asset(Assets.imagesProfileImage),
+      leading: Image.asset(Assets.imagesMus),
       title: Text(
-        'WELCOME TO OUR APPLICATION',
+        'WELCOME TO ARTSHUB',
         textAlign: TextAlign.left,
-        style: TextStyles.semiBold16.copyWith(
-          color: const Color.fromARGB(255, 0, 0, 0),
+        style: TextStyles.bold19.copyWith(
+          //color: AppColors.primaryColor
+          color: Colors.black,
         ),
       ),
+
       /* subtitle: Text(
         getUser().name,
         textAlign: TextAlign.right,
