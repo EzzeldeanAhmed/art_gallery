@@ -40,9 +40,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 ),
                 CustomHomeAppBar(),
                 SizedBox(
-                  height: 6,
+                  height: 4,
                 ),
-                SearchTextField(),
+                //SearchTextField(),
                 SizedBox(
                   height: 12,
                 ),
