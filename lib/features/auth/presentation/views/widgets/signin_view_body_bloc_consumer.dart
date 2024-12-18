@@ -1,3 +1,7 @@
+import 'package:art_gallery/core/services/firestore_service.dart';
+import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
+import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
@@ -19,7 +23,11 @@ class SigninViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SigninCubit, SigninState>(
       listener: (context, state) {
         if (state is SigninSuccess) {
-          Navigator.pushNamed(context, MainView.routeName);
+          if (state.userEntity.role == "admin") {
+            Navigator.pushNamed(context, SelectionView.routeName);
+          } else {
+            Navigator.pushNamed(context, MainView.routeName);
+          }
         }
 
         if (state is SigninFailure) {

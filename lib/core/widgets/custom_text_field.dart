@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    required this.hintText,
-    required this.textInputType,
-    this.suffixIcon,
-    this.onSaved,
-    this.obscureText = false,
-    this.validator,
-    this.readOnly = false,
-    this.onTap,
-    this.onPrefixWidget,
-    this.prefixWidget,
-    this.length,
-    this.controller,
-  });
+  const CustomTextFormField(
+      {super.key,
+      required this.hintText,
+      required this.textInputType,
+      this.suffixIcon,
+      this.onSaved,
+      this.obscureText = false,
+      this.validator,
+      this.readOnly = false,
+      this.onTap,
+      this.onPrefixWidget,
+      this.prefixWidget,
+      this.length,
+      this.controller,
+      this.maxLines});
   final TextEditingController? controller;
   final String hintText;
   final TextInputType textInputType;
@@ -31,9 +31,12 @@ class CustomTextFormField extends StatelessWidget {
   final bool readOnly;
   final Widget? prefixWidget;
 
+  final int? maxLines;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      // maxLines: maxLines,
       controller: controller,
       onSaved: onSaved,
       obscureText: obscureText,

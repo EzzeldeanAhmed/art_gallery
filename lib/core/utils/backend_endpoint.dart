@@ -3,4 +3,5 @@ class BackendEndpoint {
   static const getUsersData = 'users';
   static const getArtworks = 'artworks';
   static const isUserExists = 'users';
+  static const artworksCollection = 'artworks';
 }

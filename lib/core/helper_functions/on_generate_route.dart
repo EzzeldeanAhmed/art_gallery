@@ -1,3 +1,6 @@
+import 'package:art_gallery/features/add_artwork/presentation/views/add_artwork_view.dart';
+import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
+import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
@@ -25,6 +28,15 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context) => const OnBoardingView());
+
+    case DashboardView.routeName:
+      return MaterialPageRoute(builder: (context) => const DashboardView());
+
+    case AddArtworkView.routeName:
+      return MaterialPageRoute(builder: (context) => const AddArtworkView());
+
+    case SelectionView.routeName:
+      return MaterialPageRoute(builder: (context) => const SelectionView());
 
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());

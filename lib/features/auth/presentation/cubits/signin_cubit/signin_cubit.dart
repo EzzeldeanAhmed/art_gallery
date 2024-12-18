@@ -20,7 +20,10 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (userEntity) => emit(SigninSuccess(userEntity: userEntity)),
+      (userEntity) async {
+        UserEntity user = await authRepo.getUserData(uid: userEntity.uid);
+        emit(SigninSuccess(userEntity: user));
+      },
     );
   }
 }

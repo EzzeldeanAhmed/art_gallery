@@ -7,6 +7,7 @@ import 'package:art_gallery/core/services/shared_preferences_singleton.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/features/splash/presentation/views/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,12 +20,18 @@ void main() async {
         projectId: 'project-66490',
         messagingSenderId: ' '),
   );
-
+  await Supabase.initialize(
+    url: 'https://thyuemmcoaeuladmkayf.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoeXVlbW1jb2FldWxhZG1rYXlmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMzAxMDczOSwiZXhwIjoyMDQ4NTg2NzM5fQ.1z8vwvUNF7muYhFaJtJnE4E9LwnLNpCVSSSMdHS1RVU',
+  );
   await Prefs.init();
   setupGetit();
 
   runApp(const ArtGallery());
 }
+
+final supabase = Supabase.instance.client;
 
 class ArtGallery extends StatelessWidget {
   const ArtGallery({super.key});

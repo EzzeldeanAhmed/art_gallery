@@ -29,7 +29,8 @@ class SignupCubit extends Cubit<SignupState> {
           email: email,
           phone: phone,
           birthDate: birthDate,
-          uId: userEntity.uid));
+          uId: userEntity.uid,
+          role: "client"));
       emit(
         SignupSuccess(userEntity: userEntity),
       );

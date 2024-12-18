@@ -4,4 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class ArtworksRepo {
   Future<Either<Failure, List<ArtworkEntity>>> getArtworks();
+  Future<Either<Failure, void>> addArtwork(ArtworkEntity AddArtworkInputEntity);
 }

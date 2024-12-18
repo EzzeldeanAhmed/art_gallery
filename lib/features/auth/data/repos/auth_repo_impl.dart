@@ -91,6 +91,13 @@ class AuthRepoImpl extends AuthRepo {
       );
     }
   }
+
+  @override
+  Future<UserEntity> getUserData({required String uid}) async {
+    var userData = await databaseService.getData(
+        path: BackendEndpoint.getUsersData, docuementId: uid);
+    return UserModel.fromJson(userData);
+  }
 }
 /*  @override
   Future addUserData({required UserEntity user}) async {
@@ -114,12 +121,7 @@ class AuthRepoImpl extends AuthRepo {
     );
   }
 
-  @override
-  Future<UserEntity> getUserData({required String uid}) async {
-    var userData = await databaseService.getData(
-        path: BackendEndpoint.getUsersData, docuementId: uid);
-    return UserModel.fromJson(userData);
-  }
+ 
 
   @override
   Future saveUserData({required UserEntity user}) async {
