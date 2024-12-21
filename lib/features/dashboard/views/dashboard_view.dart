@@ -1,3 +1,4 @@
+import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/dashboard_view_body.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,12 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Artworks Operations'),
+        leading: Image.asset(Assets.imagesMus),
+        leadingWidth: 45,
+      ),
       body: DashboardViewBody(),
     );
   }

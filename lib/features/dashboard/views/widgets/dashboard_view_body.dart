@@ -9,10 +9,18 @@ class DashboardViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 100,
+          ),
+          const Text(
+            ' Operations to Manage Artwork',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 50),
           CustomButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -22,7 +30,7 @@ class DashboardViewBody extends StatelessWidget {
               },
               text: "Add ArtWork"),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           CustomButton(
               onPressed: () {
@@ -32,7 +40,7 @@ class DashboardViewBody extends StatelessWidget {
               },
               text: "Update ArtWork"),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           CustomButton(
               onPressed: () {

@@ -1,3 +1,5 @@
+import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operations.dart';
+import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
@@ -38,6 +40,14 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case SelectionView.routeName:
       return MaterialPageRoute(builder: (context) => const SelectionView());
+
+    case DashboardOperations.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const DashboardOperations());
+
+    case SystemBasicEntites.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const SystemBasicEntites());
 
     // case ArtworksUpdateSearchPage.routeName:
     //   return MaterialPageRoute(

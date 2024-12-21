@@ -1,5 +1,6 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
 import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
+import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operations.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/main_view.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class SelectionView extends StatelessWidget {
             ),
             CustomButton(
               onPressed: () {
-                Navigator.pushNamed(context, DashboardView.routeName);
+                Navigator.pushNamed(context, DashboardOperations.routeName);
               },
               text: 'Log in as Admin',
             ),
