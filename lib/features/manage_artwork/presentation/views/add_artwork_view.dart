@@ -1,3 +1,4 @@
+import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/repos/images_repo/images_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
@@ -8,9 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkView extends StatelessWidget {
-  const AddArtworkView({super.key});
+  const AddArtworkView(
+      {super.key, this.update, this.defaultEntity, this.delete});
 
   static const routeName = 'add_artwork';
+  final bool? update;
+  final ArtworkEntity? defaultEntity;
+  final bool? delete;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,8 @@ class AddArtworkView extends StatelessWidget {
                 getIt.get<ImagesRepo>(),
                 getIt.get<ArtworksRepo>(),
               ),
-          child: const AddArtworkViewBodyBlocBuilder()),
+          child: AddArtworkViewBodyBlocBuilder(
+              update: update!, defaultEntity: defaultEntity, delete: delete!)),
     );
   }
 }

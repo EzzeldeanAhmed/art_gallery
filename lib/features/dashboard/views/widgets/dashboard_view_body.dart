@@ -15,7 +15,10 @@ class DashboardViewBody extends StatelessWidget {
         children: [
           CustomButton(
               onPressed: () {
-                Navigator.pushNamed(context, AddArtworkView.routeName);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      AddArtworkView(delete: false, update: false),
+                ));
               },
               text: "Add ArtWork"),
           SizedBox(
@@ -23,8 +26,9 @@ class DashboardViewBody extends StatelessWidget {
           ),
           CustomButton(
               onPressed: () {
-                Navigator.pushNamed(
-                    context, ArtworksUpdateSearchPage.routeName);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ArtworksUpdateSearchPage(delete: false),
+                ));
               },
               text: "Update ArtWork"),
           SizedBox(
@@ -32,7 +36,9 @@ class DashboardViewBody extends StatelessWidget {
           ),
           CustomButton(
               onPressed: () {
-                Navigator.pushNamed(context, AddArtworkView.routeName);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ArtworksUpdateSearchPage(delete: true),
+                ));
               },
               text: "Delete ArtWork")
         ],

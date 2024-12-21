@@ -41,4 +41,62 @@ class AddArtworkCubit extends Cubit<AddArtworkState> {
       },
     );
   }
+
+  Future<void> updateArtwork(ArtworkEntity updateArtworkInputEntity) async {
+    if (updateArtworkInputEntity.imageUrl != null) {
+      emit(AddArtworkLoading());
+      var result = await artworksRepo.updateArtwork(updateArtworkInputEntity);
+      result.fold(
+        (f) {
+          emit(
+            AddArtworkFailure(errMessage: f.message),
+          );
+        },
+        (r) {
+          emit(AddArtworkSuccess());
+        },
+      );
+    } else {
+      var result =
+          await imagesRepo.UploadImage(updateArtworkInputEntity.image!);
+      result.fold(
+        (f) {
+          emit(
+            AddArtworkFailure(errMessage: f.message),
+          );
+        },
+        (url) async {
+          updateArtworkInputEntity.imageUrl = url;
+          var result =
+              await artworksRepo.updateArtwork(updateArtworkInputEntity);
+
+          result.fold(
+            (f) {
+              emit(
+                AddArtworkFailure(errMessage: f.message),
+              );
+            },
+            (r) {
+              emit(AddArtworkSuccess());
+            },
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> deleteArtwork(String docuementId) async {
+    emit(AddArtworkLoading());
+    var result = await artworksRepo.deleteArtwork(docuementId);
+    result.fold(
+      (f) {
+        emit(
+          AddArtworkFailure(errMessage: f.message),
+        );
+      },
+      (r) {
+        emit(AddArtworkSuccess());
+      },
+    );
+  }
 }

@@ -7,19 +7,20 @@ import 'package:art_gallery/main.dart';
 import 'package:dartz/dartz.dart';
 import 'package:path/path.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class ImagesRepoImpl implements ImagesRepo {
   ImagesRepoImpl();
   @override
   Future<Either<Failure, String>> UploadImage(File image) async {
     try {
+      final String name = Uuid().v4();
       final String url = await supabase.storage.from("images").upload(
-            basename(image.path),
+            name,
             image,
           );
-      final String public_url = await supabase.storage
-          .from("images")
-          .getPublicUrl(basename(image.path));
+      final String public_url =
+          await supabase.storage.from("images").getPublicUrl(name);
       // String url =
       //     await storageService.uploadFile(image, BackendEndpoint.images);
       return Right(public_url);

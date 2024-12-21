@@ -5,8 +5,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ImageField extends StatefulWidget {
-  const ImageField({super.key, required this.onFileChanged});
+  const ImageField(
+      {super.key, required this.onFileChanged, this.imageUrl, this.delete});
   final ValueChanged<File?> onFileChanged;
+  final String? imageUrl;
+  final bool? delete;
 
   @override
   State<ImageField> createState() => _ImageFieldState();
@@ -21,15 +24,17 @@ class _ImageFieldState extends State<ImageField> {
       enabled: isLoading,
       //pick image
       child: GestureDetector(
-        onTap: () async {
-          isLoading = true;
-          setState(() {});
-          try {
-            await pickImage();
-          } on Exception catch (e) {}
-          isLoading = false;
-          setState(() {});
-        },
+        onTap: widget.delete!
+            ? null
+            : () async {
+                isLoading = true;
+                setState(() {});
+                try {
+                  await pickImage();
+                } on Exception catch (e) {}
+                isLoading = false;
+                setState(() {});
+              },
         child: Stack(
           children: [
             Container(
@@ -41,18 +46,24 @@ class _ImageFieldState extends State<ImageField> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Image.file(fileImage!))
-                    : const Icon(
-                        Icons.image_outlined,
-                        size: 180,
-                      )),
+                    : widget.imageUrl! != ""
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(widget.imageUrl!))
+                        : const Icon(
+                            Icons.image_outlined,
+                            size: 180,
+                          )),
             Visibility(
               visible: fileImage != null,
               child: IconButton(
-                  onPressed: () {
-                    fileImage = null;
-                    widget.onFileChanged(fileImage);
-                    setState(() {});
-                  },
+                  onPressed: widget.delete!
+                      ? null
+                      : () {
+                          fileImage = null;
+                          widget.onFileChanged(fileImage);
+                          setState(() {});
+                        },
                   icon: const Icon(
                     Icons.delete,
                     color: Colors.red,
@@ -68,8 +79,9 @@ class _ImageFieldState extends State<ImageField> {
     final ImagePicker picker = ImagePicker();
     //hetet huwa gallery wla file 3ady wla eh
     final XFile? media = await picker.pickMedia();
-    fileImage = File(media!.path);
-
-    widget.onFileChanged(fileImage!);
+    if (media != null) {
+      fileImage = File(media.path);
+      widget.onFileChanged(fileImage);
+    }
   }
 }

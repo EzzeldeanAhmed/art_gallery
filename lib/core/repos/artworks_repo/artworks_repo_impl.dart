@@ -48,7 +48,18 @@ class ArtworksRepoImpl extends ArtworksRepo {
           documentId: updateArtworkInputEntity.id);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure('Failed to add Artwork'));
+      return Left(ServerFailure('Failed to update Artwork'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteArtwork(String documentId) async {
+    try {
+      await databaseService.deleteData(
+          path: BackendEndpoint.artworksCollection, documentId: documentId);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Failed to delete Artwork'));
     }
   }
 }

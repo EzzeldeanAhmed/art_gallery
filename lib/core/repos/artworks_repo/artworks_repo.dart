@@ -7,4 +7,5 @@ abstract class ArtworksRepo {
   Future<Either<Failure, void>> addArtwork(ArtworkEntity addArtworkInputEntity);
   Future<Either<Failure, void>> updateArtwork(
       ArtworkEntity updateArtworkEntity);
+  Future<Either<Failure, void>> deleteArtwork(String documentId);
 }

@@ -10,8 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkViewBody extends StatefulWidget {
-  const AddArtworkViewBody({super.key});
-
+  const AddArtworkViewBody(
+      {super.key, this.update, this.defaultEntity, this.delete});
+  final bool? update;
+  final bool? delete;
+  final ArtworkEntity? defaultEntity;
   @override
   State<AddArtworkViewBody> createState() => _AddArtworkViewBodyState();
 }
@@ -28,17 +31,17 @@ String? selectedValue;
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late String code,
-      name,
-      type,
-      medium,
-      country,
-      description,
-      epoch,
-      artist,
-      dimensions;
-  late num year;
-  File? image;
+  late String code = widget.update! ? widget.defaultEntity!.code : "",
+      name = widget.update! ? widget.defaultEntity!.name : "",
+      type = widget.update! ? widget.defaultEntity!.type : "",
+      medium = widget.update! ? widget.defaultEntity!.medium : "",
+      country = widget.update! ? widget.defaultEntity!.country : "",
+      description = widget.update! ? widget.defaultEntity!.description : "",
+      epoch = widget.update! ? widget.defaultEntity!.epoch : "",
+      artist = widget.update! ? widget.defaultEntity!.artist : "",
+      dimensions = widget.update! ? widget.defaultEntity!.dimensions : "";
+  late num year = widget.update! ? widget.defaultEntity!.year : -1;
+  late File? image = widget.update! ? File("") : null;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +54,14 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const Text('Welcome Admin, Fill the data to add artwork',
-                  style: TextStyle(fontSize: 18, color: Colors.black)),
+              Text(
+                  'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artwork',
+                  style: const TextStyle(fontSize: 18, color: Colors.black)),
               const SizedBox(height: 20),
 
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: code,
                   onSaved: (value) {
                     code = value!.toLowerCase();
                   },
@@ -63,6 +69,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: name,
                   onSaved: (value) {
                     name = value!;
                   },
@@ -80,6 +88,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                 ),
+                value: type != "" ? type : null,
                 hint: const Text(
                   'Select Type of Artwork',
                   style: TextStyle(
@@ -104,11 +113,13 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   }
                   return null;
                 },
-                onChanged: (value) {
-                  setState(() {
-                    type = value!;
-                  });
-                },
+                onChanged: widget.delete!
+                    ? null
+                    : (value) {
+                        setState(() {
+                          type = value!;
+                        });
+                      },
                 onSaved: (value) {},
                 buttonStyleData: const ButtonStyleData(
                   padding: EdgeInsets.only(right: 8),
@@ -132,6 +143,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: year != -1 ? year.toString() : "",
                   onSaved: (value) {
                     year = num.parse(value!);
                   },
@@ -139,6 +152,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.number),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: epoch,
                   onSaved: (value) {
                     epoch = value!;
                   },
@@ -146,6 +161,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: dimensions,
                   onSaved: (value) {
                     dimensions = value!;
                   },
@@ -153,6 +170,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: medium,
                   onSaved: (value) {
                     medium = value!;
                   },
@@ -160,6 +179,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: artist,
                   onSaved: (value) {
                     artist = value!;
                   },
@@ -167,6 +188,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: country,
                   onSaved: (value) {
                     country = value!;
                   },
@@ -174,6 +197,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
+                enabled: !widget.delete!,
+                initialValue: description,
                 onSaved: (value) {
                   description = value!;
                 },
@@ -188,6 +213,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 onFileChanged: (image) {
                   this.image = image;
                 },
+                delete: widget.delete!,
+                imageUrl: widget.update! ? widget.defaultEntity!.imageUrl : "",
               ),
               const SizedBox(height: 24),
               CustomButton(
@@ -209,7 +236,19 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                         dimensions: dimensions,
                         image: image!,
                       );
-                      context.read<AddArtworkCubit>().addArtwork(input);
+                      if (widget.delete!) {
+                        context
+                            .read<AddArtworkCubit>()
+                            .deleteArtwork(widget.defaultEntity!.id!);
+                      } else if (widget.update!) {
+                        input.id = widget.defaultEntity!.id;
+                        if (image?.path == "") {
+                          input.imageUrl = widget.defaultEntity!.imageUrl;
+                        }
+                        context.read<AddArtworkCubit>().updateArtwork(input);
+                      } else {
+                        context.read<AddArtworkCubit>().addArtwork(input);
+                      }
                     } else {
                       autovalidateMode = AutovalidateMode.always;
                       setState(() {});
@@ -218,7 +257,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                     showError(context);
                   }
                 },
-                text: 'Add Artwork',
+                text:
+                    '${widget.delete! ? "Delete" : widget.update! ? "Update" : "Add"} Artwork',
               ),
               const SizedBox(height: 24),
             ],

@@ -1,14 +1,15 @@
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ArtworksUpdateSearchPage extends StatefulWidget {
-  const ArtworksUpdateSearchPage({Key? key}) : super(key: key);
+  const ArtworksUpdateSearchPage({Key? key, this.delete}) : super(key: key);
   static const routeName = 'artworksupdatesearch';
-
+  final bool? delete;
   @override
   State<ArtworksUpdateSearchPage> createState() =>
       _ArtworksUpdateSearchPageState();
@@ -49,6 +50,7 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                     itemBuilder: (context, index) {
                       var data = snapshots.data!.docs[index].data()
                           as Map<String, dynamic>;
+                      data['id'] = snapshots.data!.docs[index].id;
                       if (data['name']
                           .toString()
                           .toLowerCase()
@@ -57,8 +59,10 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ArtworkDetailsPage(
-                                      artworkEntity: ArtworkModel.fromJson(data)
+                                  builder: (context) => AddArtworkView(
+                                      update: true,
+                                      delete: widget.delete,
+                                      defaultEntity: ArtworkModel.fromJson(data)
                                           .toEntity())),
                             );
                           },

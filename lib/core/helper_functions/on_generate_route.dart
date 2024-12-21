@@ -39,9 +39,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case SelectionView.routeName:
       return MaterialPageRoute(builder: (context) => const SelectionView());
 
-    case ArtworksUpdateSearchPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ArtworksUpdateSearchPage());
+    // case ArtworksUpdateSearchPage.routeName:
+    //   return MaterialPageRoute(
+    //       builder: (context) => const ArtworksUpdateSearchPage());
 
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());
