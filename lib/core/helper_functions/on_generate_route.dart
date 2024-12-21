@@ -1,7 +1,8 @@
-import 'package:art_gallery/features/add_artwork/presentation/views/add_artwork_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
 import 'package:art_gallery/features/auth/presentation/views/signup_view.dart';
@@ -37,6 +38,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case SelectionView.routeName:
       return MaterialPageRoute(builder: (context) => const SelectionView());
+
+    case ArtworksUpdateSearchPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ArtworksUpdateSearchPage());
 
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());

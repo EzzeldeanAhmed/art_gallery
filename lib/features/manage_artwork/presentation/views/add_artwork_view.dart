@@ -1,9 +1,9 @@
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/repos/images_repo/images_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/widgets/add_artwork_view_body.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/widgets/add_artwork_view_body_bloc_builder.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/add_artwork_view_body.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/add_artwork_view_body_bloc_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

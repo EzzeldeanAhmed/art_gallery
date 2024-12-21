@@ -28,6 +28,7 @@ class ArtworkDetailsPage extends StatelessWidget {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   child: Hero(

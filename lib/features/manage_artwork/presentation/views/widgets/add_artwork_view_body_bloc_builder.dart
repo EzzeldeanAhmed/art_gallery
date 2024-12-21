@@ -1,7 +1,7 @@
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
 import 'package:art_gallery/core/widgets/custom_progress_hud.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/widgets/add_artwork_view_body.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/manger/add_artwork/cubit/add_artwork_cubit.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/add_artwork_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

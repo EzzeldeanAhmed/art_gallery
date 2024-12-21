@@ -15,6 +15,7 @@ class ArtworkEntity {
   final num year;
   File? image;
   String? imageUrl;
+  String? id;
   final List<ReviewEntity> reviews;
 
   ArtworkEntity(
@@ -30,5 +31,6 @@ class ArtworkEntity {
       required this.year,
       required this.dimensions,
       this.image,
-      this.imageUrl});
+      this.imageUrl,
+      this.id});
 }

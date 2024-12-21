@@ -1,5 +1,6 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
-import 'package:art_gallery/features/add_artwork/presentation/views/add_artwork_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
 import 'package:flutter/material.dart';
 
 class DashboardViewBody extends StatelessWidget {
@@ -16,7 +17,24 @@ class DashboardViewBody extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, AddArtworkView.routeName);
               },
-              text: "Add Data")
+              text: "Add ArtWork"),
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, ArtworksUpdateSearchPage.routeName);
+              },
+              text: "Update ArtWork"),
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AddArtworkView.routeName);
+              },
+              text: "Delete ArtWork")
         ],
       ),
     );

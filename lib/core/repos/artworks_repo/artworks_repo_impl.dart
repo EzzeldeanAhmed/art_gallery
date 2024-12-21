@@ -37,4 +37,18 @@ class ArtworksRepoImpl extends ArtworksRepo {
       return Left(ServerFailure('Failed to add Artwork'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateArtwork(
+      ArtworkEntity updateArtworkInputEntity) async {
+    try {
+      await databaseService.addData(
+          path: BackendEndpoint.artworksCollection,
+          data: ArtworkModel.fromEntity(updateArtworkInputEntity).toJson(),
+          documentId: updateArtworkInputEntity.id);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Failed to add Artwork'));
+    }
+  }
 }

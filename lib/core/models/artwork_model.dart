@@ -17,6 +17,7 @@ class ArtworkModel {
   final String dimensions;
   File? image;
   String? imageUrl;
+  final String? id;
 
   ArtworkModel(
       {required this.code,
@@ -31,7 +32,8 @@ class ArtworkModel {
       required this.year,
       required this.dimensions,
       this.image,
-      this.imageUrl});
+      this.imageUrl,
+      this.id});
 
   factory ArtworkModel.fromEntity(ArtworkEntity addArtworkInputEntity) {
     return ArtworkModel(
@@ -55,23 +57,23 @@ class ArtworkModel {
 
   factory ArtworkModel.fromJson(Map<String, dynamic> json) {
     return ArtworkModel(
-      code: json['code'],
-      name: json['name'],
-      type: json['type'],
-      medium: json['medium'],
-      country: json['country'],
-      description: json['description'],
-      epoch: json['epoch'],
-      artist: json['artist'],
-      year: json['year'],
-      dimensions: json['dimensions'],
-      image: json['image'],
-      imageUrl: json['imageUrl'],
-      reviews: json['reviews'] != null
-          ? List<ReviewModel>.from(
-              json['reviews'].map((e) => ReviewModel.fromJson(e)))
-          : [],
-    );
+        code: json['code'],
+        name: json['name'],
+        type: json['type'],
+        medium: json['medium'],
+        country: json['country'],
+        description: json['description'],
+        epoch: json['epoch'],
+        artist: json['artist'],
+        year: json['year'],
+        dimensions: json['dimensions'],
+        image: json['image'],
+        imageUrl: json['imageUrl'],
+        reviews: json['reviews'] != null
+            ? List<ReviewModel>.from(
+                json['reviews'].map((e) => ReviewModel.fromJson(e)))
+            : [],
+        id: json['id']);
   }
 
   toJson() {
@@ -93,19 +95,19 @@ class ArtworkModel {
 
   ArtworkEntity toEntity() {
     return ArtworkEntity(
-      code: code,
-      name: name,
-      type: type,
-      medium: medium,
-      country: country,
-      description: description,
-      epoch: epoch,
-      artist: artist,
-      year: year,
-      dimensions: dimensions,
-      image: image,
-      imageUrl: imageUrl,
-      reviews: reviews.map((e) => e.toEntity()).toList(),
-    );
+        code: code,
+        name: name,
+        type: type,
+        medium: medium,
+        country: country,
+        description: description,
+        epoch: epoch,
+        artist: artist,
+        year: year,
+        dimensions: dimensions,
+        image: image,
+        imageUrl: imageUrl,
+        reviews: reviews.map((e) => e.toEntity()).toList(),
+        id: id);
   }
 }
