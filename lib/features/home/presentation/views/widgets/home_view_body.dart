@@ -47,7 +47,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   height: 12,
                 ),
                 FeaturedItem(
-                  title: 'Where every piece tells a unique story.',
+                  title: 'Where every piece tells unique story.',
                   subtitle: 'Artworks',
                   image: Assets.imagesArttwork,
                   onPressed: () {
@@ -67,7 +67,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   height: 12,
                 ),
                 FeaturedItem(
-                  title: 'Where art comes together in perfect harmony.',
+                  title: 'Where art comes in perfect harmony.',
                   subtitle: 'Collections',
                   image: Assets.imagesCollection,
                   onPressed: () {},

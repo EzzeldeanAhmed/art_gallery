@@ -17,7 +17,7 @@ class DashboardViewBody extends StatelessWidget {
             height: 100,
           ),
           const Text(
-            ' Operations to Manage Artwork',
+            'Manage Artwork',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 50),
