@@ -1,7 +1,8 @@
 import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operations.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
+import 'package:art_gallery/features/manage_artist/presentation/views/artist_dashboard_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
-import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
@@ -32,8 +33,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context) => const OnBoardingView());
 
-    case DashboardView.routeName:
-      return MaterialPageRoute(builder: (context) => const DashboardView());
+    case ArtworkDashboardView.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ArtworkDashboardView());
+
+    case ArtistDashboardView.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ArtistDashboardView());
 
     case AddArtworkView.routeName:
       return MaterialPageRoute(builder: (context) => const AddArtworkView());

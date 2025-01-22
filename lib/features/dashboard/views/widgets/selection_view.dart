@@ -1,5 +1,5 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
-import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operations.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/main_view.dart';
 import 'package:flutter/material.dart';

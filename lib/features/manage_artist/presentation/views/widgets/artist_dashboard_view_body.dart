@@ -1,10 +1,10 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
-import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
-import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
+import 'package:art_gallery/features/manage_artist/presentation/views/add_artist_view.dart';
+import 'package:art_gallery/features/manage_artist/presentation/views/widgets/artists_update_search_page.dart';
 import 'package:flutter/material.dart';
 
-class DashboardViewBody extends StatelessWidget {
-  const DashboardViewBody({super.key});
+class ArtistDashboardViewBody extends StatelessWidget {
+  const ArtistDashboardViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class DashboardViewBody extends StatelessWidget {
             height: 100,
           ),
           const Text(
-            'Manage Artwork',
+            'Manage Artist',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 50),
@@ -25,30 +25,30 @@ class DashboardViewBody extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      AddArtworkView(delete: false, update: false),
+                      AddArtistView(delete: false, update: false),
                 ));
               },
-              text: "Add ArtWork"),
+              text: "Add Artist"),
           SizedBox(
             height: 30,
           ),
           CustomButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ArtworksUpdateSearchPage(delete: false),
+                  builder: (context) => ArtistsUpdateSearchPage(delete: false),
                 ));
               },
-              text: "Update ArtWork"),
+              text: "Update Artist"),
           SizedBox(
             height: 30,
           ),
           CustomButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ArtworksUpdateSearchPage(delete: true),
+                  builder: (context) => ArtistsUpdateSearchPage(delete: true),
                 ));
               },
-              text: "Delete ArtWork")
+              text: "Delete Artist")
         ],
       ),
     );

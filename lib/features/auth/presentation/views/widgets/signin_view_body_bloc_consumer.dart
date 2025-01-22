@@ -1,13 +1,8 @@
-import 'package:art_gallery/core/services/firestore_service.dart';
-import 'package:art_gallery/features/dashboard/views/dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/main_view.dart';
-
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../core/widgets/custom_progress_hud.dart';
 import '../../cubits/signin_cubit/signin_cubit.dart';
