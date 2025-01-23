@@ -28,6 +28,23 @@ List<String> typeItems = [
 ];
 String? selectedValue;
 
+List<String> epochItems = [
+  'Prehistoric Art',
+  'Ancient Art',
+  'Classical Art',
+  'Byzantine Art',
+  'Romanesque Art',
+  'Renaissance Art',
+  'Neoclassical Art',
+  'Romanticism',
+  'Impressionism',
+  'Modernism',
+  'Contemporary Art',
+  'Realism',
+  'Expressionism',
+  'Ancient Roman Art'
+];
+
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -37,7 +54,11 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
       medium = widget.update! ? widget.defaultEntity!.medium : "",
       country = widget.update! ? widget.defaultEntity!.country : "",
       description = widget.update! ? widget.defaultEntity!.description : "",
-      epoch = widget.update! ? widget.defaultEntity!.epoch : "",
+      epoch = widget.update!
+          ? (epochItems.contains(widget.defaultEntity!.epoch)
+              ? widget.defaultEntity!.epoch
+              : "")
+          : "",
       artist = widget.update! ? widget.defaultEntity!.artist : "",
       dimensions = widget.update! ? widget.defaultEntity!.dimensions : "";
   late num year = widget.update! ? widget.defaultEntity!.year : -1;
@@ -151,14 +172,78 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   hintText: 'Year Made',
                   textInputType: TextInputType.number),
               const SizedBox(height: 8),
-              CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: epoch,
-                  onSaved: (value) {
-                    epoch = value!;
-                  },
-                  hintText: 'Epoch',
-                  textInputType: TextInputType.text),
+              DropdownButtonFormField2<String>(
+                //isExpanded: true,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color(0xFFF9FAFA),
+                  contentPadding: EdgeInsets.zero,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                value: epoch != "" ? epoch : null,
+                hint: const Text(
+                  'Select epoch of Artwork',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0XFF949D9E),
+                  ),
+                ),
+                items: epochItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a epoch.';
+                  }
+                  return null;
+                },
+                onChanged: widget.delete!
+                    ? null
+                    : (value) {
+                        setState(() {
+                          epoch = value!;
+                        });
+                      },
+                onSaved: (value) {},
+                buttonStyleData: const ButtonStyleData(
+                  padding: EdgeInsets.only(right: 8),
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.blue,
+                  ),
+                  iconSize: 30,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+              ),
+
+              // CustomTextFormField(
+              //     enabled: !widget.delete!,
+              //     initialValue: epoch,
+              //     onSaved: (value) {
+              //       epoch = value!;
+              //     },
+              //     hintText: 'Epoch',
+              //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
                   enabled: !widget.delete!,

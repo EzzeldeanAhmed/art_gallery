@@ -27,6 +27,22 @@ List<String> typeItems = [
   'Black and White',
   'Mosaic'
 ];
+List<String> epochItems = [
+  'Prehistoric Art',
+  'Ancient Art',
+  'Classical Art',
+  'Byzantine Art',
+  'Romanesque Art',
+  'Renaissance Art',
+  'Neoclassical Art',
+  'Romanticism',
+  'Impressionism',
+  'Modernism',
+  'Contemporary Art',
+  'Realism',
+  'Expressionism',
+  'Ancient Roman Art'
+];
 String? selectedValue;
 
 class _AddArtistViewBodyState extends State<AddArtistViewBody> {
@@ -37,11 +53,21 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
       DeathDate = widget.update! ? widget.defaultEntity!.DeathDate : "",
       country = widget.update! ? widget.defaultEntity!.country : "",
       century = widget.update! ? widget.defaultEntity!.century : "",
-      epoch = widget.update! ? widget.defaultEntity!.epoch : "",
+      epoch = widget.update!
+          ? (epochItems.contains(widget.defaultEntity!.epoch)
+              ? widget.defaultEntity!.epoch
+              : "")
+          : "",
+      //epoch = widget.update! ? widget.defaultEntity!.epoch : "",
       biography = widget.update! ? widget.defaultEntity!.biography : "";
   late File? image = widget.update! ? File("") : null;
-  final birthDateController = TextEditingController();
-  final countryController = TextEditingController();
+  late final birthDateController = TextEditingController(
+      text: widget.update! ? widget.defaultEntity!.BirthDate : "");
+
+  late final deathDateController = TextEditingController(
+      text: widget.update! ? widget.defaultEntity!.DeathDate : "");
+  late final countryController = TextEditingController(
+      text: widget.update! ? widget.defaultEntity!.country : "");
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,15 +94,78 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                   textInputType: TextInputType.text),
 
               const SizedBox(height: 8),
+              DropdownButtonFormField2<String>(
+                //isExpanded: true,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color(0xFFF9FAFA),
+                  contentPadding: EdgeInsets.zero,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                value: epoch != "" ? epoch : null,
+                hint: const Text(
+                  'Select epoch of Artist',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0XFF949D9E),
+                  ),
+                ),
+                items: epochItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a epoch.';
+                  }
+                  return null;
+                },
+                onChanged: widget.delete!
+                    ? null
+                    : (value) {
+                        setState(() {
+                          epoch = value!;
+                        });
+                      },
+                onSaved: (value) {},
+                buttonStyleData: const ButtonStyleData(
+                  padding: EdgeInsets.only(right: 8),
+                ),
+                iconStyleData: const IconStyleData(
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.blue,
+                  ),
+                  iconSize: 30,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                ),
+              ),
 
-              CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: epoch,
-                  onSaved: (value) {
-                    epoch = value!;
-                  },
-                  hintText: 'Epoch',
-                  textInputType: TextInputType.text),
+              // CustomTextFormField(
+              //     enabled: !widget.delete!,
+              //     initialValue: epoch,
+              //     onSaved: (value) {
+              //       epoch = value!;
+              //     },
+              //     hintText: 'Epoch',
+              //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
                 controller: birthDateController,
@@ -100,6 +189,7 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                   }
                   return null;
                 },
+                enabled: !widget.delete!,
               ),
               // CustomTextFormField(
               //     enabled: !widget.delete!,
@@ -111,13 +201,29 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: DeathDate,
-                  onSaved: (value) {
-                    DeathDate = value!;
-                  },
-                  hintText: 'DeathDate',
-                  textInputType: TextInputType.text),
+                controller: deathDateController,
+                readOnly: true,
+                onTap: () async {
+                  final dt = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime(0),
+                    lastDate: DateTime(DateTime.now().year - 20),
+                  );
+                  if (dt != null) {
+                    deathDateController.text =
+                        DeathDate = dt.toIso8601String().split('T')[0];
+                  }
+                },
+                hintText: 'Death Date',
+                textInputType: TextInputType.datetime,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter valid Death Date';
+                  }
+                  return null;
+                },
+                enabled: !widget.delete!,
+              ),
               const SizedBox(height: 8),
               CustomTextFormField(
                   enabled: !widget.delete!,
@@ -132,6 +238,7 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                 controller: countryController,
                 hintText: "Nationality",
                 textInputType: TextInputType.text,
+                enabled: !widget.delete!,
                 onTap: () {
                   showCountryPicker(
                       context: context,
