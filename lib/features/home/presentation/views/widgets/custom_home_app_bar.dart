@@ -12,8 +12,8 @@ class CustomHomeAppBar extends StatelessWidget {
       contentPadding: EdgeInsets.all(12),
       leading: Image.asset(Assets.imagesMus),
       title: Text(
-        'WELCOME TO ARTSHUB',
-        textAlign: TextAlign.left,
+        'Welcome To Art Museum Gallery',
+        //textAlign: TextAlign.center,
         style: TextStyles.bold19.copyWith(
           //color: AppColors.primaryColor
           color: Colors.black,

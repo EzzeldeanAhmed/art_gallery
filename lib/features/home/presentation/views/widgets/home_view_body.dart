@@ -81,6 +81,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   image: Assets.imagesExhibition,
                   onPressed: () {},
                 ),
+                SizedBox(
+                  height: 12,
+                ),
               ],
             ),
           ),

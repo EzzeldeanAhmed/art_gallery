@@ -15,7 +15,7 @@ class ArtworkDetailsPage extends StatelessWidget {
         appBar: AppBar(
           //title: Text(artworkEntity.name),
           title: Text(
-            'ArtsHUB',
+            'Art Museum Gallery',
             style: TextStyles.bold23.copyWith(
               color: Colors.black,
             ),
