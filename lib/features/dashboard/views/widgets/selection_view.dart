@@ -13,7 +13,7 @@ class SelectionView extends StatelessWidget {
     return Scaffold(
         // backgroundColor: const Color.fromARGB(255, 123, 184, 234),
         appBar: AppBar(
-          title: const Text('ArtsHUB'),
+          title: const Text('Art Musuem Gallery'),
         ),
         body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

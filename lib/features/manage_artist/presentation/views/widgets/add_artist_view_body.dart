@@ -41,7 +41,9 @@ List<String> epochItems = [
   'Contemporary Art',
   'Realism',
   'Expressionism',
-  'Ancient Roman Art'
+  'Ancient Roman Art',
+  'Rococo Art',
+  'Baroque Art'
 ];
 String? selectedValue;
 

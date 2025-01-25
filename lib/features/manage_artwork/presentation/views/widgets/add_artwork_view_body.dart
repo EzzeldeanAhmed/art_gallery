@@ -42,7 +42,9 @@ List<String> epochItems = [
   'Contemporary Art',
   'Realism',
   'Expressionism',
-  'Ancient Roman Art'
+  'Ancient Roman Art',
+  'Rococo Art',
+  'Baroque Art'
 ];
 
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
