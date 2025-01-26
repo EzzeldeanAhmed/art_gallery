@@ -30,7 +30,7 @@ void setupGetit() {
       getIt<DatabaseService>(),
     ),
   );
-  getIt.registerSingleton<ArtistRepo>(
+  getIt.registerSingleton<ArtistsRepo>(
     ArtistRepoImpl(
       getIt<DatabaseService>(),
     ),

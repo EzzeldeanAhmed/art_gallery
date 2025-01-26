@@ -22,13 +22,13 @@ class AddArtistView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green[50],
       appBar: AppBar(
-        title: const Text('ARTSHUB'),
+        title: const Text('Art Musuem Gallery'),
         backgroundColor: Colors.amber[200],
       ),
       body: BlocProvider(
           create: (context) => AddArtistCubit(
                 getIt.get<ImagesRepo>(),
-                getIt.get<ArtistRepo>(),
+                getIt.get<ArtistsRepo>(),
               ),
           child: AddArtistViewBodyBlocBuilder(
               update: update!, defaultEntity: defaultEntity, delete: delete!)),

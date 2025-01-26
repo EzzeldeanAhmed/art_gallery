@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_picker/country_picker.dart';
 
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/widgets/custom_button.dart';
@@ -46,8 +48,29 @@ List<String> epochItems = [
   'Rococo Art',
   'Baroque Art'
 ];
+List<String> artists = [];
 
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
+  Future<List<String>> getArtistNames() async {
+    try {
+      // Replace 'your-collection-name' with the name of your collection
+      if (artists.isNotEmpty) {
+        // return artists;
+      }
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('artists').get();
+
+      // Extract document IDs
+      final artistNames =
+          querySnapshot.docs.map((doc) => doc.get("name").toString()).toList();
+      artists = artistNames;
+      return artistNames;
+    } catch (e) {
+      print('Error fetching artist names: $e');
+      return [];
+    }
+  }
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late String code = widget.update! ? widget.defaultEntity!.code : "",
@@ -63,8 +86,13 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           : "",
       artist = widget.update! ? widget.defaultEntity!.artist : "",
       dimensions = widget.update! ? widget.defaultEntity!.dimensions : "";
+  late final countryController = TextEditingController(
+      text: widget.update! ? widget.defaultEntity!.country : "");
+  late final yearController = TextEditingController(
+      text: widget.update! ? widget.defaultEntity!.year.toString() : "");
   late num year = widget.update! ? widget.defaultEntity!.year : -1;
   late File? image = widget.update! ? File("") : null;
+  late DateTime _selectedDate = DateTime(year.toInt());
 
   @override
   Widget build(BuildContext context) {
@@ -166,13 +194,43 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               ),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: year != -1 ? year.toString() : "",
-                  onSaved: (value) {
-                    year = num.parse(value!);
-                  },
-                  hintText: 'Year Made',
-                  textInputType: TextInputType.number),
+                  controller: yearController,
+                  hintText: "year",
+                  textInputType: TextInputType.datetime,
+                  readOnly: true,
+                  // onChanged: (value) {
+                  //   _selectedDate = DateTime(int.parse(value!));
+                  // },
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                            title: Text("Select Year"),
+                            content: Container(
+                                width: 400,
+                                height: 600,
+                                child: YearPicker(
+                                  firstDate:
+                                      DateTime(DateTime.now().year - 600, 1),
+                                  lastDate:
+                                      DateTime(DateTime.now().year - 10, 1),
+                                  selectedDate: _selectedDate,
+                                  onChanged: (DateTime dateTime) {
+                                    Navigator.pop(context);
+                                    _selectedDate = dateTime;
+                                    year = _selectedDate.year;
+                                    yearController.text = year.toString();
+                                  },
+                                )));
+                      })),
+              // CustomTextFormField(
+              //     enabled: !widget.delete!,
+              //     initialValue: year != -1 ? year.toString() : "",
+              //     onSaved: (value) {
+              //       year = num.parse(value!);
+              //     },
+              //     hintText: 'Year Made',
+              //     textInputType: TextInputType.number),
               const SizedBox(height: 8),
               DropdownButtonFormField2<String>(
                 //isExpanded: true,
@@ -265,23 +323,122 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   hintText: 'Medium',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
-              CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: artist,
-                  onSaved: (value) {
-                    artist = value!;
-                  },
-                  hintText: 'Artist',
-                  textInputType: TextInputType.text),
+              FutureBuilder<List<String>>(
+                  future: getArtistNames(),
+                  builder: (context, snapshot) {
+                    // ignore: unrelated_type_equality_checks
+                    if (snapshot.connectionState == ConnectionState.waiting &&
+                        artist != []) {
+                      return CustomTextFormField(
+                          hintText: "Loading",
+                          textInputType: TextInputType.text,
+                          enabled: false);
+                    } else if (snapshot.hasError && artist != []) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
+                        artist != []) {
+                      return Center(child: Text('No documents found.'));
+                    } else {
+                      return DropdownButtonFormField2<String>(
+                        //isExpanded: true,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFFF9FAFA),
+                          contentPadding: EdgeInsets.zero,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                        value: artist != "" && artists.contains(artist)
+                            ? artist
+                            : null,
+                        hint: const Text(
+                          'Select artist of Artwork',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0XFF949D9E),
+                          ),
+                        ),
+                        items: snapshot.data!
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a artist.';
+                          }
+                          return null;
+                        },
+                        onChanged: widget.delete!
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  artist = value!;
+                                });
+                              },
+                        onSaved: (value) {},
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.blue,
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      );
+
+                      // CustomTextFormField(
+                      //     enabled: !widget.delete!,
+                      //     initialValue: artist,
+                      //     onSaved: (value) {
+                      //       artist = value!;
+                      //     },
+                      //     hintText: 'Artist',
+                      //     textInputType: TextInputType.text);
+                    }
+                  }),
               const SizedBox(height: 8),
               CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: country,
-                  onSaved: (value) {
-                    country = value!;
-                  },
-                  hintText: 'Country ',
-                  textInputType: TextInputType.text),
+                controller: countryController,
+                hintText: "Country",
+                textInputType: TextInputType.text,
+                enabled: !widget.delete!,
+                onTap: () {
+                  showCountryPicker(
+                      context: context,
+                      onSelect: (Country c) {
+                        countryController.text = country = c.name;
+                      },
+                      exclude: ['IL']);
+                },
+                readOnly: true,
+              ),
+              // CustomTextFormField(
+              //     enabled: !widget.delete!,
+              //     initialValue: country,
+              //     onSaved: (value) {
+              //       country = value!;
+              //     },
+              //     hintText: 'Country ',
+              //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
               CustomTextFormField(
                 enabled: !widget.delete!,

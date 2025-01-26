@@ -4,6 +4,7 @@ import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/widgets/artwork_item.dart';
 import 'package:art_gallery/core/widgets/search_text_field.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/custom_home_app_bar.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/featured_item.dart';
@@ -61,7 +62,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   title: 'Celebrating the creators who bring art to life.',
                   subtitle: 'Artists',
                   image: Assets.imagesArtist,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, ArtistView.routeName);
+                  },
                 ),
                 SizedBox(
                   height: 12,

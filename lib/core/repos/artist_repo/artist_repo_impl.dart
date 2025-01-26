@@ -6,7 +6,7 @@ import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/utils/backend_endpoint.dart';
 import 'package:dartz/dartz.dart';
 
-class ArtistRepoImpl extends ArtistRepo {
+class ArtistRepoImpl extends ArtistsRepo {
   final DatabaseService databaseService;
 
   ArtistRepoImpl(this.databaseService);

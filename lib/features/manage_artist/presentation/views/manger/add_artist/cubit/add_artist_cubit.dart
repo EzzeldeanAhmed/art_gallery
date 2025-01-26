@@ -13,7 +13,7 @@ class AddArtistCubit extends Cubit<AddArtistState> {
   AddArtistCubit(this.imagesRepo, this.artistsRepo) : super(AddArtistInitial());
 
   final ImagesRepo imagesRepo;
-  final ArtistRepo artistsRepo;
+  final ArtistsRepo artistsRepo;
   Future<void> addArtist(ArtistEntity addArtistInputEntity) async {
     emit(AddArtistLoading());
     var result = await imagesRepo.UploadImage(addArtistInputEntity.image!);

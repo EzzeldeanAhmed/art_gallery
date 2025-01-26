@@ -2,19 +2,20 @@ import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:flutter/material.dart';
 
 class CustomNetworkImage extends StatelessWidget {
-  const CustomNetworkImage({
+  CustomNetworkImage({
     super.key,
     required this.imageUrl,
+    this.height = 220,
+    this.width = 200,
   });
 
   final String imageUrl;
+  double width = 220;
+  double height = 200;
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      imageUrl,
-      height: 200,
-      width: 220,
-    );
+    return Image.network(imageUrl,
+        height: height, width: width, fit: BoxFit.fitHeight);
   }
 }

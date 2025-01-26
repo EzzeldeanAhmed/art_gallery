@@ -18,7 +18,8 @@ class CustomTextFormField extends StatelessWidget {
       this.controller,
       this.maxLines,
       this.initialValue,
-      this.enabled});
+      this.enabled,
+      this.onChanged});
   final TextEditingController? controller;
   final String hintText;
   final TextInputType textInputType;
@@ -28,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final VoidCallback? onTap;
   final VoidCallback? onPrefixWidget;
+  final Function(String?)? onChanged;
   final int? length;
   final String? initialValue;
   final bool readOnly;
@@ -48,6 +50,7 @@ class CustomTextFormField extends StatelessWidget {
       onTap: onTap,
       readOnly: readOnly,
       maxLength: length,
+      onChanged: onChanged,
       validator: validator ??
           (value) {
             if (value == null || value.isEmpty) {
