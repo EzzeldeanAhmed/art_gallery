@@ -1,9 +1,12 @@
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:flutter/material.dart';
 import 'package:art_gallery/core/models/artist_entity.dart';
-import 'package:art_gallery/core/models/artist_entity.dart';
+import 'package:art_gallery/core/models/artwork_entity.dart';
+import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ArtistDetailsPage extends StatelessWidget {
   const ArtistDetailsPage({super.key, required this.artistEntity});
@@ -13,23 +16,21 @@ class ArtistDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          //title: Text(artistEntity.name),
-          title: Text(
-            'Art Museum Gallery',
-            style: TextStyles.bold23.copyWith(
-              color: Colors.black,
-            ),
+      appBar: AppBar(
+        title: Text(
+          'Art Museum Gallery',
+          style: TextStyles.bold23.copyWith(
+            color: Colors.black,
           ),
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SingleChildScrollView(
-                child: Column(
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   child: Hero(
@@ -40,14 +41,14 @@ class ArtistDetailsPage extends StatelessWidget {
                         bottomRight: Radius.circular(30),
                       ),
                       child: artistEntity.imageUrl != null
-                          ? Flexible(
-                              child: CustomNetworkImage(
-                                  imageUrl: artistEntity.imageUrl!),
+                          ? CustomNetworkImage(
+                              imageUrl: artistEntity.imageUrl!,
                             )
                           : Container(
                               color: Colors.grey,
-                              height: 100,
-                              width: 100,
+                              height: 200,
+                              width: double.infinity,
+                              child: const Icon(Icons.image, size: 50),
                             ),
                     ),
                   ),
@@ -57,10 +58,8 @@ class ArtistDetailsPage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       artistEntity.name,
-                      //textAlign: TextAlign.center,
                       style: TextStyles.bold19.copyWith(
                         color: Colors.black,
-                        /*color: AppColors.primaryColor,*/
                       ),
                     ),
                   ),
@@ -179,101 +178,128 @@ class ArtistDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 34),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 5),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Artworks: ',
+                      style: TextStyles.bold23.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ))
-          ],
-        ));
+            ),
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('artworks')
+                .where("artist", isEqualTo: artistEntity.name)
+                .snapshots(),
+            builder: (context, snapshots) {
+              if (snapshots.connectionState == ConnectionState.waiting) {
+                return const SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
+                final artworks = snapshots.data!.docs
+                    .map((e) =>
+                        ArtworkModel.fromJson(e.data() as Map<String, dynamic>)
+                            .toEntity())
+                    .toList();
+
+                return SliverPadding(
+                  padding: const EdgeInsets.all(16.0),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final artwork = artworks[index];
+                        return GestureDetector(
+                          onTap: () => {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ArtworkDetailsPage(
+                                      artworkEntity: artwork)),
+                            )
+                          },
+                          child: Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(12),
+                                    ),
+                                    child: artwork.imageUrl != null
+                                        ? CustomNetworkImage(
+                                            imageUrl: artwork.imageUrl!,
+                                          )
+                                        : Container(
+                                            color: Colors.grey,
+                                            child: const Icon(
+                                              Icons.image,
+                                              size: 50,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    artwork.name,
+                                    style: TextStyles.bold16,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Text(
+                                    artwork.year.toString(),
+                                    style: TextStyles.regular13.copyWith(
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: artworks.length,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
+                    ),
+                  ),
+                );
+              }
+
+              return const SliverToBoxAdapter(
+                child: Center(
+                  child: Text("No artworks found."),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
-
-
-                /* Type
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    'Type: ${artistEntity.type}',
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.secondaryColor,
-                    ),
-                  ),
-                ),
-                */
-                /* Year
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-                  child: Text(
-                    artistEntity.year.toString(),
-                    style: TextStyles.bold19.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/
-                
-                
-                /* Artist
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    artistEntity.artist,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.secondaryColor,
-                    ),
-                  ),
-                ),
-                */
-
-                //Medium
-                /*Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    artistEntity.medium,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/
-
-                //description
-                /*Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
-                  child: Text(
-                    artistEntity.description,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/
-
-                //Country
-                /*Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    artistEntity.country,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/
-
-                //dimensions
-                /*Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    artistEntity.dimensions,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/
-
-                //epoch
-                /* Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
-                  child: Text(
-                    artistEntity.epoch,
-                    style: TextStyles.regular16.copyWith(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),*/

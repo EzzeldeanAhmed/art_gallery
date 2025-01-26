@@ -62,4 +62,16 @@ class ArtistRepoImpl extends ArtistsRepo {
       return Left(ServerFailure('Failed to delete Artist'));
     }
   }
+
+  @override
+  Future<Either<Failure, ArtistEntity>> getArtist(String name) async {
+    var data = databaseService.getDataWhere(
+        path: BackendEndpoint.getArtists,
+        attribute: "name",
+        value: name) as List<Map<String, dynamic>>;
+    ;
+    List<ArtistEntity> artists =
+        data.map((e) => ArtistModel.fromJson(e).toEntity()).toList();
+    return right(artists[0]);
+  }
 }

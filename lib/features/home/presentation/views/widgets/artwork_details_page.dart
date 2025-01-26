@@ -1,7 +1,13 @@
+import 'package:art_gallery/core/models/artist_entity.dart';
+import 'package:art_gallery/core/models/artist_model.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
+import 'package:art_gallery/core/repos/artist_repo/artist_repo.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_details_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ArtworkDetailsPage extends StatelessWidget {
@@ -103,24 +109,69 @@ class ArtworkDetailsPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Artist: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artworkEntity.artist,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("artists")
+                            .where("name", isEqualTo: artworkEntity.artist)
+                            .snapshots(),
+                        builder: (context, snapshots) {
+                          return (snapshots.connectionState ==
+                                  ConnectionState.waiting)
+                              ? RichText(
+                                  text: TextSpan(
+                                    text: 'Artist: ',
+                                    style: TextStyles.semiBold16.copyWith(
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () async {},
+                                        text: artworkEntity.artist,
+                                        style: TextStyles.semiBold16.copyWith(
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : RichText(
+                                  text: TextSpan(
+                                    text: 'Artist: ',
+                                    style: TextStyles.semiBold16.copyWith(
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () async {
+                                            final data = snapshots
+                                                .data!.docs.first
+                                                .data() as Map<String, dynamic>;
+
+                                            ArtistEntity artist =
+                                                ArtistModel.fromJson(data)
+                                                    .toEntity();
+
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ArtistDetailsPage(
+                                                          artistEntity:
+                                                              artist)),
+                                            );
+                                          },
+                                        text: artworkEntity.artist,
+                                        style: TextStyles.semiBold16.copyWith(
+                                          color: const Color.fromARGB(
+                                              255, 34, 31, 94),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                        })),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                   child: RichText(
