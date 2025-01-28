@@ -165,7 +165,7 @@ class ArtworkDetailsPage extends StatelessWidget {
                                         text: artworkEntity.artist,
                                         style: TextStyles.semiBold16.copyWith(
                                           color: const Color.fromARGB(
-                                              255, 34, 31, 94),
+                                              255, 19, 6, 255),
                                         ),
                                       ),
                                     ],
