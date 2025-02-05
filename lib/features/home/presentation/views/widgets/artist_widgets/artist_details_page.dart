@@ -1,4 +1,4 @@
-import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/core/models/artist_entity.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';

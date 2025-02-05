@@ -3,7 +3,7 @@ import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

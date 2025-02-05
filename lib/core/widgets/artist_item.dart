@@ -5,7 +5,7 @@ import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_details_page.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -83,7 +83,7 @@ class ArtistItem extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: artistEntity.name,
+                            text: artistEntity.country,
                             style: TextStyles.bold13.copyWith(
                               color: AppColors.primaryColor,
                             ),
@@ -95,7 +95,7 @@ class ArtistItem extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: artistEntity.BirthDate.toString(),
+                            text: artistEntity.epoch,
                             style: TextStyles.bold13.copyWith(
                               color: AppColors.secondaryColor,
                             ),

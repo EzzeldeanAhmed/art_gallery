@@ -5,7 +5,7 @@ import 'package:art_gallery/features/manage_artist/presentation/views/artist_das
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';

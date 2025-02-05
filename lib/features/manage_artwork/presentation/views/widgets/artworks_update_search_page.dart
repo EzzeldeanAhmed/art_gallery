@@ -1,6 +1,6 @@
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/artwork_model.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';

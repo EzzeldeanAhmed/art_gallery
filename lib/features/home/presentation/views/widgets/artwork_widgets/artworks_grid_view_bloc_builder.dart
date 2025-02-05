@@ -1,6 +1,6 @@
 import 'package:art_gallery/core/artwork_cubit/artworks_cubit.dart';
 import 'package:art_gallery/core/widgets/custom_error_widget.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artworks_grid_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';

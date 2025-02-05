@@ -5,8 +5,8 @@ import 'package:art_gallery/core/repos/artist_repo/artist_repo.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_view_body.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artworks_grid_view.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artworks_view_body.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_grid_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

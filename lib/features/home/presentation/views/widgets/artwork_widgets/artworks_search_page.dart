@@ -1,30 +1,29 @@
-import 'package:art_gallery/core/models/artist_entity.dart';
-import 'package:art_gallery/core/models/artist_model.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/ui_util.dart';
-import 'package:art_gallery/features/home/dialogs/artist_filters_dialog.dart';
-import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_details_page.dart';
+import 'package:art_gallery/features/home/dialogs/artwork_filters_dialog.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
-import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/add_artwork_view_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ArtistsSearchPage extends StatefulWidget {
-  const ArtistsSearchPage({Key? key}) : super(key: key);
+class ArtworksSearchPage extends StatefulWidget {
+  const ArtworksSearchPage({Key? key}) : super(key: key);
 
   @override
-  State<ArtistsSearchPage> createState() => _ArtistsSearchPageState();
+  State<ArtworksSearchPage> createState() => _ArtworksSearchPageState();
 }
 
-class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
+class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
   String name = "";
-  String epoch = "";
-  String sortBy = "Name A -> Z";
+  String epoch = '';
+  String type = '';
+  String artist = '';
+  String sortBy = 'Name A -> Z';
+  RangeValues yearRange = const RangeValues(1500, 2025);
   @override
   void initState() {
     // TODO: implement initState
@@ -33,15 +32,20 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    var collection = FirebaseFirestore.instance.collection('artists');
+    var collection = FirebaseFirestore.instance.collection('artworks');
     var result;
     if (sortBy == "Name A -> Z") {
       result = collection.orderBy('name');
     } else if (sortBy == "Name Z -> A") {
       result = collection.orderBy('name', descending: true);
+    } else if (sortBy == "Newest to Oldest") {
+      result = collection.orderBy('year', descending: true);
+    } else if (sortBy == "Oldest to Newest") {
+      result = collection.orderBy('year');
     } else {
       result = collection;
     }
+
     return Scaffold(
         appBar: AppBar(
           title: Padding(
@@ -89,14 +93,26 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
                             onPressed: () {
                               UiUtil.openBottomSheet(
                                 context: context,
-                                widget: ArtistFiltersDialog(
-                                  sortBy: sortBy,
+                                widget: ArtworkFiltersDialog(
+                                  sortBy: this.sortBy,
                                   epoch: epoch,
-                                  onApplyFilter: (sortBy, epoch) {
+                                  type: type,
+                                  artist: artist,
+                                  yearRange: yearRange,
+                                  onApplyFilter: (String sortBy,
+                                      String epoch,
+                                      String type,
+                                      String artist,
+                                      RangeValues yearRange) {
                                     setState(() {
                                       this.sortBy = sortBy;
                                       this.epoch = epoch;
+                                      this.type = type;
+                                      this.artist = artist;
+                                      this.yearRange = yearRange;
                                     });
+                                    debugPrint(
+                                        'sortBy: $sortBy, epoch: $epoch, type: $type, artist: $artist, yearRange: $yearRange');
                                   },
                                 ),
                               );
@@ -127,8 +143,7 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
         body: StreamBuilder<QuerySnapshot>(
           stream: result.snapshots(),
           builder: (context, snapshots) {
-            return (snapshots.connectionState == ConnectionState.waiting ||
-                    snapshots.data == null)
+            return (snapshots.connectionState == ConnectionState.waiting)
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
@@ -137,26 +152,17 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
                     itemBuilder: (context, index) {
                       var data = snapshots.data!.docs[index].data()
                           as Map<String, dynamic>;
-                      // Sort Data
 
-                      if ((data['name']
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(name.toLowerCase()) ||
-                              data['country']
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(name.toLowerCase())) &&
-                          (data['epoch'] == epoch || epoch == "")) {
+                      if (data['name']
+                              .toString()
+                              .toLowerCase()
+                              .startsWith(name.toLowerCase()) &&
+                          (data['epoch'] == epoch || epoch == "") &&
+                          (data['type'] == type || type == "") &&
+                          (data['artist'] == artist || artist == "") &&
+                          (data['year'] >= yearRange.start &&
+                              data['year'] <= yearRange.end)) {
                         return ListTile(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ArtistDetailsPage(
-                                      artistEntity: ArtistModel.fromJson(data)
-                                          .toEntity())),
-                            );
-                          },
                           title: Text(
                             data['name'],
                             maxLines: 1,
@@ -167,7 +173,7 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
                                 fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            data['country'],
+                            data['year'].toString(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -180,7 +186,6 @@ class _ArtistsSearchPageState extends State<ArtistsSearchPage> {
                           ),
                         );
                       }
-
                       return Container();
                     });
           },
