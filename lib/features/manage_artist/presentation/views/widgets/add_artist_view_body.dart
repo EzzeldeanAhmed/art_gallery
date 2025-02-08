@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:art_gallery/core/models/artist_entity.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_button.dart';
 import 'package:art_gallery/core/widgets/custom_text_field.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/manger/add_artist/cubit/add_artist_cubit.dart';
@@ -79,23 +81,32 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
           key: _formkey,
           autovalidateMode: autovalidateMode,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              Text(
-                  'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artist',
-                  style: const TextStyle(fontSize: 18, color: Colors.black)),
+              Center(
+                child: Text(
+                    'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artist',
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff1F5E3B))),
+              ),
               const SizedBox(height: 20),
-
+              Text('Name:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   enabled: !widget.delete!,
                   initialValue: name,
                   onSaved: (value) {
                     name = value!;
                   },
-                  hintText: 'Artist Name',
+                  hintText: 'Enter Artist Name',
                   textInputType: TextInputType.text),
 
               const SizedBox(height: 8),
+              Text('Epoch:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               DropdownButtonFormField2<String>(
                 //isExpanded: true,
                 decoration: InputDecoration(
@@ -169,6 +180,8 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
               //     hintText: 'Epoch',
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Birth Date:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 controller: birthDateController,
                 readOnly: true,
@@ -183,7 +196,7 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                         BirthDate = dt.toIso8601String().split('T')[0];
                   }
                 },
-                hintText: 'Birth Date',
+                hintText: 'Enter Artist Birth Date',
                 textInputType: TextInputType.datetime,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -202,6 +215,8 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
               //     hintText: 'Birthdate',
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Death Date: (if died)', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 controller: deathDateController,
                 readOnly: true,
@@ -216,7 +231,7 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                         DeathDate = dt.toIso8601String().split('T')[0];
                   }
                 },
-                hintText: 'Death Date',
+                hintText: 'Enter Death Date',
                 textInputType: TextInputType.datetime,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -227,6 +242,8 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                 enabled: !widget.delete!,
               ),
               const SizedBox(height: 8),
+              Text('Century:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   enabled: !widget.delete!,
                   initialValue: century,
@@ -236,9 +253,11 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                   hintText: 'Century',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Nationality:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 controller: countryController,
-                hintText: "Nationality",
+                hintText: " Choose Nationality of Artist",
                 textInputType: TextInputType.text,
                 enabled: !widget.delete!,
                 onTap: () {
@@ -261,19 +280,23 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
               //     hintText: 'Nationality ',
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Biography:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 enabled: !widget.delete!,
                 initialValue: biography,
                 onSaved: (value) {
                   biography = value!;
                 },
-                hintText: 'Artist Biography',
+                hintText: 'Enter Artist Biography',
                 textInputType: TextInputType.text,
                 maxLines: 5,
               ),
-              const SizedBox(height: 12),
 //
-
+              const SizedBox(height: 20),
+//
+              Text('Upload Artist image:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               ImageField(
                 onFileChanged: (image) {
                   this.image = image;

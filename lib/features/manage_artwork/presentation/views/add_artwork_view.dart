@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/repos/images_repo/images_repo.dart';
@@ -22,8 +24,8 @@ class AddArtworkView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green[50],
       appBar: AppBar(
-        title: const Text('ARTSHUB'),
-        backgroundColor: Colors.amber[200],
+        title: const Text('Art Museum Gallery'),
+        //backgroundColor: Color(0xff1F5E3B),
       ),
       body: BlocProvider(
           create: (context) => AddArtworkCubit(

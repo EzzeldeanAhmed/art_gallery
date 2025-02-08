@@ -23,7 +23,7 @@ class AddArtistView extends StatelessWidget {
       backgroundColor: Colors.green[50],
       appBar: AppBar(
         title: const Text('Art Musuem Gallery'),
-        backgroundColor: Colors.amber[200],
+        // backgroundColor: Colors.amber[200],
       ),
       body: BlocProvider(
           create: (context) => AddArtistCubit(

@@ -70,18 +70,19 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   height: 12,
                 ),
                 FeaturedItem(
-                  title: 'Where art comes in perfect harmony.',
-                  subtitle: 'Collections',
-                  image: Assets.imagesCollection,
+                  title: 'Bring stories to life by art and expression.',
+                  subtitle: 'Exhibitions',
+                  image: Assets.imagesExhibition,
                   onPressed: () {},
                 ),
                 SizedBox(
                   height: 12,
                 ),
+
                 FeaturedItem(
-                  title: 'Bring stories to life by art and expression.',
-                  subtitle: 'Exhibitions',
-                  image: Assets.imagesExhibition,
+                  title: 'Where art comes in a perfect harmony.',
+                  subtitle: 'Collections',
+                  image: Assets.imagesCollection,
                   onPressed: () {},
                 ),
                 SizedBox(

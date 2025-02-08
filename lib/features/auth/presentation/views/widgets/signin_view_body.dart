@@ -36,16 +36,53 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           key: formKey,
           autovalidateMode: autovalidateMode,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 26),
+              //SizedBox(height: 20),
+              Center(
+                child: Image.asset(
+                  Assets.imagesMus,
+                  height: 170,
+                  width: 110,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              //const SizedBox(height: 10),
+              const Center(
+                  child: Text(
+                "Welcome to Art Museum Gallery",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.lightPrimaryColor,
+                ),
+              )),
+              const SizedBox(height: 30),
+              Text('Email:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.primaryColor,
+                  )),
+              const SizedBox(
+                height: 6,
+              ),
               CustomTextFormField(
                 onSaved: (value) {
                   email = value!;
                 },
-                hintText: 'Email',
+                hintText: 'Enter a valid Email',
                 textInputType: TextInputType.emailAddress,
+                suffixIcon: Icon(Icons.email),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 26),
+              Text(
+                'Password:',
+                style: TextStyles.bold16.copyWith(
+                  color: AppColors.primaryColor,
+                ),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
               PasswordField(
                 onSaved: (value) {
                   password = value!;
@@ -78,7 +115,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                   },
                   text: 'Login'),
               const SizedBox(height: 33),
-              const DontHaveAnAccountWidget(),
+              Center(child: const DontHaveAnAccountWidget()),
               const SizedBox(height: 33),
             ],
           ),

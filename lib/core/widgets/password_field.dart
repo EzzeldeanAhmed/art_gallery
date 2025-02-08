@@ -37,7 +37,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 color: Color(0xffC9CECF),
               ),
       ),
-      hintText: 'Password',
+      hintText: 'Enter Your Password',
       textInputType: TextInputType.visiblePassword,
     );
   }

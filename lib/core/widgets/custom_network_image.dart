@@ -10,8 +10,8 @@ class CustomNetworkImage extends StatelessWidget {
   });
 
   final String imageUrl;
-  double width = 220;
-  double height = 200;
+  double width = 200;
+  double height = 220;
 
   @override
   Widget build(BuildContext context) {

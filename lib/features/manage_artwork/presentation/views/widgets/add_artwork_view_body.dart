@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 
@@ -103,12 +105,20 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           key: _formkey,
           autovalidateMode: autovalidateMode,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              Text(
-                  'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artwork',
-                  style: const TextStyle(fontSize: 18, color: Colors.black)),
+              Center(
+                  child: Text(
+                      'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artwork',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff1F5E3B)))),
               const SizedBox(height: 20),
+
+              Text('Code:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
 
               CustomTextFormField(
                   enabled: !widget.delete!,
@@ -119,6 +129,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   hintText: 'Artwork Code',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Name:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   enabled: !widget.delete!,
                   initialValue: name,
@@ -128,6 +140,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   hintText: 'Artwork Name',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Type:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
 
               DropdownButtonFormField2<String>(
                 //isExpanded: true,
@@ -193,9 +207,11 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 ),
               ),
               const SizedBox(height: 8),
+              Text('Year:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   controller: yearController,
-                  hintText: "year",
+                  hintText: "Determine Year of the artwork",
                   textInputType: TextInputType.datetime,
                   readOnly: true,
                   // onChanged: (value) {
@@ -232,6 +248,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               //     hintText: 'Year Made',
               //     textInputType: TextInputType.number),
               const SizedBox(height: 8),
+              Text('Epoch:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               DropdownButtonFormField2<String>(
                 //isExpanded: true,
                 decoration: InputDecoration(
@@ -305,24 +323,30 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               //     hintText: 'Epoch',
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Dimensions:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   enabled: !widget.delete!,
                   initialValue: dimensions,
                   onSaved: (value) {
                     dimensions = value!;
                   },
-                  hintText: 'Dimensions',
+                  hintText: 'Enter artwork Dimensions',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Medium:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                   enabled: !widget.delete!,
                   initialValue: medium,
                   onSaved: (value) {
                     medium = value!;
                   },
-                  hintText: 'Medium',
+                  hintText: 'Enter artwork Medium',
                   textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Artist:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               FutureBuilder<List<String>>(
                   future: getArtistNames(),
                   builder: (context, snapshot) {
@@ -416,9 +440,11 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                     }
                   }),
               const SizedBox(height: 8),
+              Text('Country:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 controller: countryController,
-                hintText: "Country",
+                hintText: "Pick up a Country",
                 textInputType: TextInputType.text,
                 enabled: !widget.delete!,
                 onTap: () {
@@ -440,18 +466,22 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               //     hintText: 'Country ',
               //     textInputType: TextInputType.text),
               const SizedBox(height: 8),
+              Text('Description:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
               CustomTextFormField(
                 enabled: !widget.delete!,
                 initialValue: description,
                 onSaved: (value) {
                   description = value!;
                 },
-                hintText: 'Artwork Description',
+                hintText: 'Enter Artwork Description',
                 textInputType: TextInputType.text,
                 maxLines: 5,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
 //
+              Text('Upload Artwork image:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
 
               ImageField(
                 onFileChanged: (image) {
