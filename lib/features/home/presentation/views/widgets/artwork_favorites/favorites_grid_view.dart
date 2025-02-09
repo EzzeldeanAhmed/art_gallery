@@ -7,9 +7,15 @@ import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-class ArtworksGridView extends StatelessWidget {
-  const ArtworksGridView({super.key, required this.artworks});
+class ArtworksGridViewFav extends StatefulWidget {
+  const ArtworksGridViewFav({super.key, required this.artworks});
   final List<ArtworkEntity> artworks;
+
+  @override
+  State<ArtworksGridViewFav> createState() => _ArtworksGridViewFavState();
+}
+
+class _ArtworksGridViewFavState extends State<ArtworksGridViewFav> {
   Future<bool> isFav(ArtworkEntity artwork) async {
     var authRepo = getIt.get<AuthRepo>();
     var saved_user = authRepo.getSavedUserData();
@@ -21,7 +27,7 @@ class ArtworksGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverGrid.builder(
-        itemCount: artworks.length,
+        itemCount: widget.artworks.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 8,
@@ -31,15 +37,19 @@ class ArtworksGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           // return CustomErrorWidget(text: "Error");
           return FutureBuilder(
-              future: isFav(artworks[index]),
+              future: isFav(widget.artworks[index]),
               builder: (context, AsyncSnapshot<bool> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return ArtworkItem(
                       authRepo: getIt<AuthRepo>(),
-                      artworkEntity: artworks[index],
+                      artworkEntity: widget.artworks[index],
                       isFavorite: snapshot.data!,
-                      onFavorite: () {});
+                      onFavorite: () {
+                        setState(() {
+                          widget.artworks.removeAt(index);
+                        });
+                      });
                 } else if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasError) {
                   return CustomErrorWidget(text: snapshot.error.toString());

@@ -62,4 +62,19 @@ class ArtworksRepoImpl extends ArtworksRepo {
       return Left(ServerFailure('Failed to delete Artwork'));
     }
   }
+
+  @override
+  Future<Either<Failure, ArtworkEntity>> getArtworkById(String id) async {
+    try {
+      var data = await databaseService.getData(
+        path: BackendEndpoint.artworksCollection,
+        docuementId: id,
+      ) as Map<String, dynamic>;
+      data = data..addAll({'id': id});
+      ArtworkEntity artwork = ArtworkModel.fromJson(data).toEntity();
+      return right(artwork);
+    } catch (e) {
+      return Left(ServerFailure('Failed to get artworks'));
+    }
+  }
 }

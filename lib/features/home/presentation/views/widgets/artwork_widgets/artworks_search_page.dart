@@ -156,7 +156,7 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
                       if (data['name']
                               .toString()
                               .toLowerCase()
-                              .startsWith(name.toLowerCase()) &&
+                              .contains(name.toLowerCase()) &&
                           (data['epoch'] == epoch || epoch == "") &&
                           (data['type'] == type || type == "") &&
                           (data['artist'] == artist || artist == "") &&

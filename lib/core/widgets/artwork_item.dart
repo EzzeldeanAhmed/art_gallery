@@ -13,14 +13,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ArtworkItem extends StatefulWidget {
-  ArtworkItem(
-      {super.key,
-      required this.artworkEntity,
-      required this.authRepo,
-      required this.isFavorite});
+  ArtworkItem({
+    super.key,
+    required this.artworkEntity,
+    required this.authRepo,
+    required this.isFavorite,
+    required this.onFavorite,
+  });
   final AuthRepo authRepo;
 
   final ArtworkEntity artworkEntity;
+  Function onFavorite = () {};
   bool isFavorite;
   @override
   State<ArtworkItem> createState() => _ArtworkItemState(isFavorite: isFavorite);
@@ -28,7 +31,7 @@ class ArtworkItem extends StatefulWidget {
 
 class _ArtworkItemState extends State<ArtworkItem> {
   _ArtworkItemState({required this.isFavorite});
-  bool isFavorite = false;
+  bool isFavorite;
   @override
   Widget build(BuildContext context) {
     String modifiedName = widget.artworkEntity.name;
@@ -57,22 +60,27 @@ class _ArtworkItemState extends State<ArtworkItem> {
               left: 0,
               child: IconButton(
                 onPressed: () async {
-                  var user = await widget.authRepo.getSavedUserData();
-                  if (!isFavorite) {
+                  var old_fav = isFavorite;
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                  var saved_user = widget.authRepo.getSavedUserData();
+                  var user =
+                      await widget.authRepo.getUserData(uid: saved_user.uId);
+                  if (!old_fav) {
                     widget.authRepo.addFavoriteArtwork(
                         uid: user.uId, artworkId: widget.artworkEntity.id!);
                   } else {
                     widget.authRepo.removeFavoriteArtwork(
                         uid: user.uId, artworkId: widget.artworkEntity.id!);
                   }
-
-                  setState(() {
-                    isFavorite = !isFavorite;
-                  });
+                  widget.authRepo.saveUserData(
+                      user: await widget.authRepo.getUserData(uid: user.uId));
+                  widget.onFavorite();
                 },
                 icon: Icon(
-                  Icons.favorite_outline,
-                  color: isFavorite ? AppColors.primaryColor : Colors.black,
+                  isFavorite ? Icons.favorite : Icons.favorite_outline,
+                  color: isFavorite ? AppColors.red : Colors.black,
                 ),
               ),
             ),

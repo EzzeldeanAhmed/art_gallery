@@ -133,7 +133,8 @@ class AuthRepoImpl extends AuthRepo {
   UserEntity getSavedUserData() {
     var jsonData = Prefs.getString("loggedin_user");
     if (jsonData != null && jsonData.isNotEmpty) {
-      return UserModel.fromJson(jsonDecode(jsonData));
+      var user = UserModel.fromJson(jsonDecode(jsonData));
+      return user;
     } else {
       throw Exception("No user data found");
     }

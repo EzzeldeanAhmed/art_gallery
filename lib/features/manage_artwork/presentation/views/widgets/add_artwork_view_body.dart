@@ -217,6 +217,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   // onChanged: (value) {
                   //   _selectedDate = DateTime(int.parse(value!));
                   // },
+                  enabled: !widget.delete!,
                   onTap: () => showDialog(
                       context: context,
                       builder: (BuildContext context) {

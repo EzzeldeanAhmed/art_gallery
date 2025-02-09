@@ -54,7 +54,7 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                       if (data['name']
                           .toString()
                           .toLowerCase()
-                          .startsWith(name.toLowerCase())) {
+                          .contains(name.toLowerCase())) {
                         return ListTile(
                           onTap: () {
                             Navigator.of(context).push(
@@ -66,34 +66,6 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                                           .toEntity())),
                             );
                           },
-                          title: Text(
-                            data['name'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            data['code'].toString(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(data['imageUrl']),
-                          ),
-                        );
-                      }
-                      if (data['name']
-                          .toString()
-                          .toLowerCase()
-                          .startsWith(name.toLowerCase())) {
-                        return ListTile(
                           title: Text(
                             data['name'],
                             maxLines: 1,
@@ -117,6 +89,7 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                           ),
                         );
                       }
+
                       return Container();
                     });
           },
