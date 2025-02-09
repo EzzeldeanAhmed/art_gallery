@@ -1,4 +1,5 @@
 import 'package:art_gallery/core/utils/app_colors.dart';
+import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,20 +44,45 @@ class _SignupViewBodyState extends State<SignupViewBody> {
           key: formKey,
           autovalidateMode: autovalidateMode,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: Text(
+                  'Fill the form to create new account',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 20,
+              ),
+              Text('Full Name:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.lightPrimaryColor,
+                  )),
+              SizedBox(
+                height: 5,
               ),
               CustomTextFormField(
                 controller: nameController,
                 onSaved: (value) {
                   userName = value!;
                 },
-                hintText: 'Full Name',
+                hintText: 'Enter your Full Name',
                 textInputType: TextInputType.name,
+                suffixIcon: Icon(Icons.person),
               ),
               SizedBox(
-                height: 16,
+                height: 5,
+              ),
+              Text('Phone Number:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.lightPrimaryColor,
+                  )),
+              SizedBox(
+                height: 5,
               ),
               CustomTextFormField(
                 controller: phoneController,
@@ -72,8 +98,9 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   email = value!;
                 },
                 length: 10,
-                hintText: 'Phone number',
+                hintText: 'Enter your phone number',
                 textInputType: TextInputType.phone,
+                suffixIcon: Icon(Icons.phone),
                 validator: (value) {
                   if (value == null || value.isEmpty || value.length < 10) {
                     return 'Enter valid Phone number';
@@ -82,7 +109,14 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 },
               ),
               SizedBox(
-                height: 16,
+                height: 5,
+              ),
+              Text('Birthdate:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.lightPrimaryColor,
+                  )),
+              SizedBox(
+                height: 5,
               ),
               CustomTextFormField(
                 controller: birthDateController,
@@ -98,8 +132,9 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                         dt.toIso8601String().split('T')[0];
                   }
                 },
-                hintText: 'Birth Date',
+                hintText: 'Enter your Birth Date',
                 textInputType: TextInputType.datetime,
+                suffixIcon: Icon(Icons.date_range_sharp),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Enter valid Birth Date';
@@ -108,15 +143,23 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 },
               ),
               SizedBox(
-                height: 16,
+                height: 5,
+              ),
+              Text('Email:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.lightPrimaryColor,
+                  )),
+              SizedBox(
+                height: 5,
               ),
               CustomTextFormField(
                 controller: emailController,
                 onSaved: (value) {
                   email = value!;
                 },
-                hintText: 'Email Address',
+                hintText: 'Enter a valid email address',
                 textInputType: TextInputType.emailAddress,
+                suffixIcon: Icon(Icons.email),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Enter email address';
@@ -129,7 +172,14 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 },
               ),
               SizedBox(
-                height: 16,
+                height: 5,
+              ),
+              Text('Password:',
+                  style: TextStyles.bold16.copyWith(
+                    color: AppColors.lightPrimaryColor,
+                  )),
+              SizedBox(
+                height: 5,
               ),
               PasswordField(
                 onSaved: (value) {
@@ -137,7 +187,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 },
               ),
               SizedBox(
-                height: 33,
+                height: 27,
               ),
               TermsandConditionsWidget(
                 onChanged: (value) {
@@ -145,7 +195,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 },
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               BlocConsumer<SignupCubit, SignupState>(
                   listener: (context, state) {
@@ -187,7 +237,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     text: 'Create new Account');
               }),
               const SizedBox(height: 26),
-              const HaveAnAccountWidget(),
+              Center(child: const HaveAnAccountWidget()),
             ],
           ),
         ),

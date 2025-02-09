@@ -30,7 +30,8 @@ class SignupCubit extends Cubit<SignupState> {
           phone: phone,
           birthDate: birthDate,
           uId: userEntity.uid,
-          role: "client"));
+          role: "client",
+          favoriteArtworks: []));
       emit(
         SignupSuccess(userEntity: userEntity),
       );

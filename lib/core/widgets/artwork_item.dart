@@ -1,21 +1,37 @@
+import 'dart:ffi';
+
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
+import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ArtworkItem extends StatelessWidget {
-  const ArtworkItem({super.key, required this.artworkEntity});
+class ArtworkItem extends StatefulWidget {
+  ArtworkItem(
+      {super.key,
+      required this.artworkEntity,
+      required this.authRepo,
+      required this.isFavorite});
+  final AuthRepo authRepo;
 
   final ArtworkEntity artworkEntity;
+  bool isFavorite;
+  @override
+  State<ArtworkItem> createState() => _ArtworkItemState(isFavorite: isFavorite);
+}
+
+class _ArtworkItemState extends State<ArtworkItem> {
+  _ArtworkItemState({required this.isFavorite});
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
-    String modifiedName = artworkEntity.name;
+    String modifiedName = widget.artworkEntity.name;
     int maxSize = 35;
     if (modifiedName.length > maxSize) {
       modifiedName = modifiedName.substring(0, maxSize) + "...";
@@ -26,7 +42,7 @@ class ArtworkItem extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) =>
-                  ArtworkDetailsPage(artworkEntity: artworkEntity)),
+                  ArtworkDetailsPage(artworkEntity: widget.artworkEntity)),
         );
       },
       child: Container(
@@ -40,10 +56,25 @@ class ArtworkItem extends StatelessWidget {
               top: 0,
               left: 0,
               child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_outline,
-                  )),
+                onPressed: () async {
+                  var user = await widget.authRepo.getSavedUserData();
+                  if (!isFavorite) {
+                    widget.authRepo.addFavoriteArtwork(
+                        uid: user.uId, artworkId: widget.artworkEntity.id!);
+                  } else {
+                    widget.authRepo.removeFavoriteArtwork(
+                        uid: user.uId, artworkId: widget.artworkEntity.id!);
+                  }
+
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
+                icon: Icon(
+                  Icons.favorite_outline,
+                  color: isFavorite ? AppColors.primaryColor : Colors.black,
+                ),
+              ),
             ),
             Positioned.fill(
               child: Column(
@@ -51,10 +82,10 @@ class ArtworkItem extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  artworkEntity.imageUrl != null
+                  widget.artworkEntity.imageUrl != null
                       ? Flexible(
                           child: CustomNetworkImage(
-                              imageUrl: artworkEntity.imageUrl!),
+                              imageUrl: widget.artworkEntity.imageUrl!),
                         )
                       : Container(
                           color: Colors.grey,
@@ -80,7 +111,7 @@ class ArtworkItem extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: artworkEntity.artist,
+                            text: widget.artworkEntity.artist,
                             style: TextStyles.bold13.copyWith(
                               color: AppColors.primaryColor,
                             ),
@@ -92,7 +123,7 @@ class ArtworkItem extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: artworkEntity.year.toString(),
+                            text: widget.artworkEntity.year.toString(),
                             style: TextStyles.bold13.copyWith(
                               color: AppColors.secondaryColor,
                             ),

@@ -1,6 +1,9 @@
 import 'package:art_gallery/core/models/artwork_entity.dart';
+import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/widgets/artwork_item.dart';
 import 'package:art_gallery/core/widgets/custom_error_widget.dart';
+import 'package:art_gallery/features/auth/domain/entites/user_entity.dart';
+import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -21,7 +24,12 @@ class ArtworksGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           // return CustomErrorWidget(text: "Error");
           return ArtworkItem(
+            authRepo: getIt<AuthRepo>(),
             artworkEntity: artworks[index],
+            isFavorite: getIt<AuthRepo>()
+                .getSavedUserData()
+                .favoriteArtworks
+                .contains(artworks[index].id),
           );
         });
   }

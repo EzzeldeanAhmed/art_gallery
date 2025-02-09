@@ -17,21 +17,36 @@ class SystemBasicEntites extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ArtworkDashboardView.routeName);
-                },
-                text: 'Artworks'),
+            SizedBox(
+              width: 300, // Set a smaller width
+              height: 50,
+              child: CustomButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, ArtworkDashboardView.routeName);
+                  },
+                  text: 'Artworks'),
+            ),
             SizedBox(height: 30),
-            CustomButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ArtistDashboardView.routeName);
-                },
-                text: 'Artists'),
+            SizedBox(
+              width: 300, // Set a smaller width
+              height: 50,
+              child: CustomButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ArtistDashboardView.routeName);
+                  },
+                  text: 'Artists'),
+            ),
             SizedBox(height: 30),
-            CustomButton(onPressed: () {}, text: 'Exhibitions'),
+            SizedBox(
+                width: 300, // Set a smaller width
+                height: 50,
+                child: CustomButton(onPressed: () {}, text: 'Exhibitions')),
             SizedBox(height: 30),
-            CustomButton(onPressed: () {}, text: 'Collections'),
+            SizedBox(
+                width: 300, // Set a smaller width
+                height: 50,
+                child: CustomButton(onPressed: () {}, text: 'Collections')),
             SizedBox(
               height: 30,
             ),

@@ -16,26 +16,52 @@ class SelectionView extends StatelessWidget {
           title: const Text('Art Musuem Gallery'),
         ),
         body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-            ),
-            CustomButton(
-              onPressed: () {
-                Navigator.pushNamed(context, MainView.routeName);
-              },
-              text: 'Log in as CLient',
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            CustomButton(
-              onPressed: () {
-                Navigator.pushNamed(context, DashboardOperations.routeName);
-              },
-              text: 'Log in as Admin',
-            ),
-          ]),
+          child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 130,
+                ),
+                Center(
+                  child: Text(
+                    'Select an option',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                ),
+                SizedBox(
+                  height: 55,
+                  width: 310,
+                  child: CustomButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, MainView.routeName);
+                    },
+                    text: 'Log in as CLient',
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  height: 55,
+                  width: 310,
+                  child: CustomButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, DashboardOperations.routeName);
+                    },
+                    text: 'Log in as Admin',
+                  ),
+                ),
+              ]),
         ));
   }
 }

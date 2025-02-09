@@ -14,7 +14,7 @@ class ArtworkDashboardViewBody extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 100,
+            height: 180,
           ),
           const Text(
             'Manage Artwork',

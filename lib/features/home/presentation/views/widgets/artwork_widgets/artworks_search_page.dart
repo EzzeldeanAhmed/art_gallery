@@ -163,6 +163,14 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
                           (data['year'] >= yearRange.start &&
                               data['year'] <= yearRange.end)) {
                         return ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ArtworkDetailsPage(
+                                      artworkEntity: ArtworkModel.fromJson(data)
+                                          .toEntity())),
+                            );
+                          },
                           title: Text(
                             data['name'],
                             maxLines: 1,

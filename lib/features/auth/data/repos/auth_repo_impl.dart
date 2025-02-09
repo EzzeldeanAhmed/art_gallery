@@ -98,6 +98,46 @@ class AuthRepoImpl extends AuthRepo {
         path: BackendEndpoint.getUsersData, docuementId: uid);
     return UserModel.fromJson(userData);
   }
+
+  @override
+  Future<void> addFavoriteArtwork(
+      {required String uid, required String artworkId}) async {
+    var user = await getUserData(uid: uid);
+    user.favoriteArtworks.add(artworkId);
+    await databaseService.addData(
+      path: BackendEndpoint.getUsersData,
+      data: UserModel.fromEntity(user).toMap(),
+      documentId: uid,
+    );
+  }
+
+  @override
+  Future<void> removeFavoriteArtwork(
+      {required String uid, required String artworkId}) async {
+    var user = await getUserData(uid: uid);
+    user.favoriteArtworks.remove(artworkId);
+    await databaseService.addData(
+      path: BackendEndpoint.getUsersData,
+      data: UserModel.fromEntity(user).toMap(),
+      documentId: uid,
+    );
+  }
+
+  @override
+  Future saveUserData({required UserEntity user}) async {
+    var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
+    await Prefs.setString("loggedin_user", jsonData);
+  }
+
+  @override
+  UserEntity getSavedUserData() {
+    var jsonData = Prefs.getString("loggedin_user");
+    if (jsonData != null && jsonData.isNotEmpty) {
+      return UserModel.fromJson(jsonDecode(jsonData));
+    } else {
+      throw Exception("No user data found");
+    }
+  }
 }
 /*  @override
   Future addUserData({required UserEntity user}) async {
@@ -123,10 +163,6 @@ class AuthRepoImpl extends AuthRepo {
 
  
 
-  @override
-  Future saveUserData({required UserEntity user}) async {
-    var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
-    await Prefs.setString(kUserData, jsonData);
-  }
+  
 }
  */

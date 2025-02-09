@@ -16,6 +16,16 @@ abstract class AuthRepo {
   Future<Either<Failure, void>> addUser(UserModel user);
 
   Future<UserEntity> getUserData({required String uid});
+
+  Future<void> addFavoriteArtwork(
+      {required String uid, required String artworkId});
+
+  Future<void> removeFavoriteArtwork(
+      {required String uid, required String artworkId});
+
+  Future saveUserData({required UserEntity user});
+
+  UserEntity getSavedUserData();
 }
 
 
