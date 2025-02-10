@@ -6,4 +6,6 @@ class BackendEndpoint {
   static const isUserExists = 'users';
   static const artworksCollection = 'artworks';
   static const artistsCollection = 'artists';
+  static const getExhibitions = 'exhibitions';
+  static const exhibitionsCollection = 'exhibitions';
 }

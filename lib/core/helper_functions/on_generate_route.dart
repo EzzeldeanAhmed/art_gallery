@@ -7,6 +7,8 @@ import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_d
 import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/widgets/artworks_update_search_page.dart';
+import 'package:art_gallery/features/manage_exhibition/presentation/views/add_exhibition_view.dart';
+import 'package:art_gallery/features/manage_exhibition/presentation/views/exhibition_dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/auth/presentation/views/signin_view.dart';
 import 'package:art_gallery/features/auth/presentation/views/signup_view.dart';
@@ -47,6 +49,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case AddArtworkView.routeName:
       return MaterialPageRoute(builder: (context) => const AddArtworkView());
+
+    case ExhibitionDashboardView.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ExhibitionDashboardView());
+
+    case AddExhibitionView.routeName:
+      return MaterialPageRoute(builder: (context) => const AddExhibitionView());
 
     case SelectionView.routeName:
       return MaterialPageRoute(builder: (context) => const SelectionView());
