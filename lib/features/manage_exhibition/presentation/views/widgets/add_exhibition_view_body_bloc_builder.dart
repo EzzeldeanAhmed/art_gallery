@@ -1,6 +1,9 @@
+import 'package:art_gallery/core/artwork_cubit/artworks_cubit.dart';
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
 import 'package:art_gallery/core/models/artist_entity.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
+import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
+import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/widgets/custom_progress_hud.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/manger/add_artist/cubit/add_artist_cubit.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/widgets/add_artist_view_body.dart';
@@ -35,11 +38,15 @@ class AddExhibitionViewBodyBlocBuilder extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return CustomProgressHud(
-          isLoading: state is AddExhibitionLoading,
-          child: AddExhibitionViewBody(
-              update: update, defaultEntity: defaultEntity, delete: delete),
-        );
+        return BlocProvider(
+            create: (context) => ArtworksCubit(
+                  getIt.get<ArtworksRepo>(),
+                ),
+            child: CustomProgressHud(
+              isLoading: state is AddExhibitionLoading,
+              child: AddExhibitionViewBody(
+                  update: update, defaultEntity: defaultEntity, delete: delete),
+            ));
       },
     );
   }

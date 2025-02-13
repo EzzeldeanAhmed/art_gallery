@@ -1,6 +1,7 @@
 import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operations.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_view.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/artist_dashboard_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
@@ -35,6 +36,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case ArtistView.routeName:
       return MaterialPageRoute(builder: (context) => const ArtistView());
+
+    case ExhibitionsView.routeName:
+      return MaterialPageRoute(builder: (context) => const ExhibitionsView());
 
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context) => const OnBoardingView());

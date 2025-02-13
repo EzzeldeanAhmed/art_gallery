@@ -7,6 +7,7 @@ import 'package:art_gallery/core/repos/artist_repo/artist_repo.dart';
 import 'package:art_gallery/core/repos/exhibtion_repo/exhibition_repo.dart';
 import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/utils/backend_endpoint.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 class ExhibitionRepoImpl extends ExhibitionRepo {
@@ -77,5 +78,33 @@ class ExhibitionRepoImpl extends ExhibitionRepo {
     List<ExhibitionEntity> exhibitions =
         data.map((e) => ExhibitionModel.fromJson(e).toEntity()).toList();
     return right(exhibitions[0]);
+  }
+
+  @override
+  Future<Either<Failure, List<ExhibitionEntity>>> getExhibitionsFilter(
+      String filter) async {
+    var query = {
+      "where": {
+        "attribute": "startDate",
+        "greaterThan": Timestamp.fromDate(DateTime.now())
+      }
+    };
+    if (filter == "past") {
+      query = {
+        "where": {
+          "attribute": "endDate",
+          "lessThan": Timestamp.fromDate(DateTime.now())
+        }
+      };
+    } else if (filter == "recent") {
+      query = {};
+    }
+    var data = await databaseService.getData(
+        path: BackendEndpoint.getExhibitions,
+        query: query) as List<Map<String, dynamic>>;
+
+    List<ExhibitionEntity> exhibitions =
+        data.map((e) => ExhibitionModel.fromJson(e).toEntity()).toList();
+    return right(exhibitions);
   }
 }

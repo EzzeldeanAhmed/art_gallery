@@ -1,7 +1,9 @@
 import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/models/artist_model.dart';
+import 'package:art_gallery/core/models/exhibition_model.dart';
 //import 'package:art_gallery/features/home/presentation/views/widgets/artist_details_page.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/add_artist_view.dart';
+import 'package:art_gallery/features/manage_exhibition/presentation/views/add_exhibition_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -60,11 +62,12 @@ class _ExhibitionUpdateSearchPageState
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => AddArtistView(
+                                  builder: (context) => AddExhibitionView(
                                       update: true,
                                       delete: widget.delete,
-                                      defaultEntity: ArtistModel.fromJson(data)
-                                          .toEntity())),
+                                      defaultEntity:
+                                          ExhibitionModel.fromJson(data)
+                                              .toEntity())),
                             );
                           },
                           title: Text(

@@ -1,4 +1,5 @@
 import 'package:art_gallery/core/models/exhibition_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'artist_entity.dart';
 
@@ -41,8 +42,9 @@ class ExhibitionModel {
     return ExhibitionModel(
       name: e['name'],
       overview: e['overview'],
-      startDate: e['startDate'],
-      endDate: e['endDate'],
+      // timestamp to DateTime
+      startDate: (e['startDate'] as Timestamp).toDate(),
+      endDate: (e['endDate'] as Timestamp).toDate(),
       location: e['location'],
       imageUrl: e['imageUrl'],
       artworks: e['artworks'],

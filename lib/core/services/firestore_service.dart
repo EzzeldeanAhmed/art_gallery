@@ -38,6 +38,22 @@ class FireStoreService implements DatabaseService {
           var limit = query['limit'];
           data = data.limit(limit);
         }
+        if (query['where'] != null) {
+          var where = query['where'];
+          if (where['lessThan'] != null) {
+            data =
+                data.where(where['attribute'], isLessThan: where['lessThan']);
+          }
+          if (where['greaterThan'] != null) {
+            data = data.where(where['attribute'],
+                isGreaterThan: where['greaterThan']);
+          }
+          if (where['isBetween'] != null) {
+            data = data.where(where['attribute'],
+                isGreaterThan: where['isBetween'][0],
+                isLessThan: where['isBetween'][1]);
+          }
+        }
       }
       var result = await data.get();
       var ret = result.docs.map((e) {
