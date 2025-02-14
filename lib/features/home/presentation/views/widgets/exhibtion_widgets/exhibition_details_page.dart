@@ -9,9 +9,11 @@ import 'package:art_gallery/core/widgets/custom_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExhibitionDetailsPage extends StatefulWidget {
-  const ExhibitionDetailsPage({super.key, required this.exhibitionEntity});
+  const ExhibitionDetailsPage(
+      {super.key, required this.exhibitionEntity, required this.filter});
 
   final ExhibitionEntity exhibitionEntity;
+  final String filter;
 
   @override
   State<ExhibitionDetailsPage> createState() => _ExhibitionDetailsPageState();
@@ -210,135 +212,148 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
               ],
             ),
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('artworks')
-                .where(FieldPath.documentId,
-                    whereIn: widget.exhibitionEntity.artworks)
-                .snapshots(),
-            builder: (context, snapshots) {
-              if (snapshots.connectionState == ConnectionState.waiting) {
-                return const SliverToBoxAdapter(
+          widget.exhibitionEntity.artworks.isEmpty
+              ? const SliverToBoxAdapter(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: Text("No artworks found."),
                   ),
-                );
-              }
+                )
+              : StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('artworks')
+                      .where(FieldPath.documentId,
+                          whereIn: widget.exhibitionEntity.artworks)
+                      .snapshots(),
+                  builder: (context, snapshots) {
+                    if (snapshots.connectionState == ConnectionState.waiting) {
+                      return const SliverToBoxAdapter(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
 
-              if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
-                final artworks = snapshots.data!.docs
-                    .map((e) =>
-                        ArtworkModel.fromJson(e.data() as Map<String, dynamic>)
-                            .toEntity())
-                    .toList();
+                    if (snapshots.hasData && snapshots.data!.docs.isNotEmpty) {
+                      final artworks = snapshots.data!.docs
+                          .map((e) => ArtworkModel.fromJson(
+                                  e.data() as Map<String, dynamic>)
+                              .toEntity())
+                          .toList();
 
-                return SliverPadding(
-                  padding: const EdgeInsets.all(16.0),
-                  sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final artwork = artworks[index];
-                        return GestureDetector(
-                          onTap: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ArtworkDetailsPage(
-                                      artworkEntity: artwork)),
-                            )
-                          },
-                          child: Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(12),
-                                    ),
-                                    child: artwork.imageUrl != null
-                                        ? CustomNetworkImage(
-                                            imageUrl: artwork.imageUrl!)
-                                        : Container(
-                                            color: Colors.grey,
-                                            child: const Icon(
-                                              Icons.image,
-                                              size: 50,
-                                            ),
+                      return SliverPadding(
+                        padding: const EdgeInsets.all(16.0),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final artwork = artworks[index];
+                              return GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ArtworkDetailsPage(
+                                                artworkEntity: artwork)),
+                                  )
+                                },
+                                child: Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              const BorderRadius.vertical(
+                                            top: Radius.circular(12),
                                           ),
+                                          child: artwork.imageUrl != null
+                                              ? CustomNetworkImage(
+                                                  imageUrl: artwork.imageUrl!)
+                                              : Container(
+                                                  color: Colors.grey,
+                                                  child: const Icon(
+                                                    Icons.image,
+                                                    size: 50,
+                                                  ),
+                                                ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          artwork.name,
+                                          style: TextStyles.bold16,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          artwork.year.toString(),
+                                          style: TextStyles.regular13.copyWith(
+                                            color: AppColors.secondaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    artwork.name,
-                                    style: TextStyles.bold16,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    artwork.year.toString(),
-                                    style: TextStyles.regular13.copyWith(
-                                      color: AppColors.secondaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              );
+                            },
+                            childCount: artworks.length,
                           ),
-                        );
-                      },
-                      childCount: artworks.length,
-                    ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
-                    ),
-                  ),
-                );
-              }
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 1,
+                          ),
+                        ),
+                      );
+                    }
 
-              return const SliverToBoxAdapter(
-                child: Center(
-                  child: Text("No artworks found."),
+                    return const SliverToBoxAdapter(
+                      child: Center(
+                        child: Text("No artworks found."),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
           // Book a Ticket Button at the Bottom
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle ticket booking action
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple, // Button color
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          widget.filter == "past"
+              ? const SliverToBoxAdapter(
+                  child: SizedBox.shrink(),
+                )
+              : SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle ticket booking action
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple, // Button color
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'Book a Ticket',
+                        style: TextStyles.bold16.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                child: Text(
-                  'Book a Ticket',
-                  style: TextStyles.bold16.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

@@ -19,7 +19,7 @@ class _ExhibitionsViewBodyState extends State<ExhibitionsViewBody>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
     _fetchExhibitions();
     _tabController.addListener(_fetchExhibitions);
   }
@@ -31,7 +31,7 @@ class _ExhibitionsViewBodyState extends State<ExhibitionsViewBody>
         cubit.getExhibitions(filter: 'past');
         break;
       case 1:
-        cubit.getExhibitions(filter: 'recent');
+        cubit.getExhibitions(filter: 'current');
         break;
       case 2:
         cubit.getExhibitions(filter: 'upcoming');
@@ -73,7 +73,7 @@ class _ExhibitionsViewBodyState extends State<ExhibitionsViewBody>
             indicatorColor: Colors.black,
             tabs: const [
               Tab(text: 'Past'),
-              Tab(text: 'Recent'),
+              Tab(text: 'Current'),
               Tab(text: 'Upcoming'),
             ],
           ),
@@ -82,7 +82,7 @@ class _ExhibitionsViewBodyState extends State<ExhibitionsViewBody>
           controller: _tabController,
           children: [
             _buildTabContent('past'),
-            _buildTabContent('recent'),
+            _buildTabContent('current'),
             _buildTabContent('upcoming'),
           ],
         ),
@@ -106,7 +106,7 @@ class _ExhibitionsViewBodyState extends State<ExhibitionsViewBody>
   Widget _buildTabContent(String filter) {
     return CustomScrollView(
       slivers: [
-        ExhibitionsGridViewBlocBuilder(),
+        ExhibitionsGridViewBlocBuilder(filter: filter),
       ],
     );
   }

@@ -10,8 +10,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class ExhibitionsGridView extends StatelessWidget {
-  const ExhibitionsGridView({super.key, required this.exhibitions});
+  const ExhibitionsGridView(
+      {super.key, required this.exhibitions, required this.filter});
   final List<ExhibitionEntity> exhibitions;
+  final String filter;
   @override
   Widget build(BuildContext context) {
     return SliverGrid.builder(
@@ -25,6 +27,7 @@ class ExhibitionsGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           return ExhibitionItem(
             exhibitionEntity: exhibitions[index],
+            filter: filter,
           );
         });
   }

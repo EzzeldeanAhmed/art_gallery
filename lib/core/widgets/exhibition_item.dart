@@ -13,9 +13,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ExhibitionItem extends StatelessWidget {
-  const ExhibitionItem({super.key, required this.exhibitionEntity});
+  const ExhibitionItem(
+      {super.key, required this.exhibitionEntity, required this.filter});
 
   final ExhibitionEntity exhibitionEntity;
+  final String filter;
   @override
   Widget build(BuildContext context) {
     String modifiedName = exhibitionEntity.name;
@@ -28,8 +30,8 @@ class ExhibitionItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) =>
-                  ExhibitionDetailsPage(exhibitionEntity: exhibitionEntity)),
+              builder: (context) => ExhibitionDetailsPage(
+                  exhibitionEntity: exhibitionEntity, filter: filter)),
         );
       },
       child: Card(
@@ -71,19 +73,21 @@ class ExhibitionItem extends StatelessWidget {
                       Text(exhibitionEntity.location,
                           style: TextStyle(color: Colors.grey[600])),
                       SizedBox(height: 12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.purple,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Handle booking action
-                        },
-                        child: Text("Book a Ticket",
-                            style: TextStyle(color: Colors.white)),
-                      ),
+                      filter == "past"
+                          ? Text("")
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.purple,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                // Handle booking action
+                              },
+                              child: Text("Book a Ticket",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
                     ],
                   ),
                 ),

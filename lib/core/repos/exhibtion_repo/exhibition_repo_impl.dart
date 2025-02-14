@@ -85,19 +85,28 @@ class ExhibitionRepoImpl extends ExhibitionRepo {
       String filter) async {
     var query = {
       "where": {
-        "attribute": "startDate",
-        "greaterThan": Timestamp.fromDate(DateTime.now())
+        "attribute": "endDate",
+        "lessThan": Timestamp.fromDate(DateTime.now())
       }
     };
-    if (filter == "past") {
+    if (filter == "upcoming") {
       query = {
         "where": {
-          "attribute": "endDate",
-          "lessThan": Timestamp.fromDate(DateTime.now())
+          "attribute": "startDate",
+          "greaterThan": Timestamp.fromDate(DateTime.now())
         }
       };
-    } else if (filter == "recent") {
-      query = {};
+    } else if (filter == "current") {
+      query = {
+        "where1": {
+          "attribute": "startDate",
+          "lessThan": Timestamp.fromDate(DateTime.now())
+        },
+        "where2": {
+          "attribute": "endDate",
+          "greaterThan": Timestamp.fromDate(DateTime.now())
+        }
+      };
     }
     var data = await databaseService.getData(
         path: BackendEndpoint.getExhibitions,

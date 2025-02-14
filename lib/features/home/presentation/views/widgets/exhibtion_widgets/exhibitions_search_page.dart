@@ -165,12 +165,20 @@ class _ExhibitionsSearchPageState extends State<ExhibitionsSearchPage> {
                           ) {
                         return ListTile(
                           onTap: () {
+                            var exhibitionEntity =
+                                ExhibitionModel.fromJson(data).toEntity();
+                            var filter = "upcoming";
+                            if (exhibitionEntity.endDate
+                                .isBefore(DateTime.now())) {
+                              filter = "past";
+                            }
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ExhibitionDetailsPage(
                                       exhibitionEntity:
                                           ExhibitionModel.fromJson(data)
-                                              .toEntity())),
+                                              .toEntity(),
+                                      filter: filter)),
                             );
                           },
                           title: Text(

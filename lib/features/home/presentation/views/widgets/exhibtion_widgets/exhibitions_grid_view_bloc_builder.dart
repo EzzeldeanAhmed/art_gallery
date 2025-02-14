@@ -7,16 +7,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ExhibitionsGridViewBlocBuilder extends StatelessWidget {
-  const ExhibitionsGridViewBlocBuilder({super.key});
-
+  const ExhibitionsGridViewBlocBuilder({super.key, required this.filter});
+  final String filter;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExhibitionCubit, ExhibitionsState>(
         builder: (context, state) {
       if (state is ExhibitionsSuccess) {
-        return ExhibitionsGridView(
-          exhibitions: state.exhibitions,
-        );
+        return state.exhibitions.isEmpty
+            ? SliverToBoxAdapter(
+                child: CustomErrorWidget(text: 'No exhibitions found'))
+            : ExhibitionsGridView(
+                exhibitions: state.exhibitions, filter: filter);
       } else if (state is ExhibitionsFailure) {
         return SliverToBoxAdapter(
             child: CustomErrorWidget(text: state.errMessage));
@@ -25,6 +27,7 @@ class ExhibitionsGridViewBlocBuilder extends StatelessWidget {
             enabled: true,
             child: const ExhibitionsGridView(
               exhibitions: [],
+              filter: '',
             ));
       }
     });
