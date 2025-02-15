@@ -53,6 +53,9 @@ class FireStoreService implements DatabaseService {
                 isGreaterThan: where['isBetween'][0],
                 isLessThan: where['isBetween'][1]);
           }
+          if (where['equalTo'] != null) {
+            data = data.where(where['attribute'], isEqualTo: where['equalTo']);
+          }
         }
         if (query['where1'] != null && query['where2'] != null) {
           var where1 = query['where1'];

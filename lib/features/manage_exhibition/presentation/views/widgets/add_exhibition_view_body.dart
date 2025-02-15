@@ -67,6 +67,10 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
   late List<dynamic> currentArtworks =
       widget.update! ? widget.defaultEntity!.artworks : [];
 
+  late double ticketPrice =
+      widget.update! ? widget.defaultEntity!.ticketPrice : 0;
+  late int capacity = widget.update! ? widget.defaultEntity!.capacity : 0;
+
   late final strartDateController = TextEditingController(
       text: widget.update!
           ? widget.defaultEntity!.startDate.toString().split(' ')[0]
@@ -295,14 +299,27 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                       hintText: 'Musuem Name',
                       textInputType: TextInputType.text),
                   const SizedBox(height: 8),
-                  // CustomTextFormField(
-                  //     enabled: !widget.delete!,
-                  //     initialValue: country,
-                  //     onSaved: (value) {
-                  //       country = value!;
-                  //     },
-                  //     hintText: 'Nationality ',
-                  //     textInputType: TextInputType.text),
+                  Text('Ticket Price:', style: TextStyles.semiBold16),
+                  const SizedBox(height: 5),
+                  CustomTextFormField(
+                      enabled: !widget.delete!,
+                      initialValue: ticketPrice.toString(),
+                      onSaved: (value) {
+                        ticketPrice = double.parse(value!);
+                      },
+                      hintText: 'Ticket Price',
+                      textInputType: TextInputType.number),
+                  const SizedBox(height: 8),
+                  Text('Capacity:', style: TextStyles.semiBold16),
+                  const SizedBox(height: 5),
+                  CustomTextFormField(
+                      enabled: !widget.delete!,
+                      initialValue: capacity.toString(),
+                      onSaved: (value) {
+                        capacity = int.parse(value!);
+                      },
+                      hintText: 'Capacity',
+                      textInputType: TextInputType.number),
                   const SizedBox(height: 8),
                   Text('Overview:', style: TextStyles.semiBold16),
                   const SizedBox(height: 5),
@@ -312,7 +329,7 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                     onSaved: (value) {
                       overview = value!;
                     },
-                    hintText: 'Enter Exhibition Biography',
+                    hintText: 'Enter Exhibition Overview',
                     textInputType: TextInputType.text,
                     maxLines: 5,
                   ),
@@ -354,6 +371,8 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                             imageUrl: "",
                             artworks: currentArtworks,
                             image: image!,
+                            ticketPrice: ticketPrice,
+                            capacity: capacity,
                           );
                           if (widget.delete!) {
                             context

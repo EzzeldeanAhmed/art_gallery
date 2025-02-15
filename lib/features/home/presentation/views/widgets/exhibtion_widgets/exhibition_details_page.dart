@@ -1,4 +1,7 @@
+import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
+import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_book_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
@@ -335,8 +338,16 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Handle ticket booking action
+                      onPressed: () async {
+                        // Handle booking action
+                        var ticketRepo = getIt.get<TicketRepo>();
+                        var ticketCount = await ticketRepo
+                            .getTicketsByExhibitionId(
+                                exhibitionId: widget.exhibitionEntity.id!)
+                            .then((value) =>
+                                value.fold((l) => 0, (r) => r.length));
+                        showBookTicketPopup(context, widget.exhibitionEntity,
+                            widget.exhibitionEntity.capacity - ticketCount);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple, // Button color

@@ -11,6 +11,8 @@ class ExhibitionEntity {
   String? id;
   final String location;
   final String museumName;
+  final double ticketPrice;
+  final int capacity;
 
   ExhibitionEntity(
       {required this.name,
@@ -22,5 +24,7 @@ class ExhibitionEntity {
       this.imageUrl,
       this.id,
       required this.artworks,
-      required this.museumName});
+      required this.museumName,
+      required this.ticketPrice,
+      required this.capacity});
 }

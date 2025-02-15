@@ -1,11 +1,14 @@
 import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
+import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
+import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_images.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_book_popup.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -82,8 +85,16 @@ class ExhibitionItem extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 // Handle booking action
+                                var ticketRepo = getIt.get<TicketRepo>();
+                                var ticketCount = await ticketRepo
+                                    .getTicketsByExhibitionId(
+                                        exhibitionId: exhibitionEntity.id!)
+                                    .then((value) =>
+                                        value.fold((l) => 0, (r) => r.length));
+                                showBookTicketPopup(context, exhibitionEntity,
+                                    exhibitionEntity.capacity - ticketCount);
                               },
                               child: Text("Book a Ticket",
                                   style: TextStyle(color: Colors.white)),

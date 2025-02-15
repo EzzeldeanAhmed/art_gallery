@@ -6,6 +6,8 @@ import 'package:art_gallery/core/repos/exhibtion_repo/exhibition_repo.dart';
 import 'package:art_gallery/core/repos/exhibtion_repo/exhibition_repo_impl.dart';
 import 'package:art_gallery/core/repos/images_repo/images_repo.dart';
 import 'package:art_gallery/core/repos/images_repo/images_repo_impl.dart';
+import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
+import 'package:art_gallery/core/repos/ticket_repo/ticket_repo_impl.dart';
 import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/services/fire_storage.dart';
 import 'package:art_gallery/core/services/firebase_auth_service.dart';
@@ -39,6 +41,12 @@ void setupGetit() {
   );
   getIt.registerSingleton<ExhibitionRepo>(
     ExhibitionRepoImpl(
+      getIt<DatabaseService>(),
+    ),
+  );
+
+  getIt.registerSingleton<TicketRepo>(
+    TicketRepoImpl(
       getIt<DatabaseService>(),
     ),
   );

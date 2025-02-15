@@ -8,4 +8,6 @@ class BackendEndpoint {
   static const artistsCollection = 'artists';
   static const getExhibitions = 'exhibitions';
   static const exhibitionsCollection = 'exhibitions';
+  static const getTickets = 'tickets';
+  static const ticketsCollection = 'tickets';
 }
