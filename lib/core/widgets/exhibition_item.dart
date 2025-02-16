@@ -80,7 +80,7 @@ class ExhibitionItem extends StatelessWidget {
                           ? Text("")
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.purple,
+                                backgroundColor: Color(0xff1F5E3B),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

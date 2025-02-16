@@ -166,6 +166,10 @@ class Assets {
   /// assets/images/profile_image.png
   static const String imagesProfileImage = "assets/images/profile_image.png";
 
+  /// Assets for imagesProfilePageBackground
+  /// assets/images/profile_page_background.png
+  static const String imagesProfilePageBackground = "assets/images/profile_page_background.png";
+
   /// Assets for imagesSearch
   /// assets/images/search.svg
   static const String imagesSearch = "assets/images/search.svg";
@@ -182,6 +186,10 @@ class Assets {
   /// assets/images/trash.svg
   static const String imagesTrash = "assets/images/trash.svg";
 
+  /// Assets for imagesUserPicture
+  /// assets/images/user-picture.png
+  static const String imagesUserPicture = "assets/images/user-picture.png";
+
   /// Assets for imagesVanGoghVincent
   /// assets/images/van_gogh_vincent.svg
   static const String imagesVanGoghVincent = "assets/images/van_gogh_vincent.svg";
@@ -189,6 +197,10 @@ class Assets {
   /// Assets for imagesVector
   /// assets/images/Vector.svg
   static const String imagesVector = "assets/images/Vector.svg";
+
+  /// Assets for imagesVuesaxBoldFavorite
+  /// assets/images/vuesax/bold/favorite.png
+  static const String imagesVuesaxBoldFavorite = "assets/images/vuesax/bold/favorite.png";
 
   /// Assets for imagesVuesaxBoldHome
   /// assets/images/vuesax/bold/home.svg
@@ -205,6 +217,10 @@ class Assets {
   /// Assets for imagesVuesaxBoldUser
   /// assets/images/vuesax/bold/user.svg
   static const String imagesVuesaxBoldUser = "assets/images/vuesax/bold/user.svg";
+
+  /// Assets for imagesVuesaxOutlineFavorite
+  /// assets/images/vuesax/outline/favorite.png
+  static const String imagesVuesaxOutlineFavorite = "assets/images/vuesax/outline/favorite.png";
 
   /// Assets for imagesVuesaxOutlineHome
   /// assets/images/vuesax/outline/home.svg

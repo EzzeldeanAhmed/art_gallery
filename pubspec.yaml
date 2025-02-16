@@ -58,6 +58,7 @@ dependencies:
   text_form_field_wrapper: ^1.0.0
   flutter_stripe: ^11.4.0
   flutter_credit_card: ^3.0.6
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.14.1"
@@ -87,6 +88,7 @@ flutter:
     - assets/images/
     - assets/images/vuesax/bold/
     - assets/images/vuesax/outline/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -126,5 +128,6 @@ flutter_assets:
   output_path: lib/core/utils
   filename: app_images.dart
   field_prefix: null
+
 flutter_intl:
   enabled: true

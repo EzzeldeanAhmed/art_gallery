@@ -2,6 +2,7 @@ import 'package:art_gallery/features/dashboard/views/widgets/dashboard_operation
 import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/profile/booked_tickets/tickets.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/artist_dashboard_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
@@ -71,6 +72,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case SystemBasicEntites.routeName:
       return MaterialPageRoute(
           builder: (context) => const SystemBasicEntites());
+
+    case TicketListScreen.routeName:
+      return MaterialPageRoute(builder: (context) => TicketListScreen());
 
     // case ArtworksUpdateSearchPage.routeName:
     //   return MaterialPageRoute(

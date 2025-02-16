@@ -350,7 +350,7 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                             widget.exhibitionEntity.capacity - ticketCount);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple, // Button color
+                        backgroundColor: Color(0xff1F5E3B), // Button color
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

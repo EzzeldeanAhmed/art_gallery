@@ -1,4 +1,5 @@
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_favorites/favorites_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/home_view.dart';
@@ -16,9 +17,9 @@ class _MainViewState extends State<MainView> {
 
   static const List<Widget> _pages = <Widget>[
     HomeView(),
-    Text('Page 2'),
-    Text('Page 3'),
     FavoritesView(),
+    Text('Page 2'),
+    ProfilePage(),
   ];
 
   //New

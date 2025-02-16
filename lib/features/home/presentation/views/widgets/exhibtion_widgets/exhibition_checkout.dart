@@ -201,7 +201,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 32.0),
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Color(0xff1F5E3B),
                     ),
                     child: Text(
                       "Pay \$${widget.exhibition.ticketPrice * widget.ticketQuantity}",

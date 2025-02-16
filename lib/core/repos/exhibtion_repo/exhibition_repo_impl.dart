@@ -69,15 +69,14 @@ class ExhibitionRepoImpl extends ExhibitionRepo {
   }
 
   @override
-  Future<Either<Failure, ExhibitionEntity>> getExhibition(String name) async {
-    var data = databaseService.getDataWhere(
-        path: BackendEndpoint.getExhibitions,
-        attribute: "name",
-        value: name) as List<Map<String, dynamic>>;
-    ;
-    List<ExhibitionEntity> exhibitions =
-        data.map((e) => ExhibitionModel.fromJson(e).toEntity()).toList();
-    return right(exhibitions[0]);
+  Future<Either<Failure, ExhibitionEntity>> getExhibition(String id) async {
+    var data = await databaseService.getData(
+      path: BackendEndpoint.exhibitionsCollection,
+      docuementId: id,
+    ) as Map<String, dynamic>;
+    data = data..addAll({'id': id});
+    ExhibitionEntity artwork = ExhibitionModel.fromJson(data).toEntity();
+    return right(artwork);
   }
 
   @override
