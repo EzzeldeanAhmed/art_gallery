@@ -17,11 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddExhibitionViewBody extends StatefulWidget {
-  const AddExhibitionViewBody(
+  AddExhibitionViewBody(
       {super.key, this.update, this.defaultEntity, this.delete});
   final bool? update;
   final bool? delete;
   final ExhibitionEntity? defaultEntity;
+  List<ArtworkEntity> artworks = [];
   @override
   State<AddExhibitionViewBody> createState() => _AddExhibitionViewBodyState();
 }
@@ -506,7 +507,7 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                           onChanged: (bool? value) {
                             setState(() {
                               if (value!) {
-                                widget.defaultEntity!.artworks.add(artwork.id);
+                                currentArtworks.add(artwork.id);
                                 artworkSelected[artwork.id!] = true;
                               } else {
                                 currentArtworks.remove(artwork.id);
@@ -547,36 +548,10 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
     );
   }
 
-  Map<String, bool> selectedColors = {
-    "Black": false,
-    "Blue": false,
-    "White": false,
-    "Purple": false,
-    "Pink": false,
-    "Red": false,
-  };
-
-  Map<String, Color> colorMap = {
-    "Black": Colors.black,
-    "Blue": Colors.blue,
-    "White": Colors.grey,
-    "Purple": Colors.purple,
-    "Pink": Colors.pink,
-    "Red": Colors.red,
-  };
-
-  Map<String, int> colorCounts = {
-    "Black": 40,
-    "Blue": 160,
-    "White": 42,
-    "Purple": 28,
-    "Pink": 14,
-    "Red": 14,
-  };
-
   void _clearAll() {
     setState(() {
-      selectedColors.updateAll((key, value) => false);
+      // artworkSelected.updateAll((key, value) => false);
+      // currentArtworks.clear();
     });
   }
 }
