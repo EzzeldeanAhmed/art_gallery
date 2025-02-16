@@ -174,7 +174,7 @@ class _ArtistFiltersDialogState extends State<ArtistFiltersDialog> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Brand',
+              'Epoches',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
