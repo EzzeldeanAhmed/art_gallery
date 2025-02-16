@@ -76,6 +76,64 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Start Date: ',
+                      style: TextStyles.semiBold16.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: widget.exhibitionEntity.startDate.toString(),
+                          style: TextStyles.semiBold16.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'End Date: ',
+                      style: TextStyles.semiBold16.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: widget.exhibitionEntity.endDate.toString(),
+                          style: TextStyles.semiBold16.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Location: ',
+                      style: TextStyles.semiBold16.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: widget.exhibitionEntity.museumName,
+                          style: TextStyles.semiBold16.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                   child: RichText(
@@ -97,63 +155,6 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Birth Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.startDate.toString(),
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Death Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.endDate.toString(),
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Century: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.museumName,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                   child: StatefulBuilder(
                     builder: (context, setState) {
                       return Column(
@@ -161,7 +162,7 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                         children: [
                           RichText(
                             text: TextSpan(
-                              text: 'Biography: ',
+                              text: 'Overview: ',
                               style: TextStyles.semiBold16.copyWith(
                                 color: AppColors.secondaryColor,
                               ),

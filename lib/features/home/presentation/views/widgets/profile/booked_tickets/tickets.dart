@@ -4,6 +4,7 @@ import 'package:art_gallery/core/repos/exhibtion_repo/exhibition_repo.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/ticket_cubit/ticket_cubit.dart';
+import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/widgets/custom_error_widget.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:dartz/dartz.dart' hide State;
@@ -73,9 +74,15 @@ class _TicketListState extends State<TicketList> {
       if (state is TicketSuccess) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('My Tickets'),
+            title: Text(
+              'My Tickets',
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
             centerTitle: true,
-            backgroundColor: Colors.deepPurple,
+            backgroundColor: AppColors.lightPrimaryColor,
           ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -106,30 +113,36 @@ class _TicketListState extends State<TicketList> {
                                     exhibition.name,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor),
                                   ),
                                   subtitle: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 5),
+                                      SizedBox(height: 10),
                                       // Ticket ID
 
                                       Text(
-                                          '📅 Date: ${DateFormat('MMMM dd, yyyy').format(exhibition.startDate.toLocal())}'),
+                                          '📅   Date: ${DateFormat('MMMM dd, yyyy').format(exhibition.startDate.toLocal())}'),
+                                      SizedBox(height: 4),
                                       Text(
-                                          '⏰ Time: ${DateFormat('hh:mm a').format(exhibition.startDate.toLocal())}'),
+                                          '⏰   Time: ${DateFormat('hh:mm a').format(exhibition.startDate.toLocal())}'),
                                       // Quantity
+                                      SizedBox(height: 4),
+
                                       Text(
-                                          '📈 Number of Vistors: ${ticket.quantity}'),
+                                          '📈   Number of Vistors: ${ticket.quantity}'),
+                                      SizedBox(height: 4),
+
                                       Text(
-                                          '📍 Location: ${exhibition.location}'),
+                                          '📍   Location: ${exhibition.location}'),
 
                                       // Text('🎟 Seat: ${ticket['seat']}'),
                                     ],
                                   ),
                                   leading: Icon(Icons.event,
-                                      color: Colors.deepPurple),
+                                      color: AppColors.lightPrimaryColor),
                                 ),
                               ));
                     });

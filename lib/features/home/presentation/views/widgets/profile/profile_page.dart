@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
       child: const Column(
         children: [
           ProfileHeader(),
-          // ProfileMenuOptions(),
+          ProfileMenuOptions(),
         ],
       ),
     );

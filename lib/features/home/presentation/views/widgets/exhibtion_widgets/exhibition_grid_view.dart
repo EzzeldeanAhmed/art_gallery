@@ -22,7 +22,7 @@ class ExhibitionsGridView extends StatelessWidget {
           crossAxisCount: 1, // One item per row
           crossAxisSpacing: 16, // Horizontal spacing between cards
           mainAxisSpacing: 16, // Vertical spacing between cards
-          childAspectRatio: 2.3,
+          childAspectRatio: 2.0,
         ),
         itemBuilder: (context, index) {
           return ExhibitionItem(

@@ -26,11 +26,11 @@ class ProfileSqureTile extends StatelessWidget {
           child: Column(
             children: [
               type == "svg"
-                  ? SvgPicture.asset(icon)
+                  ? SvgPicture.asset(icon, width: 32, height: 32)
                   : Image.asset(
                       icon,
-                      width: 25,
-                      height: 25,
+                      width: 32,
+                      height: 32,
                     ),
               const SizedBox(height: 8),
               Text(

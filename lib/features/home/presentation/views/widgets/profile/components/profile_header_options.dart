@@ -38,15 +38,15 @@ class ProfileHeaderOptions extends StatelessWidget {
             },
           ),
           ProfileSqureTile(
-            label: 'Voucher',
-            icon: AppIcons.voucher,
+            label: 'Favorites',
+            icon: AppIcons.favprof,
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.coupon);
             },
           ),
           ProfileSqureTile(
-            label: 'Address',
-            icon: AppIcons.homeProfile,
+            label: 'Payments',
+            icon: AppIcons.cccard,
             onTap: () {
               // Navigator.pushNamed(context, AppRoutes.deliveryAddress);
             },

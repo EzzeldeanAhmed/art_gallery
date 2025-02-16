@@ -39,9 +39,9 @@ class ExhibitionItem extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 4,
+        elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.only(top: 8, left: 8),
+          padding: const EdgeInsets.only(top: 10, left: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,31 +73,34 @@ class ExhibitionItem extends StatelessWidget {
                       Text(exhibitionEntity.startDate.toString(),
                           style: TextStyle(color: Colors.grey[600])),
                       SizedBox(height: 4),
-                      Text(exhibitionEntity.location,
+                      Text(exhibitionEntity.museumName,
                           style: TextStyle(color: Colors.grey[600])),
                       SizedBox(height: 12),
                       filter == "past"
                           ? Text("")
-                          : ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xff1F5E3B),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xff1F5E3B),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
+                                onPressed: () async {
+                                  // Handle booking action
+                                  var ticketRepo = getIt.get<TicketRepo>();
+                                  var ticketCount = await ticketRepo
+                                      .getTicketsByExhibitionId(
+                                          exhibitionId: exhibitionEntity.id!)
+                                      .then((value) => value.fold(
+                                          (l) => 0, (r) => r.length));
+                                  showBookTicketPopup(context, exhibitionEntity,
+                                      exhibitionEntity.capacity - ticketCount);
+                                },
+                                child: Text("Book a Ticket",
+                                    style: TextStyle(color: Colors.white)),
                               ),
-                              onPressed: () async {
-                                // Handle booking action
-                                var ticketRepo = getIt.get<TicketRepo>();
-                                var ticketCount = await ticketRepo
-                                    .getTicketsByExhibitionId(
-                                        exhibitionId: exhibitionEntity.id!)
-                                    .then((value) =>
-                                        value.fold((l) => 0, (r) => r.length));
-                                showBookTicketPopup(context, exhibitionEntity,
-                                    exhibitionEntity.capacity - ticketCount);
-                              },
-                              child: Text("Book a Ticket",
-                                  style: TextStyle(color: Colors.white)),
                             ),
                     ],
                   ),

@@ -37,6 +37,14 @@ class AppIcons {
   static const homeProfile = 'assets/icons/home_profile.svg';
   static const truckIcon = 'assets/icons/truck_icon.svg';
   static const voucher = 'assets/icons/voucher.svg';
+  static const favprof = 'assets/icons/favorite-prof.svg';
+  static const creditcardprof = 'assets/icons/credit-card-prof.svg';
+  static const paymentprof = 'assets/icons/payment-prof.svg';
+  static const visa = 'assets/icons/visa.svg';
+  static const visaclassic = 'assets/icons/visa-classic.svg';
+  static const visaaa = 'assets/icons/visaaa.svg';
+  static const cccard = 'assets/icons/cccard.svg';
+
   static const reply = 'assets/icons/reply.svg';
 
   static const right = 'assets/icons/right.svg';
