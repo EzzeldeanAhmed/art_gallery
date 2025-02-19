@@ -17,6 +17,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // getIt.get<ArtworksRepo>().changeArtworkAttribute();
     return const HomeViewBody();
   }
 }

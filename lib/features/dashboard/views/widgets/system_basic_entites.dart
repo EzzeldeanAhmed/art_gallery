@@ -1,6 +1,7 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
 import 'package:art_gallery/features/manage_artist/presentation/views/artist_dashboard_view.dart';
 import 'package:art_gallery/features/manage_artwork/presentation/views/artwork_dashboard_view.dart';
+import 'package:art_gallery/features/manage_collection/presentation/views/collection_dashboard_view.dart';
 import 'package:art_gallery/features/manage_exhibition/presentation/views/exhibition_dashboard_view.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,12 @@ class SystemBasicEntites extends StatelessWidget {
             SizedBox(
                 width: 300, // Set a smaller width
                 height: 50,
-                child: CustomButton(onPressed: () {}, text: 'Collections')),
+                child: CustomButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, CollectionDashboardView.routeName);
+                    },
+                    text: 'Collections')),
             SizedBox(
               height: 30,
             ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
+import 'package:art_gallery/features/auth/presentation/views/widgets/custom_checkbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 
@@ -51,13 +52,15 @@ List<String> epochItems = [
   'Baroque Art'
 ];
 List<String> artists = [];
+List<String> collections = [];
+Map<String, String> collectionMap = {};
 
 class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   Future<List<String>> getArtistNames() async {
     try {
       // Replace 'your-collection-name' with the name of your collection
       if (artists.isNotEmpty) {
-        // return artists;
+        return artists;
       }
       final querySnapshot =
           await FirebaseFirestore.instance.collection('artists').get();
@@ -69,6 +72,29 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
       return artistNames;
     } catch (e) {
       print('Error fetching artist names: $e');
+      return [];
+    }
+  }
+
+  Future<List<String>> getCollection() async {
+    try {
+      if (!collections.isEmpty) {
+        return collections;
+      }
+      final querySnapshot =
+          await FirebaseFirestore.instance.collection('collections').get();
+
+      // Extract document IDs
+      final collectionNames = querySnapshot.docs.map((doc) {
+        collectionMap[doc.get("name").toString()] = doc.id;
+        return doc.get("name").toString();
+      }).toList();
+      collectionMap["Main"] = "main";
+      // push Main in front of list
+      collections = ["Main"] + collectionNames;
+      return ["Main"] + collectionNames;
+    } catch (e) {
+      print('Error fetching collection names: $e');
       return [];
     }
   }
@@ -87,12 +113,16 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               : "")
           : "",
       artist = widget.update! ? widget.defaultEntity!.artist : "",
+      collection =
+          widget.update! ? widget.defaultEntity!.collectionID!! : "Main",
       dimensions = widget.update! ? widget.defaultEntity!.dimensions : "";
+  late bool forSale = widget.update! ? widget.defaultEntity!.forSale! : false;
   late final countryController = TextEditingController(
       text: widget.update! ? widget.defaultEntity!.country : "");
   late final yearController = TextEditingController(
       text: widget.update! ? widget.defaultEntity!.year.toString() : "");
-  late num year = widget.update! ? widget.defaultEntity!.year : -1;
+  late num year = widget.update! ? widget.defaultEntity!.year : -1,
+      price = widget.update! ? widget.defaultEntity!.price! : 0;
   late File? image = widget.update! ? File("") : null;
   late DateTime _selectedDate = DateTime(year.toInt());
 
@@ -349,97 +379,195 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               Text('Artist:', style: TextStyles.semiBold16),
               const SizedBox(height: 5),
               FutureBuilder<List<String>>(
-                  future: getArtistNames(),
-                  builder: (context, snapshot) {
-                    // ignore: unrelated_type_equality_checks
-                    if (snapshot.connectionState == ConnectionState.waiting &&
-                        artist != []) {
-                      return CustomTextFormField(
-                          hintText: "Loading",
-                          textInputType: TextInputType.text,
-                          enabled: false);
-                    } else if (snapshot.hasError && artist != []) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
-                        artist != []) {
-                      return Center(child: Text('No documents found.'));
-                    } else {
-                      return DropdownButtonFormField2<String>(
-                        //isExpanded: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color(0xFFF9FAFA),
-                          contentPadding: EdgeInsets.zero,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
+                future: getArtistNames(),
+                builder: (context, snapshot) {
+                  // ignore: unrelated_type_equality_checks
+                  if (snapshot.connectionState == ConnectionState.waiting &&
+                      artist != []) {
+                    return CustomTextFormField(
+                        hintText: "Loading",
+                        textInputType: TextInputType.text,
+                        enabled: false);
+                  } else if (snapshot.hasError && artist != []) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
+                      artist != []) {
+                    return Center(child: Text('No documents found.'));
+                  } else {
+                    return DropdownButtonFormField2<String>(
+                      //isExpanded: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFF9FAFA),
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0),
                         ),
-                        value: artist != "" && artists.contains(artist)
-                            ? artist
-                            : null,
-                        hint: const Text(
-                          'Select artist of Artwork',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0XFF949D9E),
-                          ),
+                      ),
+                      value: artist != "" && artists.contains(artist)
+                          ? artist
+                          : null,
+                      hint: const Text(
+                        'Select artist of Artwork',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0XFF949D9E),
                         ),
-                        items: snapshot.data!
-                            .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
+                      ),
+                      items: snapshot.data!
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
                                   ),
-                                ))
-                            .toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a artist.';
-                          }
-                          return null;
-                        },
-                        onChanged: widget.delete!
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  artist = value!;
-                                });
-                              },
-                        onSaved: (value) {},
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8),
+                                ),
+                              ))
+                          .toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a artist.';
+                        }
+                        return null;
+                      },
+                      onChanged: widget.delete!
+                          ? null
+                          : (value) {
+                              setState(() {
+                                artist = value!;
+                              });
+                            },
+                      onSaved: (value) {},
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 8),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.blue,
                         ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.blue,
-                          ),
-                          iconSize: 30,
+                        iconSize: 30,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
                         ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                          ),
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                      );
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    );
 
-                      // CustomTextFormField(
-                      //     enabled: !widget.delete!,
-                      //     initialValue: artist,
-                      //     onSaved: (value) {
-                      //       artist = value!;
-                      //     },
-                      //     hintText: 'Artist',
-                      //     textInputType: TextInputType.text);
-                    }
-                  }),
+                    // CustomTextFormField(
+                    //     enabled: !widget.delete!,
+                    //     initialValue: artist,
+                    //     onSaved: (value) {
+                    //       artist = value!;
+                    //     },
+                    //     hintText: 'Artist',
+                    //     textInputType: TextInputType.text);
+                  }
+                },
+              ),
+              const SizedBox(height: 8),
+              Text('Collection:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
+              FutureBuilder<List<String>>(
+                future: getCollection(),
+                builder: (context, snapshot) {
+                  // ignore: unrelated_type_equality_checks
+                  if (snapshot.connectionState == ConnectionState.waiting &&
+                      collections != []) {
+                    return CustomTextFormField(
+                        hintText: "Loading",
+                        textInputType: TextInputType.text,
+                        enabled: false);
+                  } else if (snapshot.hasError && collections != []) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
+                      collections != []) {
+                    return Center(child: Text('No documents found.'));
+                  } else {
+                    return DropdownButtonFormField2<String>(
+                      //isExpanded: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFF9FAFA),
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      value:
+                          collection != "" && collections.contains(collection)
+                              ? collection
+                              : null,
+                      hint: const Text(
+                        'Select collection of Artwork',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0XFF949D9E),
+                        ),
+                      ),
+                      items: snapshot.data!
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a collection.';
+                        }
+                        return null;
+                      },
+                      onChanged: widget.delete!
+                          ? null
+                          : (value) {
+                              setState(() {
+                                collection = value!;
+                              });
+                            },
+                      onSaved: (value) {},
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 8),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.blue,
+                        ),
+                        iconSize: 30,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    );
+
+                    // CustomTextFormField(
+                    //     enabled: !widget.delete!,
+                    //     initialValue: artist,
+                    //     onSaved: (value) {
+                    //       artist = value!;
+                    //     },
+                    //     hintText: 'Artist',
+                    //     textInputType: TextInputType.text);
+                  }
+                },
+              ),
               const SizedBox(height: 8),
               Text('Country:', style: TextStyles.semiBold16),
               const SizedBox(height: 5),
@@ -480,6 +608,42 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 maxLines: 5,
               ),
               const SizedBox(height: 20),
+              Row(children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomCheckBox(
+                    onChecked: (value) {
+                      setState(() {
+                        forSale = value;
+                      });
+                    },
+                    isChecked: collection != "Main" ? false : forSale,
+                    enabled: collection == "Main",
+                  ),
+                ),
+                Text('For Sale', style: TextStyles.semiBold16),
+              ]),
+              const SizedBox(height: 20),
+
+              forSale
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Price:', style: TextStyles.semiBold16),
+                        const SizedBox(height: 5),
+                        CustomTextFormField(
+                          enabled: !widget.delete!,
+                          initialValue: price.toString(),
+                          onSaved: (value) {
+                            price = num.parse(value!);
+                          },
+                          hintText: 'Enter Artwork Price',
+                          textInputType: TextInputType.number,
+                        ),
+                      ],
+                    )
+                  : Container(),
+              const SizedBox(height: 30),
 //
               Text('Upload Artwork image:', style: TextStyles.semiBold16),
               const SizedBox(height: 5),
@@ -510,6 +674,11 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                         year: year,
                         dimensions: dimensions,
                         image: image!,
+                        collectionID: collection == "Main"
+                            ? "Main"
+                            : collectionMap[collection],
+                        status: collection == "Main" ? "permanent" : "other",
+                        forSale: collection == "Main" ? false : forSale,
                       );
                       if (widget.delete!) {
                         context

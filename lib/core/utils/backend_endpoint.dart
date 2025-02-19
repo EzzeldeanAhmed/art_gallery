@@ -10,4 +10,6 @@ class BackendEndpoint {
   static const exhibitionsCollection = 'exhibitions';
   static const getTickets = 'tickets';
   static const ticketsCollection = 'tickets';
+  static const getCollections = 'collections';
+  static const collectionsCollection = 'collections';
 }

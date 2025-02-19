@@ -5,6 +5,7 @@ import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/utils/backend_endpoint.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 class ArtworksRepoImpl extends ArtworksRepo {
   final DatabaseService databaseService;
@@ -75,6 +76,25 @@ class ArtworksRepoImpl extends ArtworksRepo {
       return right(artwork);
     } catch (e) {
       return Left(ServerFailure('Failed to get artworks'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changeArtworkAttribute() async {
+    try {
+      var data =
+          await databaseService.getData(path: BackendEndpoint.getArtworks);
+      var currentArtworks = data as List<Map<String, dynamic>>;
+      List<ArtworkEntity> artworks = currentArtworks
+          .map((e) => ArtworkModel.fromJson(e).toEntity())
+          .toList();
+      for (var artwork in artworks) {
+        await updateArtwork(artwork);
+      }
+      debugPrint(' Artwork attribute changed');
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Failed to change Artwork attribute'));
     }
   }
 }

@@ -11,10 +11,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ArtworkDetailsPage extends StatelessWidget {
-  const ArtworkDetailsPage({super.key, required this.artworkEntity});
+  ArtworkDetailsPage({super.key, required this.artworkEntity, this.borrowing});
 
   final ArtworkEntity artworkEntity;
-
+  bool? borrowing = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -269,6 +269,33 @@ class ArtworkDetailsPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 22),
+                borrowing!
+                    ? Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: SizedBox(
+                          width: double.infinity, // Makes the button full-width
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              // Handle booking action
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color(0xff1F5E3B), // Button color
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              'Borrow Artwork',
+                              style: TextStyles.bold16.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container()
               ],
             ))
           ],

@@ -16,6 +16,13 @@ class ArtworkEntity {
   File? image;
   String? imageUrl;
   String? id;
+  String? status = 'permanent';
+  String? collectionID = 'main';
+  DateTime? borrowDate;
+  DateTime? returnDate;
+  bool? forSale = true;
+  int? price = 0;
+
   final List<ReviewEntity> reviews;
 
   ArtworkEntity(
@@ -32,5 +39,11 @@ class ArtworkEntity {
       required this.dimensions,
       this.image,
       this.imageUrl,
-      this.id});
+      this.id,
+      this.status,
+      this.collectionID,
+      this.borrowDate,
+      this.returnDate,
+      this.forSale,
+      this.price});
 }

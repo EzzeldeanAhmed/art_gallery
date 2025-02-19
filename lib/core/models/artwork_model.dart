@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/review_model.dart';
@@ -17,6 +18,13 @@ class ArtworkModel {
   final String dimensions;
   File? image;
   String? imageUrl;
+
+  String? status = 'permanent';
+  String? collectionID = 'main';
+  DateTime? borrowDate;
+  DateTime? returnDate;
+  bool? forSale = true;
+  int? price = 0;
   final String? id;
 
   ArtworkModel(
@@ -33,7 +41,13 @@ class ArtworkModel {
       required this.dimensions,
       this.image,
       this.imageUrl,
-      this.id});
+      this.id,
+      this.status,
+      this.collectionID,
+      this.borrowDate,
+      this.returnDate,
+      this.forSale,
+      this.price});
 
   factory ArtworkModel.fromEntity(ArtworkEntity addArtworkInputEntity) {
     return ArtworkModel(
@@ -52,6 +66,12 @@ class ArtworkModel {
       reviews: addArtworkInputEntity.reviews
           .map((e) => ReviewModel.fromEntity(e))
           .toList(),
+      status: addArtworkInputEntity.status,
+      collectionID: addArtworkInputEntity.collectionID,
+      borrowDate: addArtworkInputEntity.borrowDate,
+      returnDate: addArtworkInputEntity.returnDate,
+      forSale: addArtworkInputEntity.forSale,
+      price: addArtworkInputEntity.price,
     );
   }
 
@@ -73,7 +93,13 @@ class ArtworkModel {
             ? List<ReviewModel>.from(
                 json['reviews'].map((e) => ReviewModel.fromJson(e)))
             : [],
-        id: json['id']);
+        id: json['id'],
+        status: json['status'],
+        collectionID: json['collectionID'],
+        borrowDate: json['borrowDate'],
+        returnDate: json['returnDate'],
+        forSale: json['forSale'],
+        price: json['price']);
   }
 
   toJson() {
@@ -90,6 +116,14 @@ class ArtworkModel {
       'dimensions': dimensions,
       'imageUrl': imageUrl,
       'reviews': reviews.map((e) => e.toJson()).toList(),
+      'status': status ?? 'permanent',
+      'collectionID': collectionID ?? 'Main',
+      'borrowDate': borrowDate,
+      'returnDate': returnDate,
+      // 'forSale': false,
+      'forSale': forSale ?? true,
+      // 'price': null
+      'price': price,
     };
   }
 
@@ -108,6 +142,12 @@ class ArtworkModel {
         image: image,
         imageUrl: imageUrl,
         reviews: reviews.map((e) => e.toEntity()).toList(),
-        id: id);
+        id: id,
+        status: status,
+        collectionID: collectionID,
+        borrowDate: borrowDate,
+        returnDate: returnDate,
+        forSale: forSale,
+        price: price);
   }
 }
