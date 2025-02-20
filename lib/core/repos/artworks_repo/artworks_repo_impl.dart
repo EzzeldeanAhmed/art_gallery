@@ -26,6 +26,66 @@ class ArtworksRepoImpl extends ArtworksRepo {
   }
 
   @override
+  Future<Either<Failure, List<ArtworkEntity>>> getMainArtworks() async {
+    try {
+      var data = await databaseService.getData(
+          path: BackendEndpoint.getArtworks) as List<Map<String, dynamic>>;
+
+      List<ArtworkEntity> artworks = data
+          .where((e) {
+            var artwork = ArtworkModel.fromJson(e).toEntity();
+            if (artwork.status == 'borrowed' && artwork.returnDate != null) {
+              if (artwork.returnDate!.isBefore(DateTime.now())) {
+                artwork.status = 'other';
+                artwork.returnDate = null;
+                artwork.borrowDate = null;
+                updateArtwork(artwork);
+              }
+            }
+            if (artwork.status != 'other') {
+              return true;
+            }
+            return false;
+          })
+          .map((e) => ArtworkModel.fromJson(e).toEntity())
+          .toList();
+      return right(artworks);
+    } catch (e) {
+      return Left(ServerFailure('Failed to get artworks'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ArtworkEntity>>> getOtherArtworks() async {
+    try {
+      var data = await databaseService.getData(
+          path: BackendEndpoint.getArtworks) as List<Map<String, dynamic>>;
+
+      List<ArtworkEntity> artworks = data
+          .where((e) {
+            var artwork = ArtworkModel.fromJson(e).toEntity();
+            if (artwork.status == 'borrowed' && artwork.returnDate != null) {
+              if (artwork.returnDate!.isBefore(DateTime.now())) {
+                artwork.status = 'other';
+                artwork.returnDate = null;
+                artwork.borrowDate = null;
+                updateArtwork(artwork);
+              }
+            }
+            if (artwork.status == 'other' || artwork.status == 'borrowed') {
+              return true;
+            }
+            return false;
+          })
+          .map((e) => ArtworkModel.fromJson(e).toEntity())
+          .toList();
+      return right(artworks);
+    } catch (e) {
+      return Left(ServerFailure('Failed to get artworks'));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> addArtwork(
       ArtworkEntity addArtworkInputEntity) async {
     try {
@@ -95,6 +155,21 @@ class ArtworksRepoImpl extends ArtworksRepo {
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure('Failed to change Artwork attribute'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> borrowArtwork(
+      ArtworkEntity artwork, DateTime returnDate) async {
+    try {
+      await databaseService.addData(
+        path: BackendEndpoint.artworksCollection,
+        data: ArtworkModel.fromEntity(artwork).toJson(),
+        documentId: artwork.id,
+      );
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Failed to borrow Artwork'));
     }
   }
 }

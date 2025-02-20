@@ -42,14 +42,16 @@ class _ArtworksGridViewFavState extends State<ArtworksGridViewFav> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return ArtworkItem(
-                      authRepo: getIt<AuthRepo>(),
-                      artworkEntity: widget.artworks[index],
-                      isFavorite: snapshot.data!,
-                      onFavorite: () {
-                        setState(() {
-                          widget.artworks.removeAt(index);
-                        });
+                    authRepo: getIt<AuthRepo>(),
+                    artworkEntity: widget.artworks[index],
+                    isFavorite: snapshot.data!,
+                    onFavorite: () {
+                      setState(() {
+                        widget.artworks.removeAt(index);
                       });
+                    },
+                    onAddToCart: () {},
+                  );
                 } else if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasError) {
                   return CustomErrorWidget(text: snapshot.error.toString());

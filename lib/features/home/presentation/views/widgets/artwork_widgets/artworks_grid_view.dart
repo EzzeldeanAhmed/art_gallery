@@ -1,10 +1,12 @@
 import 'package:art_gallery/core/models/artwork_entity.dart';
+import 'package:art_gallery/core/repos/cart_repo/cart_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/widgets/artwork_item.dart';
 import 'package:art_gallery/core/widgets/custom_error_widget.dart';
 import 'package:art_gallery/features/auth/domain/entites/user_entity.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ArtworksGridView extends StatelessWidget {
@@ -36,10 +38,31 @@ class ArtworksGridView extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return ArtworkItem(
-                      authRepo: getIt<AuthRepo>(),
-                      artworkEntity: artworks[index],
-                      isFavorite: snapshot.data!,
-                      onFavorite: () {});
+                    authRepo: getIt<AuthRepo>(),
+                    artworkEntity: artworks[index],
+                    isFavorite: snapshot.data!,
+                    onFavorite: () {},
+                    onAddToCart: () async {
+                      var userId = getIt.get<AuthRepo>().getSavedUserData().uId;
+                      CartRepo cartRepo = getIt.get<CartRepo>();
+                      var msg = await cartRepo
+                          .addArtworkToCart(
+                              userId: userId, artworkId: artworks[index].id!)
+                          .then(
+                        (value) {
+                          return value.fold(
+                            (l) => l,
+                            (r) => r,
+                          );
+                        },
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("${artworks[index].name}  ${msg}"),
+                        ),
+                      );
+                    },
+                  );
                 } else if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasError) {
                   return CustomErrorWidget(text: snapshot.error.toString());

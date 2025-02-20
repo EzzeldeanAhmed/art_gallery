@@ -63,4 +63,23 @@ class CollectionRepoImpl extends CollectionsRepo {
       return Left(ServerFailure('Failed to delete Collection'));
     }
   }
+
+  @override
+  Future<CollectionEntity> getCollectionById(String id) async {
+    try {
+      var data = await databaseService.getData(
+        path: BackendEndpoint.collectionsCollection,
+        docuementId: id,
+      ) as Map<String, dynamic>;
+      data = data..addAll({'id': id});
+      CollectionEntity collection = CollectionModel.fromJson(data).toEntity();
+      return collection;
+    } catch (e) {
+      return CollectionEntity(
+        id: '',
+        name: '',
+        overview: '',
+      );
+    }
+  }
 }

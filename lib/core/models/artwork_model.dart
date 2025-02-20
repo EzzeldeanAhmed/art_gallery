@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/review_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ArtworkModel {
   final String code;
@@ -96,8 +97,12 @@ class ArtworkModel {
         id: json['id'],
         status: json['status'],
         collectionID: json['collectionID'],
-        borrowDate: json['borrowDate'],
-        returnDate: json['returnDate'],
+        borrowDate: json['borrowDate'] != null
+            ? (json['borrowDate'] as Timestamp).toDate()
+            : null,
+        returnDate: json['returnDate'] != null
+            ? (json['returnDate'] as Timestamp).toDate()
+            : null,
         forSale: json['forSale'],
         price: json['price']);
   }

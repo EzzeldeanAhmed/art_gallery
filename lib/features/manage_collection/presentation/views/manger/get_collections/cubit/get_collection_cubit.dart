@@ -16,7 +16,7 @@ class GetCollectionCubit extends Cubit<GetCollectionState> {
   Future<void> getCollectionArtworks() async {
     emit(GetCollectionLoading());
     try {
-      var artworks = await artworksRepo.getArtworks();
+      var artworks = await artworksRepo.getOtherArtworks();
       var collections = await collectionsRepo.getCollections();
       Map<String, Map<String, dynamic>> data = {};
 

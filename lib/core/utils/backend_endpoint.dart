@@ -12,4 +12,6 @@ class BackendEndpoint {
   static const ticketsCollection = 'tickets';
   static const getCollections = 'collections';
   static const collectionsCollection = 'collections';
+  static const getCart = 'carts';
+  static const cartCollection = 'carts';
 }

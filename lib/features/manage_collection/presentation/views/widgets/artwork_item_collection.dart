@@ -1,9 +1,13 @@
 import 'package:art_gallery/core/models/artwork_entity.dart';
+import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
+import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
+import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_borrow_popup.dart';
+import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_return_popup.dart';
 import 'package:flutter/material.dart';
 
 class ArtworkItemCollection extends StatefulWidget {
@@ -100,10 +104,35 @@ class _ArtworkItemState extends State<ArtworkItemCollection> {
                   ElevatedButton(
                     onPressed: () {
                       // TODO: Implement borrow functionality
-                      print("Borrowing ${widget.artworkEntity.name}");
+                      if (widget.artworkEntity.status == 'borrowed') {
+                        // Return artwork
+                        showReturnArtworkPopup(context, widget.artworkEntity,
+                            () {
+                          var artworkRepo = getIt.get<ArtworksRepo>();
+                          setState(() {
+                            widget.artworkEntity.status = 'other';
+                            widget.artworkEntity.returnDate = null;
+                            widget.artworkEntity.borrowDate = null;
+                            artworkRepo.updateArtwork(widget.artworkEntity);
+                          });
+                        });
+                      } else {
+                        showBorrowArtworkPopup(context, widget.artworkEntity,
+                            (returnDate) {
+                          var artworkRepo = getIt.get<ArtworksRepo>();
+                          setState(() {
+                            widget.artworkEntity.status = 'borrowed';
+                            widget.artworkEntity.borrowDate = DateTime.now();
+                            widget.artworkEntity.returnDate = returnDate;
+                            artworkRepo.updateArtwork(widget.artworkEntity);
+                          });
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: widget.artworkEntity.status == 'borrowed'
+                          ? AppColors.secondaryColor
+                          : AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -111,7 +140,9 @@ class _ArtworkItemState extends State<ArtworkItemCollection> {
                           vertical: 8, horizontal: 12),
                     ),
                     child: Text(
-                      "Borrow Artwork",
+                      widget.artworkEntity.status == 'borrowed'
+                          ? "Return Artwork"
+                          : "Borrow Artwork",
                       style: TextStyles.bold13.copyWith(color: Colors.white),
                     ),
                   ),

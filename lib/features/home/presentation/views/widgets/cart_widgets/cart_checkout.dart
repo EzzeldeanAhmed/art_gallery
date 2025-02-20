@@ -1,4 +1,5 @@
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
+import 'package:art_gallery/core/models/cart_model.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/models/ticket_entity.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
@@ -10,14 +11,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-class CheckoutPage extends StatefulWidget {
-  CheckoutPage(
-      {super.key, required this.exhibition, required this.ticketQuantity});
+class CartCheckoutPage extends StatefulWidget {
+  CartCheckoutPage({super.key, required this.cartModel});
 
-  ExhibitionEntity exhibition;
-  int ticketQuantity;
+  CartModel cartModel;
   @override
-  _CheckoutPageState createState() => _CheckoutPageState();
+  _CartCheckoutPageState createState() => _CartCheckoutPageState();
 }
 
 Map<String, Map<String, String>> validCardNumbers = {
@@ -38,7 +37,7 @@ Map<String, Map<String, String>> validCardNumbers = {
   },
 };
 
-class _CheckoutPageState extends State<CheckoutPage> {
+class _CartCheckoutPageState extends State<CartCheckoutPage> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
@@ -104,14 +103,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    Text("Item: ${widget.exhibition.name} Exhibition Ticket"),
-                    Text("Quantity: ${widget.ticketQuantity}"),
-                    Text("Price: \$${widget.exhibition.ticketPrice}"),
-                    Divider(),
-                    Text(
-                      "Total: \$${widget.exhibition.ticketPrice * widget.ticketQuantity}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                    // Text("Item: ${widget.exhibition.name} Exhibition Ticket"),
+                    // Text("Quantity: ${widget.ticketQuantity}"),
+                    // Text("Price: \$${widget.exhibition.ticketPrice}"),
+                    // Divider(),
+                    // Text(
+                    //   "Total: \$${widget.exhibition.ticketPrice * widget.ticketQuantity}",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
                   ],
                 ),
               ),
@@ -206,14 +205,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             ),
                           );
                         } else {
-                          var user = getIt.get<AuthRepo>().getSavedUserData();
-                          TicketEntity ticket = TicketEntity(
-                            exhibitionId: widget.exhibition.id!,
-                            quantity: widget.ticketQuantity,
-                            bookedDate: DateTime.now(),
-                            userId: user.uId,
-                          );
-                          context.read<TicketCubit>().addTicket(ticket: ticket);
+                          // var user = getIt.get<AuthRepo>().getSavedUserData();
+                          // TicketEntity ticket = TicketEntity(
+                          //   exhibitionId: widget.exhibition.id!,
+                          //   quantity: widget.ticketQuantity,
+                          //   bookedDate: DateTime.now(),
+                          //   userId: user.uId,
+                          // );
+                          // context.read<TicketCubit>().addTicket(ticket: ticket);
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -229,7 +228,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       backgroundColor: Color(0xff1F5E3B),
                     ),
                     child: Text(
-                      "Pay \$${widget.exhibition.ticketPrice * widget.ticketQuantity}",
+                      "Pay \$",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

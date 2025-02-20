@@ -122,7 +122,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
   late final yearController = TextEditingController(
       text: widget.update! ? widget.defaultEntity!.year.toString() : "");
   late num year = widget.update! ? widget.defaultEntity!.year : -1,
-      price = widget.update! ? widget.defaultEntity!.price! : 0;
+      price = widget.update! ? widget.defaultEntity!.price ?? 0 : 0;
   late File? image = widget.update! ? File("") : null;
   late DateTime _selectedDate = DateTime(year.toInt());
 

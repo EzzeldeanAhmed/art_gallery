@@ -23,7 +23,7 @@ class ArtworksGridViewFavBlocBuilder extends StatelessWidget {
     for (var artworkId in user.favoriteArtworks) {
       var result = await artworkRepo.getArtworkById(artworkId);
       var artwork = result.fold((l) => null, (r) => r);
-      if (artwork != null) {
+      if (artwork != null && artwork.status != "other") {
         artworks.add(artwork);
       }
     }

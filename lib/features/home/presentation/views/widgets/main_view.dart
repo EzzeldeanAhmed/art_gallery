@@ -1,4 +1,6 @@
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_favorites/favorites_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/cart_widgets/cart_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/cart_widgets/cart_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
@@ -15,11 +17,11 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
-    HomeView(),
-    FavoritesView(),
-    Text('Page 2'),
-    ProfilePage(),
+  static final List<Widget> _pages = <Widget>[
+    const HomeView(),
+    const FavoritesView(),
+    const CartView(),
+    const ProfilePage(),
   ];
 
   //New

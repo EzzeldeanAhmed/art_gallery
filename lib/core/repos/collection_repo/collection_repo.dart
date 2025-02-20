@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class CollectionsRepo {
   Future<Either<Failure, List<CollectionEntity>>> getCollections();
+  Future<CollectionEntity> getCollectionById(String id);
   Future<Either<Failure, void>> addCollection(
       CollectionEntity addCollectionInputEntity);
   Future<Either<Failure, void>> updateCollection(

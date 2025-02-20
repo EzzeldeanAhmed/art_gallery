@@ -19,11 +19,12 @@ class ArtworkItem extends StatefulWidget {
     required this.authRepo,
     required this.isFavorite,
     required this.onFavorite,
+    required this.onAddToCart,
   });
   final AuthRepo authRepo;
-
   final ArtworkEntity artworkEntity;
-  Function onFavorite = () {};
+  final Function onFavorite;
+  final Function onAddToCart;
   bool isFavorite;
   @override
   State<ArtworkItem> createState() => _ArtworkItemState(isFavorite: isFavorite);
@@ -44,8 +45,9 @@ class _ArtworkItemState extends State<ArtworkItem> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) =>
-                  ArtworkDetailsPage(artworkEntity: widget.artworkEntity)),
+              builder: (context) => ArtworkDetailsPage(
+                  artworkEntity: widget.artworkEntity,
+                  addToCart: widget.onAddToCart)),
         );
       },
       child: Container(
@@ -56,8 +58,8 @@ class _ArtworkItemState extends State<ArtworkItem> {
         child: Stack(
           children: [
             Positioned(
-              top: 0,
-              left: 0,
+              top: 8,
+              left: 8,
               child: IconButton(
                 onPressed: () async {
                   var old_fav = isFavorite;
@@ -84,11 +86,25 @@ class _ArtworkItemState extends State<ArtworkItem> {
                 ),
               ),
             ),
+            widget.artworkEntity.forSale!
+                ? Positioned(
+                    top: 8,
+                    right: 8,
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primaryColor,
+                      radius: 20,
+                      child: IconButton(
+                        icon: Icon(Icons.shopping_cart, color: Colors.white),
+                        onPressed: () => widget.onAddToCart(),
+                      ),
+                    ),
+                  )
+                : Container(),
             Positioned.fill(
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 40,
+                    height: 50,
                   ),
                   widget.artworkEntity.imageUrl != null
                       ? Flexible(
@@ -108,7 +124,6 @@ class _ArtworkItemState extends State<ArtworkItem> {
                       modifiedName,
                       textAlign: TextAlign.left,
                       style: TextStyles.bold16,
-                      // semibold16,
                     ),
                     subtitle: Text.rich(
                       TextSpan(
@@ -140,25 +155,6 @@ class _ArtworkItemState extends State<ArtworkItem> {
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    // trailing: const CircleAvatar(
-                    //   backgroundColor: AppColors.primaryColor,
-                    //   child: Icon(
-                    //     Icons.add,
-                    //     color: Colors.white,
-                    //   ),
-                    /*trailing: GestureDetector(
-                    onTap: () {
-                      context.read<CartCubit>().addProduct(artworkEntity);
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: AppColors.primaryColor,
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),*/
-                    // ),
                   ),
                 ],
               ),

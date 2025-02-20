@@ -2,6 +2,8 @@ import 'package:art_gallery/core/repos/artist_repo/artist_repo.dart';
 import 'package:art_gallery/core/repos/artist_repo/artist_repo_impl.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo_impl.dart';
+import 'package:art_gallery/core/repos/cart_repo/cart_repo.dart';
+import 'package:art_gallery/core/repos/cart_repo/cart_repo_impl.dart';
 import 'package:art_gallery/core/repos/collection_repo/collection_repo.dart';
 import 'package:art_gallery/core/repos/collection_repo/collection_repo_impl.dart';
 import 'package:art_gallery/core/repos/exhibtion_repo/exhibition_repo.dart';
@@ -55,6 +57,11 @@ void setupGetit() {
 
   getIt.registerSingleton<CollectionsRepo>(
     CollectionRepoImpl(
+      getIt<DatabaseService>(),
+    ),
+  );
+  getIt.registerSingleton<CartRepo>(
+    CartRepoImpl(
       getIt<DatabaseService>(),
     ),
   );

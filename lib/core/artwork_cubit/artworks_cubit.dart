@@ -11,7 +11,7 @@ class ArtworksCubit extends Cubit<ArtworksState> {
   final ArtworksRepo artworksRepo;
   Future<void> getArtworks() async {
     emit(ArtworksLoading());
-    final result = await artworksRepo.getArtworks();
+    final result = await artworksRepo.getMainArtworks();
     result.fold(
       (failure) => emit(ArtworksFailure(failure.message)),
       (artworks) => emit(ArtworksSuccess(artworks)),
