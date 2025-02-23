@@ -23,6 +23,8 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
   String type = '';
   String artist = '';
   String sortBy = 'Name A -> Z';
+  bool? forSale = null;
+  String status = '';
   RangeValues yearRange = const RangeValues(1500, 2025);
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
   @override
   Widget build(BuildContext context) {
     var collection = FirebaseFirestore.instance.collection('artworks');
+    // .where('status', whereIn: ['permanent', 'borrowed']);
     var result;
     if (sortBy == "Name A -> Z") {
       result = collection.orderBy('name');
@@ -99,17 +102,22 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
                                   type: type,
                                   artist: artist,
                                   yearRange: yearRange,
+                                  forSale: forSale,
                                   onApplyFilter: (String sortBy,
                                       String epoch,
                                       String type,
                                       String artist,
-                                      RangeValues yearRange) {
+                                      RangeValues yearRange,
+                                      bool? forSale,
+                                      String status) {
                                     setState(() {
                                       this.sortBy = sortBy;
                                       this.epoch = epoch;
                                       this.type = type;
                                       this.artist = artist;
                                       this.yearRange = yearRange;
+                                      this.forSale = forSale;
+                                      this.status = status;
                                     });
                                     debugPrint(
                                         'sortBy: $sortBy, epoch: $epoch, type: $type, artist: $artist, yearRange: $yearRange');
@@ -161,7 +169,10 @@ class _ArtworksSearchPageState extends State<ArtworksSearchPage> {
                           (data['type'] == type || type == "") &&
                           (data['artist'] == artist || artist == "") &&
                           (data['year'] >= yearRange.start &&
-                              data['year'] <= yearRange.end)) {
+                              data['year'] <= yearRange.end) &&
+                          (forSale == null || data['forSale'] == forSale) &&
+                          (status == "" || data['status'] == status) &&
+                          data['status'] != 'other') {
                         return ListTile(
                           onTap: () {
                             Navigator.of(context).push(

@@ -38,15 +38,18 @@ class ArtworkFiltersDialog extends StatefulWidget {
       required this.type,
       required this.artist,
       required this.yearRange,
-      required this.onApplyFilter});
+      required this.onApplyFilter,
+      required this.forSale});
 
   String epoch = '';
   String type = '';
   String artist = '';
   String sortBy = 'Name A -> Z';
   RangeValues yearRange = const RangeValues(1500, 2025);
+  bool? forSale = null;
+  String status = '';
   final Function(String sortBy, String epoch, String type, String artist,
-      RangeValues yearRange) onApplyFilter;
+      RangeValues yearRange, bool? forSale, String status) onApplyFilter;
 
   @override
   State<ArtworkFiltersDialog> createState() => _ArtworkFiltersDialogState(
@@ -54,7 +57,9 @@ class ArtworkFiltersDialog extends StatefulWidget {
       epoch: epoch,
       type: type,
       artist: artist,
-      yearRange: yearRange);
+      yearRange: yearRange,
+      forSale: forSale,
+      status: status);
 }
 
 class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
@@ -63,12 +68,16 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
   RangeValues yearRange = const RangeValues(1500, 2025);
   String type = '';
   String artist = '';
+  bool? forSale = null;
+  String status = '';
   _ArtworkFiltersDialogState({
     required this.sortBy,
     required this.epoch,
     required this.type,
     required this.artist,
     required this.yearRange,
+    required this.forSale,
+    required this.status,
   });
 
   @override
@@ -90,6 +99,8 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
             ),
             _filterHeader(),
             _sortBy(),
+            _forSale(),
+            _statusSelector(),
             _yearRange(),
             _typesSelector(),
             _artistsSelector(),
@@ -100,8 +111,8 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
                 padding: const EdgeInsets.all(15),
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.onApplyFilter(
-                        sortBy, epoch, type, artist, yearRange);
+                    widget.onApplyFilter(sortBy, epoch, type, artist, yearRange,
+                        forSale, status);
                     Navigator.of(context).pop();
                   },
                   child: const Text('Apply Filter'),
@@ -157,6 +168,8 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
                 type = '';
                 artist = '';
                 yearRange = const RangeValues(1500, 2025);
+                forSale = null;
+                status = '';
               });
             },
             child: Text(
@@ -216,6 +229,104 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
               });
             },
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _forSale() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'For Sale',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                CategoriesChip(
+                  label: "True",
+                  isActive: forSale != null && forSale == true,
+                  onPressed: () {
+                    setState(() {
+                      forSale = true;
+                    });
+                  },
+                ),
+                CategoriesChip(
+                  label: "False",
+                  isActive: forSale != null && forSale == false,
+                  onPressed: () {
+                    setState(() {
+                      forSale = false;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusSelector() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Status',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                CategoriesChip(
+                  label: "Permenant",
+                  isActive: status == 'Permenant',
+                  onPressed: () {
+                    setState(() {
+                      status = 'Permenant';
+                    });
+                  },
+                ),
+                CategoriesChip(
+                  label: "Borrowed",
+                  isActive: status == 'Borrowed',
+                  onPressed: () {
+                    setState(() {
+                      status = 'Borrowed';
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

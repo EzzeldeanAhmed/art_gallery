@@ -17,7 +17,7 @@ class ArtworksView extends StatelessWidget {
       create: (context) => ArtworksCubit(
         getIt.get<ArtworksRepo>(),
       ),
-      child: const ArtworksViewBody(),
+      child: ArtworksViewBody(),
     );
   }
 }

@@ -18,4 +18,13 @@ class CartCubit extends Cubit<CartState> {
       (cart) => emit(CartSuccess(cart)),
     );
   }
+
+  Future<void> updateCart({required CartModel cart}) async {
+    emit(CartLoading());
+    final result = await cartRepo.removeArtworkFromCart(cartModel: cart);
+    result.fold(
+      (failure) => emit(CartFailure(failure.message)),
+      (e) => emit(ItemRemovedSuccess()),
+    );
+  }
 }

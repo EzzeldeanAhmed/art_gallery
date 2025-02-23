@@ -56,6 +56,9 @@ class FireStoreService implements DatabaseService {
           if (where['equalTo'] != null) {
             data = data.where(where['attribute'], isEqualTo: where['equalTo']);
           }
+          if (where['in'] != null) {
+            data = data.where(where['attribute'], whereIn: where['in']);
+          }
         }
         if (query['where1'] != null && query['where2'] != null) {
           var where1 = query['where1'];

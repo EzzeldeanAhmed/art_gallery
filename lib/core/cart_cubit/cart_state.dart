@@ -17,3 +17,7 @@ final class CartSuccess extends CartState {
   final CartModel cart;
   CartSuccess(this.cart);
 }
+
+final class ItemRemovedSuccess extends CartState {
+  ItemRemovedSuccess();
+}

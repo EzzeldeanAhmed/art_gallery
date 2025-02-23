@@ -9,12 +9,21 @@ class ArtworksCubit extends Cubit<ArtworksState> {
   ArtworksCubit(this.artworksRepo) : super(ArtworksInitial());
 
   final ArtworksRepo artworksRepo;
-  Future<void> getArtworks() async {
+  Future<void> getArtworks({String type = 'All'}) async {
     emit(ArtworksLoading());
-    final result = await artworksRepo.getMainArtworks();
-    result.fold(
-      (failure) => emit(ArtworksFailure(failure.message)),
-      (artworks) => emit(ArtworksSuccess(artworks)),
-    );
+    if (type == 'All') {
+      final result = await artworksRepo.getMainArtworks();
+      result.fold(
+        (failure) => emit(ArtworksFailure(failure.message)),
+        (artworks) => emit(ArtworksSuccess(artworks)),
+      );
+    } else {
+      final result = await artworksRepo.getMainArtworks(type: type);
+      result.fold(
+        (failure) => emit(ArtworksFailure(failure.message)),
+        (artworks) => emit(ArtworksSuccess(
+            artworks.where((element) => element.type == type).toList())),
+      );
+    }
   }
 }

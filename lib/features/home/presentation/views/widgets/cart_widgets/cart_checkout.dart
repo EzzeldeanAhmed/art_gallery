@@ -1,20 +1,29 @@
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
+import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/cart_model.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
+import 'package:art_gallery/core/models/order_model.dart';
 import 'package:art_gallery/core/models/ticket_entity.dart';
+import 'package:art_gallery/core/repos/cart_repo/cart_repo.dart';
+import 'package:art_gallery/core/repos/order_repo/order_repo.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/ticket_cubit/ticket_cubit.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/home_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class CartCheckoutPage extends StatefulWidget {
-  CartCheckoutPage({super.key, required this.cartModel});
+  CartCheckoutPage(
+      {super.key, required this.cartModel, required this.orderItems});
 
   CartModel cartModel;
+  List<ArtworkEntity> orderItems = [];
   @override
   _CartCheckoutPageState createState() => _CartCheckoutPageState();
 }
@@ -74,6 +83,10 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   }
 
   Scaffold _checkoutForm(BuildContext context) {
+    var totalPrice = 0;
+    widget.orderItems.forEach((element) {
+      totalPrice += element.price!;
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -103,14 +116,26 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    // Text("Item: ${widget.exhibition.name} Exhibition Ticket"),
-                    // Text("Quantity: ${widget.ticketQuantity}"),
-                    // Text("Price: \$${widget.exhibition.ticketPrice}"),
-                    // Divider(),
-                    // Text(
-                    //   "Total: \$${widget.exhibition.ticketPrice * widget.ticketQuantity}",
-                    //   style: TextStyle(fontWeight: FontWeight.bold),
-                    // ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: widget.orderItems.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(widget.orderItems[index].name),
+                          subtitle: Text(
+                              "Price: \$${widget.orderItems[index].price!.toDouble()}"),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Total: \$${totalPrice}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -205,14 +230,29 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                             ),
                           );
                         } else {
-                          // var user = getIt.get<AuthRepo>().getSavedUserData();
-                          // TicketEntity ticket = TicketEntity(
-                          //   exhibitionId: widget.exhibition.id!,
-                          //   quantity: widget.ticketQuantity,
-                          //   bookedDate: DateTime.now(),
-                          //   userId: user.uId,
-                          // );
-                          // context.read<TicketCubit>().addTicket(ticket: ticket);
+                          List<OrderItemModel> orderItems = [];
+                          widget.orderItems.forEach((cartItem) {
+                            orderItems.add(OrderItemModel(
+                              artworkId: cartItem.id!,
+                              price: cartItem.price!.toDouble(),
+                            ));
+                          });
+                          OrderModel orderModel = OrderModel(
+                            orderId:
+                                'order-${DateTime.now().millisecondsSinceEpoch}',
+                            orderDate: DateTime.now().toString(),
+                            orderStatus: 'Pending',
+                            userId:
+                                getIt.get<AuthRepo>().getSavedUserData().uId,
+                            orderItems: orderItems,
+                          );
+                          getIt.get<OrderRepo>().addOrder(orderModel);
+                          getIt.get<CartRepo>().clearCart(widget.cartModel.id!);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SuccessPage(),
+                            ),
+                          );
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -228,7 +268,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                       backgroundColor: Color(0xff1F5E3B),
                     ),
                     child: Text(
-                      "Pay \$",
+                      "Pay \$${totalPrice}",
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -265,8 +305,8 @@ class SuccessPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => MainView()));
               },
               child: Text("Back to Home"),
             ),

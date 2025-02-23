@@ -1,4 +1,6 @@
+import 'package:art_gallery/constants.dart';
 import 'package:art_gallery/core/artwork_cubit/artworks_cubit.dart';
+import 'package:art_gallery/features/home/components/categories_chip.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_grid_view_bloc_builder.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artworks_search_page.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ArtworksViewBody extends StatefulWidget {
-  const ArtworksViewBody({
+  ArtworksViewBody({
     super.key,
   });
-
+  String type = 'All';
   @override
   State<ArtworksViewBody> createState() => _ArtworksViewBodyState();
 }
@@ -42,9 +44,50 @@ class _ArtworksViewBodyState extends State<ArtworksViewBody> {
                   icon: Icon(Icons.search))
             ],
           ),
+          SliverToBoxAdapter(
+            child: typesChips(),
+          ),
           ArtworksGridViewBlocBuilder()
         ],
       ),
     );
+  }
+
+  List<String> typeItems = [
+    'All',
+    'Sculpture',
+    'Drawings',
+    'Paintings',
+    'Black and White',
+    'Mosaic'
+  ];
+
+  Widget typesChips() {
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            spacing: 8,
+            runSpacing: 8,
+            children: List<Widget>.generate(
+                typeItems.length, // place the length of the array here
+                (int index) {
+              return CategoriesChip(
+                label: typeItems[index],
+                isActive: typeItems[index] == widget.type,
+                onPressed: () {
+                  setState(() {
+                    widget.type = typeItems[index];
+                    context
+                        .read<ArtworksCubit>()
+                        .getArtworks(type: widget.type);
+                  });
+                },
+              );
+            }).toList(),
+          ),
+        ));
   }
 }

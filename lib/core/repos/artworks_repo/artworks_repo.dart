@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class ArtworksRepo {
   Future<Either<Failure, List<ArtworkEntity>>> getArtworks();
-  Future<Either<Failure, List<ArtworkEntity>>> getMainArtworks();
+  Future<Either<Failure, List<ArtworkEntity>>> getMainArtworks({String? type});
   Future<Either<Failure, List<ArtworkEntity>>> getOtherArtworks();
 
   Future<Either<Failure, void>> addArtwork(ArtworkEntity addArtworkInputEntity);
@@ -14,5 +14,8 @@ abstract class ArtworksRepo {
   Future<Either<Failure, void>> borrowArtwork(
       ArtworkEntity artwork, DateTime returnDate);
   Future<Either<Failure, ArtworkEntity>> getArtworkById(String id);
+  Future<Either<Failure, List<ArtworkEntity>>> getArtworksByIds(
+      {required List<String> ids});
+
   Future<Either<Failure, void>> changeArtworkAttribute();
 }

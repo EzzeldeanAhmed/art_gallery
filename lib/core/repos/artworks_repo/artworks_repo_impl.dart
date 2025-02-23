@@ -4,6 +4,7 @@ import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/services/data_service.dart';
 import 'package:art_gallery/core/utils/backend_endpoint.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,8 @@ class ArtworksRepoImpl extends ArtworksRepo {
   }
 
   @override
-  Future<Either<Failure, List<ArtworkEntity>>> getMainArtworks() async {
+  Future<Either<Failure, List<ArtworkEntity>>> getMainArtworks(
+      {String? type}) async {
     try {
       var data = await databaseService.getData(
           path: BackendEndpoint.getArtworks) as List<Map<String, dynamic>>;
@@ -43,7 +45,11 @@ class ArtworksRepoImpl extends ArtworksRepo {
               }
             }
             if (artwork.status != 'other') {
-              return true;
+              if (type == null || artwork.type == type) {
+                return true;
+              } else {
+                return false;
+              }
             }
             return false;
           })
@@ -170,6 +176,23 @@ class ArtworksRepoImpl extends ArtworksRepo {
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure('Failed to borrow Artwork'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ArtworkEntity>>> getArtworksByIds(
+      {required List<String> ids}) async {
+    try {
+      var data = await databaseService
+          .getData(path: BackendEndpoint.getArtworks, query: {
+        'where': {'attribute': FieldPath.documentId, 'in': ids}
+      }) as List<Map<String, dynamic>>;
+      List<ArtworkEntity> artworks =
+          data.map((e) => ArtworkModel.fromJson(e).toEntity()).toList();
+
+      return right(artworks);
+    } catch (e) {
+      return Left(ServerFailure('Failed to get artworks'));
     }
   }
 }

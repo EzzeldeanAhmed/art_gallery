@@ -81,16 +81,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 SizedBox(
                   height: 12,
                 ),
-
-                FeaturedItem(
-                  title: 'Where art comes in a perfect harmony.',
-                  subtitle: 'Collections',
-                  image: Assets.imagesCollection,
-                  onPressed: () {},
-                ),
-                SizedBox(
-                  height: 12,
-                ),
               ],
             ),
           ),

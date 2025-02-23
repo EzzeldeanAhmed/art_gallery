@@ -8,6 +8,6 @@ abstract class CartRepo {
   Future<Either<Failure, String>> addArtworkToCart(
       {required String userId, required String artworkId});
   Future<Either<Failure, void>> removeArtworkFromCart(
-      {required String userId, required String artworkId});
-  Future<Either<Failure, void>> clearCart(String userId);
+      {required CartModel cartModel});
+  Future<Either<Failure, void>> clearCart(String cartId);
 }

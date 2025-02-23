@@ -53,9 +53,10 @@ class CartRepoImpl extends CartRepo {
   }
 
   @override
-  Future<Either<Failure, void>> clearCart(String userId) {
-    // TODO: implement clearCart
-    throw UnimplementedError();
+  Future<Either<Failure, void>> clearCart(String cartId) async {
+    await databaseService.deleteData(
+        path: BackendEndpoint.getCart, documentId: cartId);
+    return Future.value(right(null));
   }
 
   @override
@@ -90,8 +91,17 @@ class CartRepoImpl extends CartRepo {
 
   @override
   Future<Either<Failure, void>> removeArtworkFromCart(
-      {required String userId, required String artworkId}) {
+      {required CartModel cartModel}) async {
     // TODO: implement removeArtworkFromCart
-    throw UnimplementedError();
+    try {
+      await databaseService.addData(
+        path: BackendEndpoint.getCart,
+        data: cartModel.toJson(),
+        documentId: cartModel.id,
+      );
+      return Future.value(right(null));
+    } catch (e) {
+      return Future.value(left(ServerFailure(e.toString())));
+    }
   }
 }

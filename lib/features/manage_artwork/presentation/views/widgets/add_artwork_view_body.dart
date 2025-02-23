@@ -678,7 +678,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                             ? "Main"
                             : collectionMap[collection],
                         status: collection == "Main" ? "permanent" : "other",
-                        forSale: collection == "Main" ? false : forSale,
+                        forSale: collection != "Main" ? false : forSale,
                       );
                       if (widget.delete!) {
                         context

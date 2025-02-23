@@ -1,5 +1,6 @@
 import 'package:art_gallery/core/artwork_cubit/artworks_cubit.dart';
 import 'package:art_gallery/core/cart_cubit/cart_cubit.dart';
+import 'package:art_gallery/core/models/cart_model.dart';
 import 'package:art_gallery/core/repos/artworks_repo/artworks_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
@@ -27,20 +28,29 @@ class _CartPageState extends State<CartPage> {
     super.initState();
   }
 
-  void removeFromCart(ArtworkEntity artwork) {
+  void removeFromCart(CartModel cart, ArtworkEntity artwork) {
     setState(() {
-      widget.cartItems.remove(artwork);
+      cart.artworksID.remove(artwork.id);
+      widget.cartItems.remove(artwork.id);
+      context.read<CartCubit>().updateCart(cart: cart);
+
+      var userId = getIt.get<AuthRepo>().getSavedUserData().uId;
+      context.read<CartCubit>().getCart(userId);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("${artwork.name} removed from cart!")),
     );
   }
 
-  Future<ArtworkEntity?> getArtwork(artworkId) async {
+  Future<List<ArtworkEntity>> getArtwork(artworksId) async {
     var artworkRepo = getIt.get<ArtworksRepo>();
-    var result = await artworkRepo.getArtworkById(artworkId);
-    var artwork = result.fold((l) => null, (r) => r);
-    return artwork;
+    List<ArtworkEntity> artworks = [];
+    var data = await artworkRepo.getArtworksByIds(ids: artworksId);
+    data.fold(
+      (l) => print(l.message),
+      (r) => artworks = r,
+    );
+    return artworks;
   }
 
   @override
@@ -49,32 +59,33 @@ class _CartPageState extends State<CartPage> {
       builder: (context, state) {
         if (state is CartSuccess) {
           widget.cartItems = state.cart.artworksID;
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Cart',
-                style: TextStyles.bold23.copyWith(color: Colors.black),
-              ),
-            ),
-            body: widget.cartItems.isEmpty
-                ? Center(
-                    child: Text(
-                      "Your cart is empty",
-                      style: TextStyles.bold19.copyWith(color: Colors.black),
+          return FutureBuilder(
+              future: getArtwork(state.cart.artworksID),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done ||
+                    snapshot.data!.length != widget.cartItems.length) {
+                  return Container();
+                }
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      'Cart',
+                      style: TextStyles.bold23.copyWith(color: Colors.black),
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: widget.cartItems.length,
-                    itemBuilder: (context, index) {
-                      final artworkId = widget.cartItems[index];
-                      return FutureBuilder(
-                          future: getArtwork(artworkId),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState !=
-                                ConnectionState.done) {
-                              return Container();
-                            }
-                            var artwork = snapshot.data;
+                  ),
+                  body: widget.cartItems.isEmpty
+                      ? Center(
+                          child: Text(
+                            "Your cart is empty",
+                            style:
+                                TextStyles.bold19.copyWith(color: Colors.black),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: widget.cartItems.length,
+                          itemBuilder: (context, index) {
+                            final artworkId = widget.cartItems[index];
+                            var artwork = snapshot.data![index];
                             return Card(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
@@ -100,40 +111,43 @@ class _CartPageState extends State<CartPage> {
                                 trailing: IconButton(
                                   icon: Icon(Icons.remove_circle,
                                       color: Colors.red),
-                                  onPressed: () => removeFromCart(artwork),
+                                  onPressed: () =>
+                                      removeFromCart(state.cart, artwork),
                                 ),
                               ),
                             );
-                          });
-                    },
-                  ),
-            bottomNavigationBar: widget.cartItems.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Implement checkout logic
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CartCheckoutPage(
-                            cartModel: state.cart,
-                          ),
-                        ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          },
                         ),
-                      ),
-                      child: Text(
-                        "Checkout",
-                        style: TextStyles.bold16.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  )
-                : null,
-          );
+                  bottomNavigationBar: widget.cartItems.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Implement checkout logic
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CartCheckoutPage(
+                                  cartModel: state.cart,
+                                  orderItems: snapshot.data!,
+                                ),
+                              ));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              "Checkout",
+                              style: TextStyles.bold16
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      : null,
+                );
+              });
         } else {
           return Center(child: CircularProgressIndicator());
         }
