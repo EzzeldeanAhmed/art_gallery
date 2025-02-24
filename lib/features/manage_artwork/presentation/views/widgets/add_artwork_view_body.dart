@@ -114,8 +114,9 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
           : "",
       artist = widget.update! ? widget.defaultEntity!.artist : "",
       collection =
-          widget.update! ? widget.defaultEntity!.collectionID!! : "Main",
-      dimensions = widget.update! ? widget.defaultEntity!.dimensions : "";
+          widget.update! ? widget.defaultEntity!.collectionID! : "Main",
+      dimensions = widget.update! ? widget.defaultEntity!.dimensions : "",
+      videoUrl = widget.update! ? widget.defaultEntity!.videoUrl ?? "" : "";
   late bool forSale = widget.update! ? widget.defaultEntity!.forSale! : false;
   late final countryController = TextEditingController(
       text: widget.update! ? widget.defaultEntity!.country : "");
@@ -607,6 +608,21 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                 textInputType: TextInputType.text,
                 maxLines: 5,
               ),
+
+              const SizedBox(height: 20),
+              Text('Video URL:', style: TextStyles.semiBold16),
+              const SizedBox(height: 5),
+              CustomTextFormField(
+                  enabled: !widget.delete!,
+                  initialValue: videoUrl,
+                  onSaved: (value) {
+                    videoUrl = value!;
+                  },
+                  validator: (value) {
+                    return null; // No validation, so it's not required
+                  },
+                  hintText: 'Enter artwork Video URL',
+                  textInputType: TextInputType.text),
               const SizedBox(height: 20),
               Row(children: [
                 Padding(
@@ -679,6 +695,8 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                             : collectionMap[collection],
                         status: collection == "Main" ? "permanent" : "other",
                         forSale: collection != "Main" ? false : forSale,
+                        price: price.toInt(),
+                        videoUrl: videoUrl,
                       );
                       if (widget.delete!) {
                         context

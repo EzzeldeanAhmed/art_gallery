@@ -55,6 +55,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Color themeColor = Colors.blue;
 
+  final GlobalKey<FormState> addressFormKey = GlobalKey<FormState>();
+  // Address Form Fields
+  String fullName = '';
+  String phoneNumber = '';
+  String streetAddress = '';
+  String city = '';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -79,6 +86,48 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
       }, builder: (context, state) {
         return _checkoutForm(context);
       }),
+    );
+  }
+
+  Widget _buildTextField(
+      String label, Function(String) onChanged, String errorMsg) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return errorMsg;
+          }
+          return null;
+        },
+        onChanged: onChanged,
+      ),
+    );
+  }
+
+  // Address & Contact Info Form
+  Widget _buildAddressForm() {
+    return Form(
+      key: addressFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Shipping Address",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          SizedBox(height: 10),
+          _buildTextField(
+              "Full Name", (value) => fullName = value, "Enter your full name"),
+          _buildTextField("Phone Number", (value) => phoneNumber = value,
+              "Enter a valid phone number"),
+          _buildTextField("City", (value) => city = value, "Enter your city"),
+          _buildTextField("Street Address", (value) => streetAddress = value,
+              "Enter your street address"),
+        ],
+      ),
     );
   }
 
@@ -139,6 +188,8 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                   ],
                 ),
               ),
+              SizedBox(height: 20),
+              _buildAddressForm(),
               SizedBox(height: 20),
               CreditCardWidget(
                 cardNumber: cardNumber,
@@ -245,6 +296,10 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                             userId:
                                 getIt.get<AuthRepo>().getSavedUserData().uId,
                             orderItems: orderItems,
+                            streetAddress: streetAddress,
+                            phone: phoneNumber,
+                            fullName: fullName,
+                            city: city,
                           );
                           getIt.get<OrderRepo>().addOrder(orderModel);
                           getIt.get<CartRepo>().clearCart(widget.cartModel.id!);

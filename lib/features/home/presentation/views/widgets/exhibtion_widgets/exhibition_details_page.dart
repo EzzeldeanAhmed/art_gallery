@@ -1,10 +1,10 @@
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
+import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_book_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
-import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
@@ -201,6 +201,26 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                     },
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Participated Artworks: ',
+                      style: TextStyles.semiBold16.copyWith(
+                        color: AppColors.secondaryColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text:
+                              '${widget.exhibitionEntity.artworks.length} artworks',
+                          style: TextStyles.semiBold16.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 5),
@@ -332,8 +352,156 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                 ),
           // Book a Ticket Button at the Bottom
           widget.filter == "past"
-              ? const SliverToBoxAdapter(
-                  child: SizedBox.shrink(),
+              ? SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // Align text to the left
+                    children: [
+                      const SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
+                        child: Text(
+                          'Attendees:',
+                          style: TextStyles.bold23.copyWith(
+                            color: AppColors.secondaryColor,
+                          ),
+                        ),
+                      ),
+                      StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('tickets')
+                            .where('exhibitionId',
+                                isEqualTo: widget.exhibitionEntity.id)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text("No attendees yet."),
+                            );
+                          }
+
+                          // Extract user IDs and count tickets per user
+                          Map<String, int> attendeeCounts = {};
+                          int totalTickets = 0, counter = 1;
+                          for (var doc in snapshot.data!.docs) {
+                            String userId = doc['userId'] as String;
+                            attendeeCounts[userId] =
+                                (attendeeCounts[userId] ?? 0) + doc['quantity']
+                                    as int;
+
+                            totalTickets += doc['quantity'] as int;
+                          }
+
+                          return Column(
+                            children: [
+                              FutureBuilder(
+                                future: getIt.get<AuthRepo>().getUsersData(
+                                    uids: attendeeCounts.keys
+                                        .toList()), // Fetch user details
+                                builder: (context, userSnapshot) {
+                                  if (userSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  if (!userSnapshot.hasData ||
+                                      userSnapshot.data!.isEmpty) {
+                                    return const Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Text("No attendees found."),
+                                    );
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24.0),
+                                    child: Column(
+                                      children: userSnapshot.data!.map((user) {
+                                        return Card(
+                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: ListTile(
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  AppColors.primaryColor,
+                                              child: Text(
+                                                "${counter++}", // First letter as avatar
+                                                style:
+                                                    TextStyles.bold16.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            title: Text(
+                                              user.name,
+                                              style: TextStyles.bold16.copyWith(
+                                                color: AppColors.primaryColor,
+                                              ),
+                                            ),
+                                            trailing: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.secondaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Text(
+                                                'x${attendeeCounts[user.uId!]}', // Show ticket count
+                                                style:
+                                                    TextStyles.bold16.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                  height: 15), // Spacing before total count
+                              // Total Attendees Section
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppColors.primaryColor.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Total Attendees: {$totalTickets}",
+                                    style: TextStyles.bold19.copyWith(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 )
               : SliverToBoxAdapter(
                   child: Padding(

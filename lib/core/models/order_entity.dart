@@ -16,11 +16,19 @@ class OrderEntity {
 
   final String userId;
   final List<OrderItemEntity> orderItems;
+  final String streetAddress;
+  final String phone;
+  final String fullName;
+  final String city;
 
   OrderEntity(
       {required this.orderId,
       required this.orderDate,
       required this.orderStatus,
       required this.userId,
-      required this.orderItems});
+      required this.orderItems,
+      required this.streetAddress,
+      required this.phone,
+      required this.fullName,
+      required this.city});
 }

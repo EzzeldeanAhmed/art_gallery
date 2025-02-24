@@ -139,6 +139,21 @@ class AuthRepoImpl extends AuthRepo {
       throw Exception("No user data found");
     }
   }
+
+  @override
+  Future<List<UserModel>> getUsersData({required List<String> uids}) async {
+    try {
+      var data = await databaseService
+          .getData(path: BackendEndpoint.getUsersData, query: {
+        'where': {'attribute': FieldPath.documentId, 'in': uids}
+      }) as List<Map<String, dynamic>>;
+      List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
+
+      return users;
+    } catch (e) {
+      throw ServerFailure('Failed to get artworks');
+    }
+  }
 }
 /*  @override
   Future addUserData({required UserEntity user}) async {

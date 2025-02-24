@@ -19,6 +19,7 @@ class ArtworkModel {
   final String dimensions;
   File? image;
   String? imageUrl;
+  String? videoUrl;
 
   String? status = 'permanent';
   String? collectionID = 'main';
@@ -48,7 +49,8 @@ class ArtworkModel {
       this.borrowDate,
       this.returnDate,
       this.forSale,
-      this.price});
+      this.price,
+      this.videoUrl});
 
   factory ArtworkModel.fromEntity(ArtworkEntity addArtworkInputEntity) {
     return ArtworkModel(
@@ -73,38 +75,41 @@ class ArtworkModel {
       returnDate: addArtworkInputEntity.returnDate,
       forSale: addArtworkInputEntity.forSale,
       price: addArtworkInputEntity.price,
+      videoUrl: addArtworkInputEntity.videoUrl,
     );
   }
 
   factory ArtworkModel.fromJson(Map<String, dynamic> json) {
     return ArtworkModel(
-        code: json['code'],
-        name: json['name'],
-        type: json['type'],
-        medium: json['medium'],
-        country: json['country'],
-        description: json['description'],
-        epoch: json['epoch'],
-        artist: json['artist'],
-        year: json['year'],
-        dimensions: json['dimensions'],
-        image: json['image'],
-        imageUrl: json['imageUrl'],
-        reviews: json['reviews'] != null
-            ? List<ReviewModel>.from(
-                json['reviews'].map((e) => ReviewModel.fromJson(e)))
-            : [],
-        id: json['id'],
-        status: json['status'],
-        collectionID: json['collectionID'],
-        borrowDate: json['borrowDate'] != null
-            ? (json['borrowDate'] as Timestamp).toDate()
-            : null,
-        returnDate: json['returnDate'] != null
-            ? (json['returnDate'] as Timestamp).toDate()
-            : null,
-        forSale: json['forSale'],
-        price: json['price']);
+      code: json['code'],
+      name: json['name'],
+      type: json['type'],
+      medium: json['medium'],
+      country: json['country'],
+      description: json['description'],
+      epoch: json['epoch'],
+      artist: json['artist'],
+      year: json['year'],
+      dimensions: json['dimensions'],
+      image: json['image'],
+      imageUrl: json['imageUrl'],
+      reviews: json['reviews'] != null
+          ? List<ReviewModel>.from(
+              json['reviews'].map((e) => ReviewModel.fromJson(e)))
+          : [],
+      id: json['id'],
+      status: json['status'],
+      collectionID: json['collectionID'],
+      borrowDate: json['borrowDate'] != null
+          ? (json['borrowDate'] as Timestamp).toDate()
+          : null,
+      returnDate: json['returnDate'] != null
+          ? (json['returnDate'] as Timestamp).toDate()
+          : null,
+      forSale: json['forSale'],
+      price: json['price'] ?? 50,
+      videoUrl: json['videoUrl'] ?? null,
+    );
   }
 
   toJson() {
@@ -125,34 +130,35 @@ class ArtworkModel {
       'collectionID': collectionID ?? 'Main',
       'borrowDate': borrowDate,
       'returnDate': returnDate,
-      // 'forSale': false,
       'forSale': forSale ?? true,
-      // 'price': null
-      'price': price,
+      'price': price ?? 50,
+      'videoUrl': videoUrl ?? "",
     };
   }
 
   ArtworkEntity toEntity() {
     return ArtworkEntity(
-        code: code,
-        name: name,
-        type: type,
-        medium: medium,
-        country: country,
-        description: description,
-        epoch: epoch,
-        artist: artist,
-        year: year,
-        dimensions: dimensions,
-        image: image,
-        imageUrl: imageUrl,
-        reviews: reviews.map((e) => e.toEntity()).toList(),
-        id: id,
-        status: status,
-        collectionID: collectionID,
-        borrowDate: borrowDate,
-        returnDate: returnDate,
-        forSale: forSale,
-        price: price);
+      code: code,
+      name: name,
+      type: type,
+      medium: medium,
+      country: country,
+      description: description,
+      epoch: epoch,
+      artist: artist,
+      year: year,
+      dimensions: dimensions,
+      image: image,
+      imageUrl: imageUrl,
+      reviews: reviews.map((e) => e.toEntity()).toList(),
+      id: id,
+      status: status,
+      collectionID: collectionID,
+      borrowDate: borrowDate,
+      returnDate: returnDate,
+      forSale: forSale,
+      price: price,
+      videoUrl: videoUrl,
+    );
   }
 }

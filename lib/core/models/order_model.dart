@@ -50,7 +50,10 @@ class OrderModel {
   final String userId;
   final List<OrderItemModel> orderItems;
   String? id;
-
+  final String streetAddress;
+  final String phone;
+  final String fullName;
+  final String city;
   OrderModel({
     required this.orderId,
     required this.orderDate,
@@ -58,6 +61,10 @@ class OrderModel {
     required this.userId,
     required this.orderItems,
     this.id = null,
+    required this.streetAddress,
+    required this.phone,
+    required this.fullName,
+    required this.city,
   });
 
   factory OrderModel.fromEntity(OrderEntity addArtworkInputEntity) {
@@ -69,6 +76,10 @@ class OrderModel {
       orderItems: addArtworkInputEntity.orderItems
           .map((e) => OrderItemModel.fromEntity(e))
           .toList(),
+      streetAddress: addArtworkInputEntity.streetAddress,
+      phone: addArtworkInputEntity.phone,
+      fullName: addArtworkInputEntity.fullName,
+      city: addArtworkInputEntity.city,
     );
   }
 
@@ -81,7 +92,11 @@ class OrderModel {
       orderItems: (json['orderItems'] as List)
           .map((e) => OrderItemModel.fromJson(e))
           .toList(),
-      id: json['id'],
+      id: json['id'] ?? null,
+      streetAddress: json['streetAddress'],
+      phone: json['phone'],
+      fullName: json['fullName'],
+      city: json['city'],
     );
   }
 
@@ -92,6 +107,10 @@ class OrderModel {
       'orderStatus': orderStatus,
       'userId': userId,
       'orderItems': orderItems.map((e) => e.toJson()).toList(),
+      'streetAddress': streetAddress,
+      'phone': phone,
+      'fullName': fullName,
+      'city': city,
     };
   }
 
@@ -102,6 +121,10 @@ class OrderModel {
       orderStatus: orderStatus,
       userId: userId,
       orderItems: orderItems.map((e) => e.toEntity()).toList(),
+      streetAddress: streetAddress,
+      phone: phone,
+      fullName: fullName,
+      city: city,
     );
   }
 }

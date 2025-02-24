@@ -10,6 +10,7 @@ import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/core/widgets/custom_network_image.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artist_widgets/artist_details_page.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/videoScreenPage.dart';
 import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_borrow_popup.dart';
 import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_return_popup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,26 +58,59 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  child: Hero(
-                    tag: 'dd',
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                      child: widget.artworkEntity.imageUrl != null
-                          ? Flexible(
-                              child: CustomNetworkImage(
-                                  imageUrl: widget.artworkEntity.imageUrl!),
-                            )
-                          : Container(
-                              color: Colors.grey,
-                              height: 100,
-                              width: 100,
+                GestureDetector(
+                  onTap: () {
+                    if (widget.artworkEntity.videoUrl != null &&
+                        widget.artworkEntity.videoUrl!.isNotEmpty) {
+                      showDialog(
+                        context: context,
+                        barrierColor: Colors.black
+                            .withOpacity(0.8), // Dark transparent background
+                        builder: (context) {
+                          return YouTubePopup(
+                            youtubeUrl:
+                                widget.artworkEntity.videoUrl!, // Video URL
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Hero(
+                          tag: 'dd',
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
                             ),
-                    ),
+                            child: widget.artworkEntity.imageUrl != null
+                                ? CustomNetworkImage(
+                                    imageUrl: widget.artworkEntity.imageUrl!)
+                                : Container(
+                                    color: Colors.grey,
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                          ),
+                        ),
+                      ),
+                      widget.artworkEntity.videoUrl != null &&
+                              widget.artworkEntity.videoUrl!.isNotEmpty
+                          ? Positioned(
+                              bottom: 0, // Adjust vertical position
+                              right: 0, // Adjust horizontal position
+                              child: Icon(
+                                Icons.play_circle_fill, // Play icon
+                                color: Colors.red
+                                    .withOpacity(0.9), // Semi-transparent white
+                                size: 50, // Adjust size as needed
+                              ),
+                            )
+                          : Container(),
+                    ],
                   ),
                 ),
                 Padding(

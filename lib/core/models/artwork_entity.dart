@@ -24,7 +24,7 @@ class ArtworkEntity {
   int? price = 0;
 
   final List<ReviewEntity> reviews;
-
+  String? videoUrl;
   ArtworkEntity(
       {required this.code,
       required this.name,
@@ -45,5 +45,6 @@ class ArtworkEntity {
       this.borrowDate,
       this.returnDate,
       this.forSale,
-      this.price});
+      this.price,
+      this.videoUrl});
 }
