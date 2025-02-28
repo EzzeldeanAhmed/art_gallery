@@ -12,13 +12,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkView extends StatelessWidget {
   const AddArtworkView(
-      {super.key, this.update, this.defaultEntity, this.delete});
+      {super.key,
+      this.update,
+      this.defaultEntity,
+      this.delete,
+      this.collection = 'Main'});
 
   static const routeName = 'add_artwork';
   final bool? update;
   final ArtworkEntity? defaultEntity;
   final bool? delete;
-
+  final String collection;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +37,10 @@ class AddArtworkView extends StatelessWidget {
                 getIt.get<ArtworksRepo>(),
               ),
           child: AddArtworkViewBodyBlocBuilder(
-              update: update!, defaultEntity: defaultEntity, delete: delete!)),
+              update: update!,
+              defaultEntity: defaultEntity,
+              delete: delete!,
+              collection: collection)),
     );
   }
 }

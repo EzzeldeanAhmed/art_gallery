@@ -47,7 +47,7 @@ class _ArtworkItemState extends State<ArtworkItem> {
           MaterialPageRoute(
               builder: (context) => ArtworkDetailsPage(
                   artworkEntity: widget.artworkEntity,
-                  addToCart: widget.onAddToCart)),
+                  addToCart: () => widget.onAddToCart())),
         );
       },
       child: Container(

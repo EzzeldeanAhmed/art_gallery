@@ -65,4 +65,6 @@ class AppIcons {
 
   static const cardAdd = 'assets/icons/card_add.svg';
   static const tickets = 'assets/icons/ticket.png';
+
+  static const order = 'assets/icons/order.svg';
 }

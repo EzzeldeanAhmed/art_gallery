@@ -1,4 +1,6 @@
 import 'package:art_gallery/core/utils/app_icons.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/artwork_favorites/favorites_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/order_widgets/order_view.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/profile/booked_tickets/tickets.dart';
 import 'package:flutter/material.dart';
 
@@ -41,14 +43,20 @@ class ProfileHeaderOptions extends StatelessWidget {
             label: 'Favorites',
             icon: AppIcons.favprof,
             onTap: () {
-              // Navigator.pushNamed(context, AppRoutes.coupon);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FavoritesView(
+                            profile: true,
+                          )));
             },
           ),
           ProfileSqureTile(
-            label: 'Payments',
-            icon: AppIcons.cccard,
+            label: 'Orders',
+            icon: AppIcons.order,
             onTap: () {
-              // Navigator.pushNamed(context, AppRoutes.deliveryAddress);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => OrderView()));
             },
           ),
         ],

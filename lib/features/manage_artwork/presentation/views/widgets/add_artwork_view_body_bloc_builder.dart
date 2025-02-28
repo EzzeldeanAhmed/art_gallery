@@ -8,11 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkViewBodyBlocBuilder extends StatelessWidget {
   const AddArtworkViewBodyBlocBuilder(
-      {super.key, this.update, this.defaultEntity, this.delete});
+      {super.key,
+      this.update,
+      this.defaultEntity,
+      this.delete,
+      required this.collection});
 
   final bool? update;
   final ArtworkEntity? defaultEntity;
   final bool? delete;
+  final String collection;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,10 @@ class AddArtworkViewBodyBlocBuilder extends StatelessWidget {
         return CustomProgressHud(
           isLoading: state is AddArtworkLoading,
           child: AddArtworkViewBody(
-              update: update, defaultEntity: defaultEntity, delete: delete),
+              update: update,
+              defaultEntity: defaultEntity,
+              delete: delete,
+              collection: collection),
         );
       },
     );

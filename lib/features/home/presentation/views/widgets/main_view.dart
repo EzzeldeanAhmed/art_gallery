@@ -19,7 +19,7 @@ class _MainViewState extends State<MainView> {
 
   static final List<Widget> _pages = <Widget>[
     const HomeView(),
-    const FavoritesView(),
+    FavoritesView(),
     const CartView(),
     const ProfilePage(),
   ];

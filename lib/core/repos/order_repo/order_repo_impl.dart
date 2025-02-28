@@ -67,11 +67,11 @@ class OrderRepoImpl extends OrderRepo {
   @override
   Future<Either<Failure, List<OrderModel>>> getOrdersByUserId(
       String userId) async {
-    var data = databaseService.getDataWhere(
-        path: BackendEndpoint.getOrders,
-        attribute: "userID",
-        value: userId) as List<Map<String, dynamic>>;
-    List<OrderModel> orders = data.map((e) => OrderModel.fromJson(e)).toList();
+    var data = await databaseService.getDataWhere(
+        path: BackendEndpoint.getOrders, attribute: "userId", value: userId);
+    var fata = data as List<Map<String, dynamic>>;
+
+    List<OrderModel> orders = fata.map((e) => OrderModel.fromJson(e)).toList();
     return right(orders);
   }
 }

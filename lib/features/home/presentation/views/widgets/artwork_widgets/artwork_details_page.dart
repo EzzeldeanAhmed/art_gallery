@@ -22,12 +22,12 @@ class ArtworkDetailsPage extends StatefulWidget {
       {super.key,
       required this.artworkEntity,
       this.borrowing = false,
-      Function? addToCart});
+      this.addToCart});
 
   final ArtworkEntity artworkEntity;
   bool? borrowing = false;
   CollectionEntity? collection;
-  Function? addToCart = () {};
+  Function? addToCart;
 
   @override
   State<ArtworkDetailsPage> createState() => _ArtworkDetailsPageState();
@@ -361,24 +361,42 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                 widget.artworkEntity.forSale!
                     ? Padding(
                         padding: const EdgeInsets.all(24.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: widget.addToCart as void Function()?,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment
+                              .center, // Center align the items
+                          children: [
+                            Text(
+                              "\$${widget.artworkEntity.price!.toStringAsFixed(2)}", // Display price
+                              style: TextStyles.bold23.copyWith(
+                                // Make the price bigger
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            child: Text(
-                              "Add to Cart",
-                              style: TextStyles.bold16.copyWith(
-                                color: Colors.white,
+                            const SizedBox(
+                                width:
+                                    16), // Add some spacing between price and button
+                            SizedBox(
+                              width: 160, // Adjust button width if needed
+                              child: ElevatedButton(
+                                onPressed: () => widget.addToCart!(),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12), // Adjust height
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Add to Cart",
+                                  style: TextStyles.bold16.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       )
                     : Container(),

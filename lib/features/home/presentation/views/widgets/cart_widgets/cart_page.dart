@@ -86,6 +86,7 @@ class _CartPageState extends State<CartPage> {
                           itemBuilder: (context, index) {
                             final artworkId = widget.cartItems[index];
                             var artwork = snapshot.data![index];
+
                             return Card(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
@@ -96,12 +97,30 @@ class _CartPageState extends State<CartPage> {
                                   child: CustomNetworkImage(
                                       imageUrl: artwork!.imageUrl!),
                                 ),
-                                title: Text(
-                                  artwork.name,
-                                  style: TextStyles.semiBold16.copyWith(
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
+                                title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        artwork.name.length > 20
+                                            ? artwork.name.substring(0, 20) +
+                                                "..."
+                                            : artwork.name,
+                                        style: TextStyles.semiBold16.copyWith(
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 25.0),
+                                        child: Text(
+                                          "\$${artwork.price!.toStringAsFixed(2)}", // Display price beside type
+                                          style: TextStyles.bold16.copyWith(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
                                 subtitle: Text(
                                   artwork.type,
                                   style: TextStyles.regular16.copyWith(

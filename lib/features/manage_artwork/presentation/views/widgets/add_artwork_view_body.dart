@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:art_gallery/core/utils/app_colors.dart';
 import 'package:art_gallery/core/utils/app_textstyles.dart';
 import 'package:art_gallery/features/auth/presentation/views/widgets/custom_checkbox.dart';
+import 'package:art_gallery/features/manage_collection/presentation/views/manger/get_collections/cubit/get_collection_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 
@@ -16,10 +17,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddArtworkViewBody extends StatefulWidget {
   const AddArtworkViewBody(
-      {super.key, this.update, this.defaultEntity, this.delete});
+      {super.key,
+      this.update,
+      this.defaultEntity,
+      this.delete,
+      this.collection = 'Main'});
   final bool? update;
   final bool? delete;
   final ArtworkEntity? defaultEntity;
+  final String collection;
   @override
   State<AddArtworkViewBody> createState() => _AddArtworkViewBodyState();
 }
@@ -113,8 +119,9 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
               : "")
           : "",
       artist = widget.update! ? widget.defaultEntity!.artist : "",
-      collection =
-          widget.update! ? widget.defaultEntity!.collectionID! : "Main",
+      // collection = widget.update!
+      //     ? widget.defaultEntity!.collectionID!
+      //     : widget.collection,
       dimensions = widget.update! ? widget.defaultEntity!.dimensions : "",
       videoUrl = widget.update! ? widget.defaultEntity!.videoUrl ?? "" : "";
   late bool forSale = widget.update! ? widget.defaultEntity!.forSale! : false;
@@ -472,103 +479,103 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   }
                 },
               ),
-              const SizedBox(height: 8),
-              Text('Collection:', style: TextStyles.semiBold16),
-              const SizedBox(height: 5),
-              FutureBuilder<List<String>>(
-                future: getCollection(),
-                builder: (context, snapshot) {
-                  // ignore: unrelated_type_equality_checks
-                  if (snapshot.connectionState == ConnectionState.waiting &&
-                      collections != []) {
-                    return CustomTextFormField(
-                        hintText: "Loading",
-                        textInputType: TextInputType.text,
-                        enabled: false);
-                  } else if (snapshot.hasError && collections != []) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
-                      collections != []) {
-                    return Center(child: Text('No documents found.'));
-                  } else {
-                    return DropdownButtonFormField2<String>(
-                      //isExpanded: true,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFF9FAFA),
-                        contentPadding: EdgeInsets.zero,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                      ),
-                      value:
-                          collection != "" && collections.contains(collection)
-                              ? collection
-                              : null,
-                      hint: const Text(
-                        'Select collection of Artwork',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0XFF949D9E),
-                        ),
-                      ),
-                      items: snapshot.data!
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select a collection.';
-                        }
-                        return null;
-                      },
-                      onChanged: widget.delete!
-                          ? null
-                          : (value) {
-                              setState(() {
-                                collection = value!;
-                              });
-                            },
-                      onSaved: (value) {},
-                      buttonStyleData: const ButtonStyleData(
-                        padding: EdgeInsets.only(right: 8),
-                      ),
-                      iconStyleData: const IconStyleData(
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.blue,
-                        ),
-                        iconSize: 30,
-                      ),
-                      dropdownStyleData: DropdownStyleData(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                        ),
-                      ),
-                      menuItemStyleData: const MenuItemStyleData(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                    );
+              // const SizedBox(height: 8),
+              // Text('Collection:', style: TextStyles.semiBold16),
+              // const SizedBox(height: 5),
+              // FutureBuilder<List<String>>(
+              //   future: getCollection(),
+              //   builder: (context, snapshot) {
+              //     // ignore: unrelated_type_equality_checks
+              //     if (snapshot.connectionState == ConnectionState.waiting &&
+              //         collections != []) {
+              //       return CustomTextFormField(
+              //           hintText: "Loading",
+              //           textInputType: TextInputType.text,
+              //           enabled: false);
+              //     } else if (snapshot.hasError && collections != []) {
+              //       return Center(child: Text('Error: ${snapshot.error}'));
+              //     } else if ((!snapshot.hasData || snapshot.data!.isEmpty) &&
+              //         collections != []) {
+              //       return Center(child: Text('No documents found.'));
+              //     } else {
+              //       return DropdownButtonFormField2<String>(
+              //         //isExpanded: true,
+              //         decoration: InputDecoration(
+              //           filled: true,
+              //           fillColor: const Color(0xFFF9FAFA),
+              //           contentPadding: EdgeInsets.zero,
+              //           border: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(0),
+              //           ),
+              //         ),
+              //         value:
+              //             collection != "" && collections.contains(collection)
+              //                 ? collection
+              //                 : null,
+              //         hint: const Text(
+              //           'Select collection of Artwork',
+              //           style: TextStyle(
+              //             fontSize: 14,
+              //             color: Color(0XFF949D9E),
+              //           ),
+              //         ),
+              //         items: snapshot.data!
+              //             .map((item) => DropdownMenuItem<String>(
+              //                   value: item,
+              //                   child: Text(
+              //                     item,
+              //                     style: const TextStyle(
+              //                       fontSize: 14,
+              //                     ),
+              //                   ),
+              //                 ))
+              //             .toList(),
+              //         validator: (value) {
+              //           if (value == null) {
+              //             return 'Please select a collection.';
+              //           }
+              //           return null;
+              //         },
+              //         onChanged: widget.delete!
+              //             ? null
+              //             : (value) {
+              //                 setState(() {
+              //                   collection = value!;
+              //                 });
+              //               },
+              //         onSaved: (value) {},
+              //         buttonStyleData: const ButtonStyleData(
+              //           padding: EdgeInsets.only(right: 8),
+              //         ),
+              //         iconStyleData: const IconStyleData(
+              //           icon: Icon(
+              //             Icons.arrow_drop_down,
+              //             color: Colors.blue,
+              //           ),
+              //           iconSize: 30,
+              //         ),
+              //         dropdownStyleData: DropdownStyleData(
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(15),
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //         menuItemStyleData: const MenuItemStyleData(
+              //           padding: EdgeInsets.symmetric(horizontal: 16),
+              //         ),
+              //       );
 
-                    // CustomTextFormField(
-                    //     enabled: !widget.delete!,
-                    //     initialValue: artist,
-                    //     onSaved: (value) {
-                    //       artist = value!;
-                    //     },
-                    //     hintText: 'Artist',
-                    //     textInputType: TextInputType.text);
-                  }
-                },
-              ),
+              //       // CustomTextFormField(
+              //       //     enabled: !widget.delete!,
+              //       //     initialValue: artist,
+              //       //     onSaved: (value) {
+              //       //       artist = value!;
+              //       //     },
+              //       //     hintText: 'Artist',
+              //       //     textInputType: TextInputType.text);
+              //     }
+              //   },
+              // ),
               const SizedBox(height: 8),
               Text('Country:', style: TextStyles.semiBold16),
               const SizedBox(height: 5),
@@ -623,24 +630,30 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   },
                   hintText: 'Enter artwork Video URL',
                   textInputType: TextInputType.text),
+              widget.collection == "Main"
+                  ? Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CustomCheckBox(
+                              onChecked: (value) {
+                                setState(() {
+                                  forSale = value;
+                                });
+                              },
+                              isChecked:
+                                  widget.collection != "Main" ? false : forSale,
+                              enabled: widget.collection == "Main",
+                            ),
+                          ),
+                          Text('For Sale', style: TextStyles.semiBold16),
+                        ]),
+                      ],
+                    )
+                  : Container(),
               const SizedBox(height: 20),
-              Row(children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CustomCheckBox(
-                    onChecked: (value) {
-                      setState(() {
-                        forSale = value;
-                      });
-                    },
-                    isChecked: collection != "Main" ? false : forSale,
-                    enabled: collection == "Main",
-                  ),
-                ),
-                Text('For Sale', style: TextStyles.semiBold16),
-              ]),
-              const SizedBox(height: 20),
-
               forSale
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -690,11 +703,10 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                         year: year,
                         dimensions: dimensions,
                         image: image!,
-                        collectionID: collection == "Main"
-                            ? "Main"
-                            : collectionMap[collection],
-                        status: collection == "Main" ? "permanent" : "other",
-                        forSale: collection != "Main" ? false : forSale,
+                        collectionID: widget.collection,
+                        status:
+                            widget.collection == "Main" ? "permanent" : "other",
+                        forSale: widget.collection != "Main" ? false : forSale,
                         price: price.toInt(),
                         videoUrl: videoUrl,
                       );
@@ -710,6 +722,9 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                         context.read<AddArtworkCubit>().updateArtwork(input);
                       } else {
                         context.read<AddArtworkCubit>().addArtwork(input);
+                        if (widget.collection != "Main") {
+                          Navigator.of(context).pop();
+                        }
                       }
                     } else {
                       autovalidateMode = AutovalidateMode.always;

@@ -5,6 +5,7 @@ import 'package:art_gallery/core/widgets/artwork_item.dart';
 import 'package:art_gallery/core/widgets/custom_error_widget.dart';
 import 'package:art_gallery/features/auth/domain/entites/user_entity.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
+import 'package:art_gallery/features/manage_artwork/presentation/views/add_artwork_view.dart';
 import 'package:art_gallery/features/manage_collection/presentation/views/widgets/artwork_item_collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,19 @@ class ArtworksGridViewCollection extends StatelessWidget {
             snap: false,
             floating: false,
             backgroundColor: Colors.white,
-            actions: [],
+            actions: [
+              IconButton(
+                  padding: EdgeInsets.only(right: 20),
+                  iconSize: 30,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddArtworkView(
+                            delete: false,
+                            update: false,
+                            collection: collection.id)));
+                  },
+                  icon: Icon(Icons.add))
+            ],
           ),
           SliverGrid.builder(
               itemCount: artworks.length,

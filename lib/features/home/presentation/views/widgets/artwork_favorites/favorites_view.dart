@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesView extends StatelessWidget {
-  const FavoritesView({super.key});
+  FavoritesView({super.key, this.profile = false});
   static const routeName = 'favorites_artworks_view';
-
+  bool profile = false;
   @override
   Widget build(BuildContext context) {
-    return FavoritesViewBody();
+    return FavoritesViewBody(
+      profile: profile,
+    );
   }
 }

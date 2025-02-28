@@ -63,6 +63,14 @@ class ProfileMenuOptions extends StatelessWidget {
           // ),
           const Divider(thickness: 0.1),
           ProfileListTile(
+            title: 'Payments',
+            icon: AppIcons.profilePayment,
+            onTap: () {
+              //  Navigator.pushNamed(context, AppRoutes.loginOrSignup)
+            },
+          ),
+          const Divider(thickness: 0.1),
+          ProfileListTile(
             title: 'Logout',
             icon: AppIcons.profileLogout,
             onTap: () {
