@@ -268,7 +268,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                                   firstDate:
                                       DateTime(DateTime.now().year - 825, 1),
                                   lastDate:
-                                      DateTime(DateTime.now().year - 10, 1),
+                                      DateTime(DateTime.now().year - 1, 1),
                                   selectedDate: _selectedDate,
                                   onChanged: (DateTime dateTime) {
                                     Navigator.pop(context);
