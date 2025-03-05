@@ -224,7 +224,7 @@ class _AddArtistViewBodyState extends State<AddArtistViewBody> {
                   final dt = await showDatePicker(
                     context: context,
                     firstDate: DateTime(0),
-                    lastDate: DateTime(DateTime.now().year - 5),
+                    lastDate: DateTime(DateTime.now().year - 1),
                   );
                   if (dt != null) {
                     deathDateController.text =
