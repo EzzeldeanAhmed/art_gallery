@@ -1,3 +1,5 @@
+import 'package:accordion/accordion.dart';
+import 'package:accordion/controllers.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
@@ -24,6 +26,14 @@ class ExhibitionDetailsPage extends StatefulWidget {
 
 class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
   bool isExpanded = false;
+  static const headerStyle = TextStyle(
+      color: Color(0xffffffff), fontSize: 18, fontWeight: FontWeight.bold);
+  static const contentStyleHeader = TextStyle(
+      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
+  static const contentStyle = TextStyle(
+      color: Color.fromARGB(255, 0, 0, 0),
+      fontSize: 16,
+      fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
@@ -77,130 +87,196 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                   ),
                 ),
                 SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Start Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.startDate.toString(),
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                Accordion(
+                  headerBorderColor: Colors.blueGrey,
+                  headerBorderColorOpened: Colors.transparent,
+                  // headerBorderWidth: 1,
+                  headerBackgroundColorOpened: AppColors.primaryColor,
+                  contentBackgroundColor: Colors.white,
+                  contentBorderColor: AppColors.primaryColor,
+                  contentBorderWidth: 5,
+                  contentHorizontalPadding: 20,
+                  scaleWhenAnimating: true,
+                  openAndCloseAnimation: true,
+                  headerPadding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+                  sectionClosingHapticFeedback: SectionHapticFeedback.light,
+                  paddingBetweenClosedSections: 20,
+                  disableScrolling: true,
+                  children: [
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Start Date', style: headerStyle),
+                      content: Text(
+                          widget.exhibitionEntity.startDate.toString(),
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'End Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.endDate.toString(),
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcofn: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('End Date', style: headerStyle),
+                      content: Text(widget.exhibitionEntity.endDate.toString(),
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Location: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.museumName,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Location', style: headerStyle),
+                      content: Text(widget.exhibitionEntity.location,
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Country: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.exhibitionEntity.location,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Museum Name', style: headerStyle),
+                      content: Text(widget.exhibitionEntity.museumName,
+                          style: contentStyle),
                     ),
-                  ),
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Overview', style: headerStyle),
+                      content: Text(widget.exhibitionEntity.overview,
+                          style: contentStyle),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: StatefulBuilder(
-                    builder: (context, setState) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              text: 'Overview: ',
-                              style: TextStyles.semiBold16.copyWith(
-                                color: AppColors.secondaryColor,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            widget.exhibitionEntity.overview,
-                            style: TextStyles.regular16.copyWith(
-                              color: AppColors.primaryColor,
-                            ),
-                            maxLines: isExpanded
-                                ? null
-                                : 1, // Show only 3 lines initially
-                            overflow: isExpanded
-                                ? TextOverflow.visible
-                                : TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 5),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                              });
-                            },
-                            child: Text(
-                              isExpanded ? "Show Less" : "Show More",
-                              style: TextStyles.bold16.copyWith(
-                                color: AppColors.primaryColor,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Start Date: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.exhibitionEntity.startDate.toString(),
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'End Date: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.exhibitionEntity.endDate.toString(),
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Location: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.exhibitionEntity.museumName,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Country: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.exhibitionEntity.location,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: StatefulBuilder(
+                //     builder: (context, setState) {
+                //       return Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           RichText(
+                //             text: TextSpan(
+                //               text: 'Overview: ',
+                //               style: TextStyles.semiBold16.copyWith(
+                //                 color: AppColors.secondaryColor,
+                //               ),
+                //             ),
+                //           ),
+                //           const SizedBox(height: 5),
+                //           Text(
+                //             widget.exhibitionEntity.overview,
+                //             style: TextStyles.regular16.copyWith(
+                //               color: AppColors.primaryColor,
+                //             ),
+                //             maxLines: isExpanded
+                //                 ? null
+                //                 : 1, // Show only 3 lines initially
+                //             overflow: isExpanded
+                //                 ? TextOverflow.visible
+                //                 : TextOverflow.ellipsis,
+                //           ),
+                //           const SizedBox(height: 5),
+                //           GestureDetector(
+                //             onTap: () {
+                //               setState(() {
+                //                 isExpanded = !isExpanded;
+                //               });
+                //             },
+                //             child: Text(
+                //               isExpanded ? "Show Less" : "Show More",
+                //               style: TextStyles.bold16.copyWith(
+                //                 color: AppColors.primaryColor,
+                //                 decoration: TextDecoration.underline,
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       );
+                //     },
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                   child: RichText(

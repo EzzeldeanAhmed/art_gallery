@@ -1,3 +1,4 @@
+import 'package:accordion/controllers.dart';
 import 'package:art_gallery/core/models/artist_entity.dart';
 import 'package:art_gallery/core/models/artist_model.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
@@ -16,6 +17,7 @@ import 'package:art_gallery/features/manage_collection/presentation/views/widget
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:accordion/accordion.dart';
 
 class ArtworkDetailsPage extends StatefulWidget {
   ArtworkDetailsPage(
@@ -38,6 +40,19 @@ Future<CollectionEntity> getCollection(String id) async {
 }
 
 class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
+  static const headerStyle = TextStyle(
+      color: Color(0xffffffff), fontSize: 18, fontWeight: FontWeight.bold);
+  static const contentStyleHeader = TextStyle(
+      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
+  static const contentStyle = TextStyle(
+      color: Color.fromARGB(255, 0, 0, 0),
+      fontSize: 16,
+      fontWeight: FontWeight.bold);
+  static const loremIpsum =
+      '''Lorem ipsum is typically a corrupted version of 'De finibus bonorum et malorum', a 1st century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.''';
+  static const slogan =
+      'Do not forget to play around with all sorts of colors, backgrounds, borders, etc.';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +142,7 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
                   child: RichText(
                     text: TextSpan(
                       text: 'Type: ',
@@ -145,8 +160,10 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                     ),
                   ),
                 ),
+                Divider(), // Horizontal line
+
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                   child: RichText(
                     text: TextSpan(
                       text: 'Year made: ',
@@ -164,8 +181,10 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                     ),
                   ),
                 ),
+                Divider(), // Horizontal line
+
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                    padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                     child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("artists")
@@ -229,135 +248,238 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                                   ),
                                 );
                         })),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Medium: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.artworkEntity.medium,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                Divider(), // Horizontal line
+
+                Accordion(
+                  headerBorderColor: Colors.blueGrey,
+                  headerBorderColorOpened: Colors.transparent,
+                  // headerBorderWidth: 1,
+                  headerBackgroundColorOpened: AppColors.primaryColor,
+                  contentBackgroundColor: Colors.white,
+                  contentBorderColor: AppColors.primaryColor,
+                  contentBorderWidth: 5,
+                  contentHorizontalPadding: 20,
+                  scaleWhenAnimating: true,
+                  openAndCloseAnimation: true,
+                  headerPadding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+                  sectionClosingHapticFeedback: SectionHapticFeedback.light,
+                  paddingBetweenClosedSections: 20,
+                  disableScrolling: true,
+                  children: [
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Medium', style: headerStyle),
+                      content: Text(widget.artworkEntity.medium,
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text:
-                          'Description:                                                                 ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.artworkEntity.description,
-                          style: TextStyles.regular16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcofn: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Description', style: headerStyle),
+                      content: Text(widget.artworkEntity.description,
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Country of Origin: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.artworkEntity.country,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header:
+                          const Text('Country Of Origin', style: headerStyle),
+                      content: Text(widget.artworkEntity.country,
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Dimensions: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.artworkEntity.dimensions,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Dimensions', style: headerStyle),
+                      content: Text(widget.artworkEntity.dimensions,
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Epoch: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.artworkEntity.epoch,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Epoch', style: headerStyle),
+                      content:
+                          Text(widget.artworkEntity.epoch, style: contentStyle),
                     ),
-                  ),
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 20,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Epoch', style: headerStyle),
+                      content:
+                          Text(widget.artworkEntity.epoch, style: contentStyle),
+                    ),
+                    AccordionSection(
+                        isOpen: false,
+                        contentVerticalPadding: 20,
+                        // leftIcon: const Icon(Icons.text_fields_rounded,
+                        //     color: Colors.white),
+                        header: const Text('Status', style: headerStyle),
+                        content: FutureBuilder(
+                            future: getCollection(
+                                widget.artworkEntity.collectionID!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                var collection = snapshot.data;
+
+                                return Text(
+                                    widget.artworkEntity.status == "other"
+                                        ? "Belongs to ${collection!.name} collection"
+                                        : widget.artworkEntity.status ==
+                                                "borrowed"
+                                            ? "Borrowed from ${collection!.name} collection"
+                                            : "Permanent Artwork",
+                                    style: contentStyle);
+                              } else {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            }))
+                  ],
                 ),
-                FutureBuilder(
-                    future: getCollection(widget.artworkEntity.collectionID!),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var collection = snapshot.data;
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Status: ',
-                              style: TextStyles.semiBold16.copyWith(
-                                color: AppColors.secondaryColor,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: widget.artworkEntity.status == "other"
-                                      ? "Belongs to ${collection!.name} collection"
-                                      : widget.artworkEntity.status ==
-                                              "borrowed"
-                                          ? "Borrowed from ${collection!.name} collection"
-                                          : "Permanent Artwork",
-                                  style: TextStyles.semiBold16.copyWith(
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Medium: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.artworkEntity.medium,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text:
+                //           'Description:                                                                 ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.artworkEntity.description,
+                //           style: TextStyles.regular16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Country of Origin: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.artworkEntity.country,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Dimensions: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.artworkEntity.dimensions,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Epoch: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: widget.artworkEntity.epoch,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // FutureBuilder(
+                //     future: getCollection(widget.artworkEntity.collectionID!),
+                //     builder: (context, snapshot) {
+                //   if (snapshot.hasData) {
+                //     var collection = snapshot.data;
+                //     return Padding(
+                //       padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //       child: RichText(
+                //         text: TextSpan(
+                //           text: 'Status: ',
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.secondaryColor,
+                //           ),
+                //           children: [
+                //             TextSpan(
+                //               text: widget.artworkEntity.status == "other"
+                //                   ? "Belongs to ${collection!.name} collection"
+                //                   : widget.artworkEntity.status ==
+                //                           "borrowed"
+                //                       ? "Borrowed from ${collection!.name} collection"
+                //                       : "Permanent Artwork",
+                //               style: TextStyles.semiBold16.copyWith(
+                //                 color: AppColors.primaryColor,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     );
+                //   } else {
+                //     return Center(child: CircularProgressIndicator());
+                //   }
+                // }),
                 widget.artworkEntity.forSale!
                     ? Padding(
                         padding: const EdgeInsets.all(24.0),

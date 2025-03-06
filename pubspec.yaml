@@ -61,6 +61,7 @@ dependencies:
   intl: ^0.18.0
   video_player: ^2.9.3
   youtube_player_flutter: ^9.1.1
+  accordion: ^2.6.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.14.1"

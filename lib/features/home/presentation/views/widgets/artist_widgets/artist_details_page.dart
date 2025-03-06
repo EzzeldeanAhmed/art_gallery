@@ -1,3 +1,5 @@
+import 'package:accordion/accordion.dart';
+import 'package:accordion/controllers.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/artwork_widgets/artwork_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/core/models/artist_entity.dart';
@@ -15,6 +17,14 @@ class ArtistDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const headerStyle = TextStyle(
+        color: Color(0xffffffff), fontSize: 18, fontWeight: FontWeight.bold);
+    const contentStyleHeader = TextStyle(
+        color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
+    const contentStyle = TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontSize: 16,
+        fontWeight: FontWeight.bold);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,120 +74,191 @@ class ArtistDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Country: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.country,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                Accordion(
+                  headerBorderColor: Colors.blueGrey,
+                  headerBorderColorOpened: Colors.transparent,
+                  // headerBorderWidth: 1,
+                  headerBackgroundColorOpened: AppColors.primaryColor,
+                  contentBackgroundColor: Colors.white,
+                  contentBorderColor: AppColors.primaryColor,
+                  contentBorderWidth: 5,
+                  contentHorizontalPadding: 20,
+                  scaleWhenAnimating: true,
+                  openAndCloseAnimation: true,
+                  paddingBetweenClosedSections: 20,
+                  disableScrolling: true,
+                  headerPadding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+                  sectionClosingHapticFeedback: SectionHapticFeedback.light,
+                  children: [
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Country', style: headerStyle),
+                      content: Text(artistEntity.country, style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Birth Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.BirthDate.toString(),
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcofn: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Birth Date', style: headerStyle),
+                      content: Text(artistEntity.BirthDate.toString(),
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Death Date: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.DeathDate,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Death Date', style: headerStyle),
+                      content: Text(artistEntity.DeathDate.toString(),
+                          style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Century: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.century,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Century', style: headerStyle),
+                      content: Text(artistEntity.century, style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Biography: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.biography,
-                          style: TextStyles.regular16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Biography', style: headerStyle),
+                      content:
+                          Text(artistEntity.biography, style: contentStyle),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Epoch: ',
-                      style: TextStyles.semiBold16.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: artistEntity.epoch,
-                          style: TextStyles.semiBold16.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
+                    AccordionSection(
+                      isOpen: false,
+                      contentVerticalPadding: 30,
+                      // leftIcon: const Icon(Icons.text_fields_rounded,
+                      //     color: Colors.white),
+                      header: const Text('Epoch', style: headerStyle),
+                      content: Text(artistEntity.epoch, style: contentStyle),
                     ),
-                  ),
+                  ],
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Country: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.country,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Birth Date: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.BirthDate.toString(),
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Death Date: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.DeathDate,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Century: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.century,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Biography: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.biography,
+                //           style: TextStyles.regular16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                //   child: RichText(
+                //     text: TextSpan(
+                //       text: 'Epoch: ',
+                //       style: TextStyles.semiBold16.copyWith(
+                //         color: AppColors.secondaryColor,
+                //       ),
+                //       children: [
+                //         TextSpan(
+                //           text: artistEntity.epoch,
+                //           style: TextStyles.semiBold16.copyWith(
+                //             color: AppColors.primaryColor,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 5),
