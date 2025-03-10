@@ -315,15 +315,6 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                           Text(widget.artworkEntity.epoch, style: contentStyle),
                     ),
                     AccordionSection(
-                      isOpen: false,
-                      contentVerticalPadding: 20,
-                      // leftIcon: const Icon(Icons.text_fields_rounded,
-                      //     color: Colors.white),
-                      header: const Text('Epoch', style: headerStyle),
-                      content:
-                          Text(widget.artworkEntity.epoch, style: contentStyle),
-                    ),
-                    AccordionSection(
                         isOpen: false,
                         contentVerticalPadding: 20,
                         // leftIcon: const Icon(Icons.text_fields_rounded,
