@@ -1,12 +1,12 @@
 import 'dart:ffi';
 
 class UserEntity {
-  final String name;
-  final String email;
-  final String phone;
-  final String birthDate;
-  final String uId;
-  final String role;
+  String name;
+  String email;
+  String phone;
+  String birthDate;
+  String uId;
+  String role;
   // favoriteArtworks
   List<dynamic> favoriteArtworks = [];
 

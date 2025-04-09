@@ -28,6 +28,8 @@ abstract class AuthRepo {
   Future saveUserData({required UserEntity user});
 
   UserEntity getSavedUserData();
+
+  Future<void> deleteSavedUserData();
 }
 
 

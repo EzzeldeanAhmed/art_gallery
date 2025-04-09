@@ -1,6 +1,8 @@
 import 'package:art_gallery/core/helper_functions/build_error_bar.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
+import 'package:art_gallery/core/models/payment_model.dart';
 import 'package:art_gallery/core/models/ticket_entity.dart';
+import 'package:art_gallery/core/repos/payment_repo/payment_repo.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/ticket_cubit/ticket_cubit.dart';
@@ -214,6 +216,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             userId: user.uId,
                           );
                           context.read<TicketCubit>().addTicket(ticket: ticket);
+
+                          PaymentModel paymentModel = PaymentModel(
+                            userId: user.uId,
+                            amount: widget.exhibition.ticketPrice *
+                                widget.ticketQuantity,
+                            status: "Success",
+                            type: "Exhibition Ticket",
+                            date: DateTime.now(),
+                            paymentMethod: "Credit Card",
+                          );
+                          getIt
+                              .get<PaymentsRepo>()
+                              .addPayment(paymentModel.toEntity());
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

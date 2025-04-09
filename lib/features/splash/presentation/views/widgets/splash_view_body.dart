@@ -1,3 +1,7 @@
+import 'package:art_gallery/core/services/get_it_service.dart';
+import 'package:art_gallery/features/auth/domain/repos/auth_repo.dart';
+import 'package:art_gallery/features/dashboard/views/widgets/selection_view.dart';
+import 'package:art_gallery/features/home/presentation/views/widgets/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:art_gallery/constants.dart';
 import 'package:art_gallery/core/services/shared_preferences_singleton.dart';
@@ -45,7 +49,18 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
     Future.delayed(const Duration(seconds: 3), () {
       if (isOnBoardingViewSeen) {
-        Navigator.pushReplacementNamed(context, SigninView.routeName);
+        try {
+          var loggedUser = getIt.get<AuthRepo>().getSavedUserData();
+          if (loggedUser.role == "admin") {
+            Navigator.pushNamedAndRemoveUntil(
+                context, SelectionView.routeName, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainView.routeName, (route) => false);
+          }
+        } catch (e) {
+          Navigator.pushReplacementNamed(context, SigninView.routeName);
+        }
       } else {
         Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
       }

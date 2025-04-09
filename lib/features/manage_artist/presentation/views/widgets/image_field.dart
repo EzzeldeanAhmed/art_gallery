@@ -6,10 +6,15 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class ImageField extends StatefulWidget {
   const ImageField(
-      {super.key, required this.onFileChanged, this.imageUrl, this.delete});
+      {super.key,
+      required this.onFileChanged,
+      this.imageUrl,
+      this.delete,
+      this.defaultImage});
   final ValueChanged<File?> onFileChanged;
   final String? imageUrl;
   final bool? delete;
+  final String? defaultImage;
 
   @override
   State<ImageField> createState() => _ImageFieldState();

@@ -154,7 +154,15 @@ class AuthRepoImpl extends AuthRepo {
       throw ServerFailure('Failed to get artworks');
     }
   }
+
+  @override
+  Future<void> deleteSavedUserData() async {
+    // TODO: implement deleteSavedUserData
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('loggedin_user');
+  }
 }
+
 /*  @override
   Future addUserData({required UserEntity user}) async {
     await databaseService.addData(

@@ -3,9 +3,11 @@ import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/cart_model.dart';
 import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/models/order_model.dart';
+import 'package:art_gallery/core/models/payment_model.dart';
 import 'package:art_gallery/core/models/ticket_entity.dart';
 import 'package:art_gallery/core/repos/cart_repo/cart_repo.dart';
 import 'package:art_gallery/core/repos/order_repo/order_repo.dart';
+import 'package:art_gallery/core/repos/payment_repo/payment_repo.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/core/ticket_cubit/ticket_cubit.dart';
@@ -301,6 +303,18 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                             fullName: fullName,
                             city: city,
                           );
+                          PaymentModel paymentModel = PaymentModel(
+                            userId:
+                                getIt.get<AuthRepo>().getSavedUserData().uId,
+                            amount: totalPrice.toDouble(),
+                            type: 'Order',
+                            status: 'Success',
+                            date: DateTime.now(),
+                            paymentMethod: 'Credit Card',
+                          );
+                          getIt
+                              .get<PaymentsRepo>()
+                              .addPayment(paymentModel.toEntity());
                           getIt.get<OrderRepo>().addOrder(orderModel);
                           getIt.get<CartRepo>().clearCart(widget.cartModel.id!);
                           Navigator.of(context).push(

@@ -690,26 +690,46 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                   if (image != null) {
                     if (_formkey.currentState!.validate()) {
                       _formkey.currentState!.save();
-                      ArtworkEntity input = ArtworkEntity(
-                        reviews: [],
-                        code: code,
-                        name: name,
-                        type: type,
-                        medium: medium,
-                        country: country,
-                        description: description,
-                        epoch: epoch,
-                        artist: artist,
-                        year: year,
-                        dimensions: dimensions,
-                        image: image!,
-                        collectionID: widget.collection,
-                        status:
-                            widget.collection == "Main" ? "permanent" : "other",
-                        forSale: widget.collection != "Main" ? false : forSale,
-                        price: price.toInt(),
-                        videoUrl: videoUrl,
-                      );
+                      // ArtworkEntity input = ArtworkEntity(
+                      //   reviews: [],
+                      //   code: code,
+                      //   name: name,
+                      //   type: type,
+                      //   medium: medium,
+                      //   country: country,
+                      //   description: description,
+                      //   epoch: epoch,
+                      //   artist: artist,
+                      //   year: year,
+                      //   dimensions: dimensions,
+                      //   image: image!,
+                      //   collectionID: widget.collection,
+                      //   status:
+                      //       widget.collection == "Main" ? "permanent" : "other",
+                      //   forSale: widget.collection != "Main" ? false : forSale,
+                      //   price: price.toInt(),
+                      //   videoUrl: videoUrl,
+                      // );
+                      ArtworkEntity input = widget.defaultEntity!;
+                      input.name = name;
+                      input.code = code;
+                      input.type = type;
+                      input.medium = medium;
+                      input.country = country;
+                      input.description = description;
+                      input.epoch = epoch;
+                      input.artist = artist;
+                      input.year = year;
+                      input.dimensions = dimensions;
+                      input.image = image!;
+                      input.collectionID = widget.collection;
+                      input.status =
+                          widget.collection == "Main" ? "permanent" : "other";
+                      input.forSale =
+                          widget.collection != "Main" ? false : forSale;
+                      input.price = price.toInt();
+                      input.videoUrl = videoUrl;
+
                       if (widget.delete!) {
                         context
                             .read<AddArtworkCubit>()

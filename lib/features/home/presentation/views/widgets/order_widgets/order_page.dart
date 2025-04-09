@@ -50,7 +50,7 @@ class _OrderPageState extends State<OrderPage> {
           return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Your Orders',
+                  'Orders',
                   style: TextStyles.bold23.copyWith(color: Colors.white),
                 ),
                 centerTitle: true,

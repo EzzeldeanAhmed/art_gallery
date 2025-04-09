@@ -19,9 +19,11 @@ class SigninViewBodyBlocConsumer extends StatelessWidget {
       listener: (context, state) {
         if (state is SigninSuccess) {
           if (state.userEntity.role == "admin") {
-            Navigator.pushNamed(context, SelectionView.routeName);
+            Navigator.pushNamedAndRemoveUntil(
+                context, SelectionView.routeName, (route) => false);
           } else {
-            Navigator.pushNamed(context, MainView.routeName);
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainView.routeName, (route) => false);
           }
         }
 

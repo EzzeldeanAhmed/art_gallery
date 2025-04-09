@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:art_gallery/core/models/review_entity.dart';
 
 class ArtworkEntity {
-  final String code;
-  final String name;
-  final String type;
-  final String medium;
-  final String country;
-  final String description;
-  final String epoch;
-  final String artist;
-  final String dimensions;
-  final num year;
+  String code;
+  String name;
+  String type;
+  String medium;
+  String country;
+  String description;
+  String epoch;
+  String artist;
+  String dimensions;
+  num year;
   File? image;
   String? imageUrl;
   String? id;
