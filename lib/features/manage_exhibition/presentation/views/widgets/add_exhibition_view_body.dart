@@ -27,31 +27,6 @@ class AddExhibitionViewBody extends StatefulWidget {
   State<AddExhibitionViewBody> createState() => _AddExhibitionViewBodyState();
 }
 
-List<String> typeItems = [
-  'Sculpture',
-  'Drawings',
-  'Paintings',
-  'Black and White',
-  'Mosaic'
-];
-List<String> epochItems = [
-  'Prehistoric Art',
-  'Ancient Art',
-  'Classical Art',
-  'Byzantine Art',
-  'Romanesque Art',
-  'Renaissance Art',
-  'Neoclassical Art',
-  'Romanticism',
-  'Impressionism',
-  'Modernism',
-  'Contemporary Art',
-  'Realism',
-  'Expressionism',
-  'Ancient Roman Art',
-  'Rococo Art',
-  'Baroque Art'
-];
 String? selectedValue;
 
 class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
@@ -103,6 +78,8 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<ArtworksCubit, ArtworksState>(builder: (context, state) {
       if (state is ArtworksSuccess) {
+        var sortedArtworks = state.artworks;
+        sortedArtworks.sort((a, b) => a.name.compareTo(b.name));
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
@@ -115,7 +92,7 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                   const SizedBox(height: 20),
                   Center(
                     child: Text(
-                        'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} artist',
+                        'Welcome Admin, Fill the data to ${widget.update! ? "update" : "add"} Exhibition',
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -166,11 +143,11 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                         );
                       }
                     },
-                    hintText: 'Enter Exhibition Birth Date',
+                    hintText: 'Enter Exhibition Start Date',
                     textInputType: TextInputType.datetime,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter valid Birth Date';
+                        return 'Enter valid Start Date';
                       }
                       return null;
                     },
@@ -198,11 +175,11 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                         );
                       }
                     },
-                    hintText: 'Enter Exhibition Birth Date',
+                    hintText: 'Enter Exhibition Start Time',
                     textInputType: TextInputType.datetime,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter valid Birth Date';
+                        return 'Enter valid Start Time';
                       }
                       return null;
                     },
@@ -235,11 +212,11 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                         endDate = dt;
                       }
                     },
-                    hintText: 'Enter Death Date',
+                    hintText: 'Enter Exhibition End Date',
                     textInputType: TextInputType.datetime,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter valid Death Date';
+                        return 'Enter valid End Date';
                       }
                       return null;
                     },
@@ -267,11 +244,11 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                         );
                       }
                     },
-                    hintText: 'Enter Exhibition Birth Date',
+                    hintText: 'Enter Exhibition End Time',
                     textInputType: TextInputType.datetime,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter valid Birth Date';
+                        return 'Enter valid End Time';
                       }
                       return null;
                     },
@@ -352,7 +329,7 @@ class _AddExhibitionViewBodyState extends State<AddExhibitionViewBody> {
                   CustomButton(
                       onPressed: () {
                         _showBottomSheet(
-                            state.artworks, currentArtworks, artworkSelected);
+                            sortedArtworks, currentArtworks, artworkSelected);
                       },
                       text: 'Select Artworks'),
                   const SizedBox(height: 24),

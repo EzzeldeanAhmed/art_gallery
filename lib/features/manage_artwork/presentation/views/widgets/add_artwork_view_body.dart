@@ -154,19 +154,21 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                           fontWeight: FontWeight.bold,
                           color: Color(0xff1F5E3B)))),
               const SizedBox(height: 20),
-
-              Text('Code:', style: TextStyles.semiBold16),
-              const SizedBox(height: 5),
-
-              CustomTextFormField(
-                  enabled: !widget.delete!,
-                  initialValue: code,
-                  onSaved: (value) {
-                    code = value!.toLowerCase();
-                  },
-                  hintText: 'Artwork Code',
-                  textInputType: TextInputType.text),
-              const SizedBox(height: 8),
+              widget.update! || widget.delete!
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('ID:', style: TextStyles.semiBold16),
+                        const SizedBox(height: 5),
+                        CustomTextFormField(
+                            enabled: false,
+                            initialValue: widget.defaultEntity!.id,
+                            hintText: 'Artwork ID',
+                            textInputType: TextInputType.text),
+                        const SizedBox(height: 8),
+                      ],
+                    )
+                  : Container(),
               Text('Name:', style: TextStyles.semiBold16),
               const SizedBox(height: 5),
               CustomTextFormField(
@@ -735,7 +737,7 @@ class _AddArtworkViewBodyState extends State<AddArtworkViewBody> {
                         input = ArtworkEntity(
                           name: name,
                           reviews: [],
-                          code: code,
+                          code: "dummy",
                           type: type,
                           medium: medium,
                           country: country,

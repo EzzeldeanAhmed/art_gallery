@@ -1,5 +1,6 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
+import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_list_view_bloc_builder.dart';
 import 'package:flutter/material.dart';
 
 class DashboardOperations extends StatelessWidget {
@@ -13,13 +14,27 @@ class DashboardOperations extends StatelessWidget {
         title: const Text('Dashboard Operations'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: CustomButton(
-              onPressed: () {
-                Navigator.pushNamed(context, SystemBasicEntites.routeName);
-              },
-              text: 'Maintain Basic Data'),
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 280,
+            ),
+            CustomButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, SystemBasicEntites.routeName);
+                },
+                text: 'Maintain Basic Data'),
+            SizedBox(
+              height: 30,
+            ),
+            CustomButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CollectionsView()));
+                },
+                text: "Borrow From"),
+          ],
         ),
       ),
     );

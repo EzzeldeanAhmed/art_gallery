@@ -1,3 +1,5 @@
+import 'package:accordion/accordion.dart';
+import 'package:accordion/controllers.dart';
 import 'package:art_gallery/core/models/artwork_entity.dart';
 import 'package:art_gallery/core/models/artwork_model.dart';
 import 'package:art_gallery/core/utils/app_colors.dart';
@@ -24,47 +26,66 @@ class CollectionsListView extends StatelessWidget {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ListView.builder(
-                itemCount: collections.length,
-                itemBuilder: (context, index) {
-                  final collection = collections[index];
-                  return Card(
-                    elevation: 3,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(15),
-                      title: Text(
-                        collection['collection'].name,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+          : Accordion(
+              headerBorderColor: AppColors.lightPrimaryColor,
+              headerBorderColorOpened: AppColors.lightPrimaryColor,
+              // headerBorderWidth: 1,
+              headerBackgroundColor: AppColors.lightPrimaryColor,
+              headerBackgroundColorOpened: AppColors.lightPrimaryColor,
+              contentBackgroundColor: Colors.white,
+              contentBorderColor: AppColors.lightPrimaryColor,
+              contentBorderWidth: 3,
+              contentHorizontalPadding: 20,
+              scaleWhenAnimating: true,
+              openAndCloseAnimation: true,
+              headerPadding:
+                  const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+              sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+              sectionClosingHapticFeedback: SectionHapticFeedback.light,
+              children: collections.map(
+                (collection) {
+                  return AccordionSection(
+                    paddingBetweenClosedSections: 32,
+                    paddingBetweenOpenSections: 32,
+                    isOpen: false,
+                    header: Card(
+                      elevation: 3,
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      subtitle: Text(
-                        '${collection['artworks'].length} artworks',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(15),
+                        title: Text(
+                          collection['collection'].name,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          '${collection['artworks'].length} artworks',
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        leading: Icon(Icons.collections,
+                            color: AppColors.lightPrimaryColor),
+                        onTap: () {
+                          // Handle navigation or actions when tapped
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ArtworksGridViewCollection(
+                                        artworks:
+                                            (collection['artworks'] as List),
+                                        collection: collection['collection'],
+                                      )));
+                        },
                       ),
-                      leading: Icon(Icons.collections,
-                          color: AppColors.lightPrimaryColor),
-                      onTap: () {
-                        // Handle navigation or actions when tapped
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ArtworksGridViewCollection(
-                                      artworks:
-                                          (collection['artworks'] as List),
-                                      collection: collection['collection'],
-                                    )));
-                      },
                     ),
+                    content: Text(collection['collection'].overview),
                   );
                 },
-              ),
+              ).toList(),
             ),
     );
   }

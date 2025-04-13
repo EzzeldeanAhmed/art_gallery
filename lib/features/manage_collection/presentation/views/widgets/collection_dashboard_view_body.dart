@@ -53,15 +53,6 @@ class CollectionDashboardViewBody extends StatelessWidget {
                 ));
               },
               text: "Delete Collection"),
-          SizedBox(
-            height: 30,
-          ),
-          CustomButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CollectionsView()));
-              },
-              text: "Borrow From")
         ],
       ),
     );
