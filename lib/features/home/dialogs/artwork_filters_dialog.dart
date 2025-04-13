@@ -45,7 +45,7 @@ class ArtworkFiltersDialog extends StatefulWidget {
   String type = '';
   String artist = '';
   String sortBy = 'Name A -> Z';
-  RangeValues yearRange = const RangeValues(1500, 2025);
+  RangeValues yearRange = const RangeValues(500, 2025);
   bool? forSale = null;
   String status = '';
   final Function(String sortBy, String epoch, String type, String artist,
@@ -65,7 +65,7 @@ class ArtworkFiltersDialog extends StatefulWidget {
 class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
   String sortBy = 'Name A -> Z';
   String epoch = '';
-  RangeValues yearRange = const RangeValues(1500, 2025);
+  RangeValues yearRange = const RangeValues(500, 2025);
   String type = '';
   String artist = '';
   bool? forSale = null;
@@ -167,7 +167,7 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
                 epoch = '';
                 type = '';
                 artist = '';
-                yearRange = const RangeValues(1500, 2025);
+                yearRange = const RangeValues(500, 2025);
                 forSale = null;
                 status = '';
               });
@@ -493,7 +493,7 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
           ),
           RangeSlider(
             max: 2025,
-            min: 1500,
+            min: 500,
             labels: RangeLabels(
               yearRange.start.round().toString(),
               yearRange.end.round().toString(),
@@ -513,8 +513,9 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Text('500'),
+                Text('1000'),
                 Text('1500'),
-                Text('1750'),
                 Text('2025'),
               ],
             ),

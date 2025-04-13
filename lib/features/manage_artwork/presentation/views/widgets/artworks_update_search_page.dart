@@ -28,7 +28,7 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
   String sortBy = 'Name A -> Z';
   bool? forSale = null;
   String status = '';
-  RangeValues yearRange = const RangeValues(1500, 2025);
+  RangeValues yearRange = const RangeValues(500, 2025);
   @override
   void initState() {
     // TODO: implement initState
@@ -161,6 +161,9 @@ class _ArtworksUpdateSearchPageState extends State<ArtworksUpdateSearchPage> {
                       var data = snapshots.data!.docs[index].data()
                           as Map<String, dynamic>;
                       data['id'] = snapshots.data!.docs[index].id;
+                      if (data['id'] == "Eqwf9nXcGquHzaGmkRnT") {
+                        debugPrint("data: $data");
+                      }
                       if (data['name']
                               .toString()
                               .toLowerCase()
