@@ -4,7 +4,6 @@ import 'package:art_gallery/core/models/exhibition_entity.dart';
 import 'package:art_gallery/core/repos/ticket_repo/ticket_repo.dart';
 import 'package:art_gallery/core/services/get_it_service.dart';
 import 'package:art_gallery/features/home/presentation/views/widgets/exhibtion_widgets/exhibition_checkout.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
 
 class BookTicketPopup extends StatefulWidget {

@@ -56,12 +56,12 @@ dependencies:
   uuid: ^4.5.1
   country_picker: ^2.0.27
   text_form_field_wrapper: ^1.0.0
-  flutter_stripe: ^11.4.0
   flutter_credit_card: ^3.0.6
   intl: ^0.18.0
   video_player: ^2.9.3
   youtube_player_flutter: ^9.1.1
   accordion: ^2.6.0
+  syncfusion_flutter_charts: ^21.1.35
 
 dev_dependencies:
   flutter_launcher_icons: "^0.14.1"

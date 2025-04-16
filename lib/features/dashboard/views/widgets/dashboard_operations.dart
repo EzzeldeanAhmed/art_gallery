@@ -1,6 +1,7 @@
 import 'package:art_gallery/core/widgets/custom_button.dart';
 import 'package:art_gallery/features/dashboard/views/widgets/system_basic_entites.dart';
 import 'package:art_gallery/features/manage_collection/presentation/views/widgets/collection_list_view_bloc_builder.dart';
+import 'package:art_gallery/features/reports/reports_list.dart';
 import 'package:flutter/material.dart';
 
 class DashboardOperations extends StatelessWidget {
@@ -34,6 +35,15 @@ class DashboardOperations extends StatelessWidget {
                       builder: (context) => CollectionsView()));
                 },
                 text: "Borrow From"),
+            SizedBox(
+              height: 30,
+            ),
+            CustomButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ReportsListScreen()));
+                },
+                text: "Generate Report"),
           ],
         ),
       ),
