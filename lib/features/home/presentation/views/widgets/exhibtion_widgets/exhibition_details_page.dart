@@ -586,11 +586,12 @@ class _ExhibitionDetailsPageState extends State<ExhibitionDetailsPage> {
                       onPressed: () async {
                         // Handle booking action
                         var ticketRepo = getIt.get<TicketRepo>();
-                        var ticketCount = await ticketRepo
-                            .getTicketsByExhibitionId(
-                                exhibitionId: widget.exhibitionEntity.id!)
-                            .then((value) =>
-                                value.fold((l) => 0, (r) => r.length));
+                        var tickets = await ticketRepo.getTicketsByExhibitionId(
+                            exhibitionId: widget.exhibitionEntity.id!);
+                        var ticketCount = tickets.fold(
+                            (l) => 0,
+                            (r) => r.fold(0,
+                                (sum, ticket) => sum + (ticket.quantity ?? 0)));
                         showBookTicketPopup(context, widget.exhibitionEntity,
                             widget.exhibitionEntity.capacity - ticketCount);
                       },

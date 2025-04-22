@@ -160,6 +160,7 @@ class AuthRepoImpl extends AuthRepo {
     // TODO: implement deleteSavedUserData
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('loggedin_user');
+    await prefs.remove('messages');
   }
 }
 

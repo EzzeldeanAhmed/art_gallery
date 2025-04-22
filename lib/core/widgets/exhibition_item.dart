@@ -90,11 +90,16 @@ class ExhibitionItem extends StatelessWidget {
                                 onPressed: () async {
                                   // Handle booking action
                                   var ticketRepo = getIt.get<TicketRepo>();
-                                  var ticketCount = await ticketRepo
-                                      .getTicketsByExhibitionId(
-                                          exhibitionId: exhibitionEntity.id!)
-                                      .then((value) => value.fold(
-                                          (l) => 0, (r) => r.length));
+                                  var tickets =
+                                      await ticketRepo.getTicketsByExhibitionId(
+                                          exhibitionId: exhibitionEntity.id!);
+                                  var ticketCount = tickets.fold(
+                                      (l) => 0,
+                                      (r) => r.fold(
+                                          0,
+                                          (sum, ticket) =>
+                                              sum + (ticket.quantity ?? 0)));
+
                                   showBookTicketPopup(context, exhibitionEntity,
                                       exhibitionEntity.capacity - ticketCount);
                                 },
