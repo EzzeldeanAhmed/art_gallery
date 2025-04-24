@@ -77,7 +77,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                 UserModel user = _users[index];
                 return ListTile(
                   title: Text(user.name),
-                  subtitle: Text('Role: ${user.role}'),
+                  subtitle: Text('Email: ${user.email}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
