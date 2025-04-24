@@ -15,6 +15,8 @@ abstract class AuthRepo {
 
   Future<Either<Failure, void>> addUser(UserModel user);
 
+  Future<Either<Failure, void>> deleteUser(String uid);
+
   Future<UserEntity> getUserData({required String uid});
 
   Future<List<UserModel>> getUsersData({required List<String> uids});

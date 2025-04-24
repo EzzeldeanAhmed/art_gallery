@@ -93,6 +93,25 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
+  Future<Either<Failure, void>> deleteUser(String uid) async {
+    try {
+      await databaseService.deleteData(path: "users", documentId: uid);
+      return right(null);
+    } on CustomException catch (e) {
+      return left(ServerFailure(e.message));
+    } catch (e) {
+      log(
+        'Exception in AuthRepoImpl.createUserWithEmailAndPassword: ${e.toString()}',
+      );
+      return left(
+        ServerFailure(
+          'Something went wrong, Try again Later.',
+        ),
+      );
+    }
+  }
+
+  @override
   Future<UserEntity> getUserData({required String uid}) async {
     var userData = await databaseService.getData(
         path: BackendEndpoint.getUsersData, docuementId: uid);
@@ -147,11 +166,15 @@ class AuthRepoImpl extends AuthRepo {
           .getData(path: BackendEndpoint.getUsersData, query: {
         'where': {'attribute': FieldPath.documentId, 'in': uids}
       }) as List<Map<String, dynamic>>;
+      if (data.isEmpty) {
+        data = await databaseService.getData(path: BackendEndpoint.getUsersData)
+            as List<Map<String, dynamic>>;
+      }
       List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
 
       return users;
     } catch (e) {
-      throw ServerFailure('Failed to get artworks');
+      throw ServerFailure('Failed to get users');
     }
   }
 
