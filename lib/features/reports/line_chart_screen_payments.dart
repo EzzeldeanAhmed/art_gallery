@@ -195,7 +195,7 @@ class LineChartScreenPayments extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Objective: This chart shows the percentage of artworks from different epochs in the Art museum gallery.',
+                      'Objective: This chart shows the total income of making orders and booking tickets individually and the total income to the system from the two together..',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 16,
