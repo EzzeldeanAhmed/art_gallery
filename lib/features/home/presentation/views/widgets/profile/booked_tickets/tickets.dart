@@ -94,7 +94,7 @@ class _TicketListState extends State<TicketList> {
                     future: fetchExhibition(ticket.exhibitionId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center();
                       } else if (snapshot.hasError || !snapshot.hasData) {
                         return Center(child: Text("Failed to load exhibition"));
                       }
@@ -122,21 +122,43 @@ class _TicketListState extends State<TicketList> {
                                     children: [
                                       SizedBox(height: 10),
                                       // Ticket ID
-
                                       Text(
-                                          '📅   Date: ${DateFormat('MMMM dd, yyyy').format(exhibition.startDate.toLocal())}'),
+                                        '🎟   Ticket ID: ${ticket.ticketId}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
                                       SizedBox(height: 4),
                                       Text(
-                                          '⏰   Time: ${DateFormat('hh:mm a').format(exhibition.startDate.toLocal())}'),
+                                        '📅   Date: ${DateFormat('MMMM dd, yyyy').format(exhibition.startDate.toLocal())}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        '⏰   Time: ${DateFormat('hh:mm a').format(exhibition.startDate.toLocal())}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
                                       // Quantity
                                       SizedBox(height: 4),
 
                                       Text(
-                                          '📈   Number of Vistors: ${ticket.quantity}'),
+                                        '📈   Number of Vistors: ${ticket.quantity}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
                                       SizedBox(height: 4),
 
                                       Text(
-                                          '📍   Location: ${exhibition.location}'),
+                                        '📍   Location: ${exhibition.location}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
 
                                       // Text('🎟 Seat: ${ticket['seat']}'),
                                     ],

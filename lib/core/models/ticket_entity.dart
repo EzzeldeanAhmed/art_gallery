@@ -5,9 +5,11 @@ class TicketEntity {
   final String exhibitionId;
   final DateTime bookedDate;
   final int quantity;
+  String? ticketId;
 
   TicketEntity(
-      {required this.userId,
+      {this.ticketId,
+      required this.userId,
       required this.exhibitionId,
       required this.bookedDate,
       required this.quantity});

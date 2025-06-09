@@ -136,3 +136,6 @@ flutter_assets:
 
 flutter_intl:
   enabled: true
+
+dependency_overrides:
+  flutter_plugin_android_lifecycle: ^2.0.17
