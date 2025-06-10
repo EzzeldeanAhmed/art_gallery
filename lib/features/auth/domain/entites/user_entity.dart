@@ -9,6 +9,7 @@ class UserEntity {
   String role;
   // favoriteArtworks
   List<dynamic> favoriteArtworks = [];
+  String? profileImageUrl;
 
   UserEntity(
       {required this.name,
@@ -17,5 +18,6 @@ class UserEntity {
       required this.birthDate,
       required this.uId,
       required this.role,
-      required this.favoriteArtworks});
+      required this.favoriteArtworks,
+      this.profileImageUrl});
 }

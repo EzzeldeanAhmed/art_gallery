@@ -54,14 +54,27 @@ class _UserData extends StatelessWidget {
           SizedBox(
             width: 100,
             height: 100,
-            child: ClipOval(
-                child: AspectRatio(
-                    aspectRatio: 1 / 1,
-                    child: Image.asset(
-                      Assets.imagesUserPicture,
-                      width: 50,
-                      height: 50,
-                    ))),
+            child: CircleAvatar(
+              radius: 90,
+              child: AspectRatio(
+                aspectRatio: 1 / 1,
+                child: ClipOval(
+                  // Clip the image to a circle
+                  child:
+                      user.profileImageUrl != null && user.profileImageUrl != ""
+                          ? Image.network(
+                              user.profileImageUrl!,
+                              fit: BoxFit.cover,
+                            )
+                          : // Add a profile picture in assets
+                          Image.asset(
+                              Assets.imagesUserPicture,
+                              width: 50,
+                              height: 50,
+                            ),
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 16),
           Column(

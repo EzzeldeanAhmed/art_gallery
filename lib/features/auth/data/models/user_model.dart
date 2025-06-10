@@ -9,7 +9,8 @@ class UserModel extends UserEntity {
       required super.birthDate,
       required super.uId,
       required super.role,
-      required super.favoriteArtworks});
+      required super.favoriteArtworks,
+      super.profileImageUrl});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -19,7 +20,8 @@ class UserModel extends UserEntity {
         birthDate: json['birthDate'],
         phone: json['phone'],
         role: json['role'],
-        favoriteArtworks: json['favoriteArtworks']);
+        favoriteArtworks: json['favoriteArtworks'],
+        profileImageUrl: json['profileImageUrl']);
   }
 
   factory UserModel.fromEntity(UserEntity entity) {
@@ -30,7 +32,8 @@ class UserModel extends UserEntity {
         birthDate: entity.birthDate,
         phone: entity.phone,
         role: entity.role,
-        favoriteArtworks: entity.favoriteArtworks);
+        favoriteArtworks: entity.favoriteArtworks,
+        profileImageUrl: entity.profileImageUrl);
   }
 
   toMap() {
@@ -41,7 +44,8 @@ class UserModel extends UserEntity {
       'birthDate': birthDate,
       'phone': phone,
       'role': role,
-      'favoriteArtworks': favoriteArtworks
+      'favoriteArtworks': favoriteArtworks,
+      'profileImageUrl': profileImageUrl, // Handle null case for optional field
     };
   }
 }
