@@ -332,7 +332,7 @@ class _ArtworkDetailsPageState extends State<ArtworkDetailsPage> {
                                         ? "Belongs to ${collection!.name} collection"
                                         : widget.artworkEntity.status ==
                                                 "borrowed"
-                                            ? "Borrowed from ${collection!.name} collection"
+                                            ? "Borrowed from ${collection!.name}"
                                             : "Permanent Artwork",
                                     style: contentStyle);
                               } else {
