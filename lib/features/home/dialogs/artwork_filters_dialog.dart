@@ -307,20 +307,20 @@ class _ArtworkFiltersDialogState extends State<ArtworkFiltersDialog> {
               runSpacing: 16,
               children: [
                 CategoriesChip(
-                  label: "Permenant",
-                  isActive: status == 'Permenant',
+                  label: "Permanant",
+                  isActive: status == 'permanent',
                   onPressed: () {
                     setState(() {
-                      status = 'Permenant';
+                      status = 'permanent';
                     });
                   },
                 ),
                 CategoriesChip(
                   label: "Borrowed",
-                  isActive: status == 'Borrowed',
+                  isActive: status == 'borrowed',
                   onPressed: () {
                     setState(() {
-                      status = 'Borrowed';
+                      status = 'borrowed';
                     });
                   },
                 ),
